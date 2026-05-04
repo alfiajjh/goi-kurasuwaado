@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: #F5F2ED;
+  color: #4A4A40;
+}
+
+/* Ensure mobile safe areas are respected */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+

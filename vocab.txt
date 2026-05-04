@@ -1,0 +1,231 @@
+1. Aktivitas Sehari-hari & Kebutuhan Dasar
+Bahasa Jepang	Romaji	Bahasa Indonesia
+遊ぶ	asobu	bermain
+浴びる	abiru	mandi
+洗う	arau	mencuci
+歌う	utau	bernyanyi
+起きる	okiru	bangun/terjadi
+泳ぐ	oyogu	berenang
+被る	kaburu	memakan (ke kepala)
+着る	kiru	mengenakan
+吸う	suu	mengisap
+住む	sumu	bertempat tinggal
+座る	suwaru	duduk
+楽しむ	tanoshimu	menikmati
+食べる	taberu	makan
+釣る	tsuru	memancing
+脱ぐ	nugu	menanggalkan
+寝る	neru	tidur
+飲む	nomu	minum
+履く	haku	memakai (sepatu)
+磨く	migaku	menggosok
+休む	yasumu	beristirahat
+
+2. Pergerakan, Arah & Transportasi
+Bahasa Jepang	Romaji	Bahasa Indonesia
+上がる	agaru	naik
+歩く	aruku	berjalan
+行く	iku	pergi
+降りる	oriru	menurunkan
+帰る	kaeru	kembali
+来る	kuru	datang
+下がる	sagaru	turun
+進む	susumu	maju
+立つ	tatsu	berdiri
+着く	tsuku	tiba
+出かける	dekakeru	pergi keluar
+出る	deru	keluar
+飛ぶ	tobu	terbang
+止まる	tomaru	berhenti
+通る	tooru	melalui
+泊まる	tomaru	bermalam
+逃げる	nigeru	melarikan diri
+登る	noboru	mendaki
+乗る	noru	naik (kendaraan)
+入る	hairu	masuk
+走る	hashiru	berlari
+引っ越す	hikkosu	pindah rumah
+踏む	fumu	melangkah
+曲がる	magaru	berbelok/bengkok
+回る	mawaru	mengelilingi
+向かう	mukau	menghadapi
+戻る	modoru	kembali
+渡る	wataru	menyebrang
+
+3. Komunikasi & Interaksi Sosial
+Bahasa Jepang	Romaji	Bahasa Indonesia
+会う	au	bertemu
+言う	iu	berkata
+電話をかける	denwa o kakeru	menelepon
+聞く	kiku	mendengar/bertanya
+答える	kotaeru	menjawab
+騒ぐ	sawagu	membuat kebisingan
+叱る	shikaru	mengomeli
+知らせる	shiraseru	memberitahu
+頼む	tanomu	memohon
+訪ねる	tazuneru	mengunjungi
+尋ねる	tazuneru	bertanya
+伝える	tsutaeru	menyampaikan
+連れる	tsureru	memimpin
+手伝う	tetsudau	membantu
+泣く	naku	menangis
+話す	hanasu	berbicara
+褒める	homeru	memuji
+待つ	matsu	menunggu
+見せる	miseru	memperlihatkan
+迎える	mukaeru	mendekati
+呼ぶ	yobu	memanggil
+喜ぶ	yorokobu	bersuka cita
+別れる	wakareru	berpisah
+
+4. Pekerjaan, Belajar & Aktivitas Kognitif
+Bahasa Jepang	Romaji	Bahasa Indonesia
+覚える	oboeru	mengingat
+書く	kaku	menulis
+決まる	kimaru	diputuskan
+決める	kimeru	memutuskan
+比べる	kuraberu	membandingkan
+調べる	shiraberu	menginvestigasi
+知る	shiru	tahu
+育てる	sodateru	membesarkan, mendidik
+足す	tasu	menambah, tambah (angka)
+使う	tsukau	menggunakan
+作る	tsukuru	membuat
+勤める	tsutomeru	bekerja untuk seseorang
+働く	hataraku	bekerja
+間違える	machigaeru	melakukan kesalahan
+辞める	yameru	berhenti
+読む	yomu	membaca
+分かる	wakaru	mengerti
+忘れる	wasureru	lupa
+
+5. Transaksi, Kepemilikan & Perpindahan Barang
+Bahasa Jepang	Romaji	Bahasa Indonesia
+あげる	ageru	memberi
+売る	uru	menjual
+送る	okuru	mengirim
+買う	kau	membeli
+返す	kaesu	mengembalikan
+貸す	kasu	meminjamkan
+借りる	kariru	meminjam
+くれる	kureru	memberi
+取り替える	torikaeru	menukarkan
+払う	harau	membayar
+貰う	morau	menerima
+渡す	watasu	menyerahkan
+
+6. Tindakan Fisik & Manipulasi Objek
+Bahasa Jepang	Romaji	Bahasa Indonesia
+開ける	akeru	membuka
+入れる	ireru	memasukan
+置く	oku	meletakan
+押す	osu	menekan
+かける	kakeru	menggantung
+切る	kiru	memotong
+消す	kesu	menghapus
+壊す	kowasu	merusak
+下げる	sageru	menurunkan
+差す	sasu	menunjuk/membuka payung
+触る	sawaru	menyentuh
+閉める	shimeru	menutup
+締める	shimeru	mengencangkan
+捨てる	suteru	membuang
+する	suru	melakukan
+出す	dasu	mengeluarkan
+建てる	tateru	membangun
+立てる	tateru	mendirikan
+捕まえる	tsukamaeru	menangkap
+つける	tsukeru	menyalakan
+漬ける	tsukeru	merendam
+包む	tsutsumu	membungkus
+止める	tomeru	menghentikan
+取る	toru	mengambil
+撮る	toru	mengambil photo/memotret
+届ける	todokeru	mencapai
+並べる	naraberu	menyusun
+治す	naosu	menyembuhkan
+直す	naosu	memperbaiki
+投げる	nageru	melempar
+盗む	nusumu	mencuri
+塗る	nuru	mencat
+運ぶ	hakobu	mengangkut
+張る	haru	menempelkan
+引く	hiku	menarik
+弾く	hiku	memainkan (gitar)
+引き出す	hikidasu	menarik keluar
+引く	hiku	memainkan (alat musik)
+拾う	hirou	memungut
+見つける	mitsukeru	menemukan
+見る	miru	melihat
+持つ	motsu	membawa
+焼く	yaku	memanggang
+やる	yaru	melakukan
+沸かす	wakasu	mendidihkan
+割る	waru	terbagi
+
+7. Kondisi, Keadaan, Perubahan & Alam
+Bahasa Jepang	Romaji	Bahasa Indonesia
+合う	au	cocok, pas
+開く	aku	terbuka
+空く	aku	kosong
+ある	aru	ada, memiliki
+いる	iru	ada
+要る	iru	membutuhkan
+生まれる	umareru	lahir
+終わる	owaru	berakhir
+かかる	kakaru	membutuhkan (waktu/biaya)
+消える	kieru	menghilang
+暮れる	kureru	menjadi gelap
+困る	komaru	bermasalah
+込む	komu	melekuk, menjadi sesak
+壊れる	kowareru	rusak
+咲く	saku	mekar
+死ぬ	shinu	mati
+閉まる	shimaru	tertutup
+育つ	sodatsu	tumbuh besar
+過ぎる	sugiru	melewati
+済む	sumu	reda
+滑る	suberu	terselip, tergelincir
+倒れる	taoreru	runtuh
+足りる	tariru	menjadi cukup
+違う	chigau	berbeda
+疲れる	tsukareru	lelah
+捕まる	tsukamaru	tertangkap
+続く	tsuzuku	berlanjut
+続ける	tsuzukeru	melanjutkan
+出来る	dekiru	bisa
+届く	todoku	tercapai
+鳴く	naku	berbunyi
+亡くなる	nakunaru	meninggal
+無くなる	nakunaru	hilang
+並ぶ	narabu	berbaris
+なる	naru	menjadi
+治る	naoru	sembuh
+直る	naoru	menjadi diperbaiki
+慣れる	nareru	terbiasa
+似る	niru	mirip
+濡れる	nureru	menjadi basah
+残る	nokoru	menyisakan
+始まる	hajimaru	mulai
+晴れる	hareru	menjadi cerah
+冷える	hieru	menjadi dingin
+光る	hikaru	bersinar
+開く	hiraku	membuka (acara, event)
+吹く	fuku	meniup/bertiup
+増える	fueru	bertambah
+太る	futoru	bertambah gemuk
+降る	furu	turun
+負ける	makeru	kalah
+間に合う	maniau	tepat waktu
+見つかる	mitsukaru	ditemukan
+役に立つ	yakunitatsu	berguna
+痩せる	yaseru	menjadi kurus
+沸く	waku	mendidih
+割れる	wareru	membagi
+
+8. Bahasa Hormat (Keigo)
+Bahasa Jepang	Romaji	Bahasa Indonesia
+差し上げる１	sashiageru	memberi (hormat)
+召し上がる	meshiagaru	makan (hormat)
+申し上げる	moushiageru	mengatakan (hormat)
+申す	mousu	berkata (hormat)
