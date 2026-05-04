@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { themes, vocabCategories } from '../data';
+import { vocabCategories } from '../data';
 import * as Icons from 'lucide-react';
 import TopBar from '../components/TopBar';
 
 type Props = {
+  themes: any[];
   onLevelSelect: (themeId: string, levelIndex: number) => void;
+  lastPlayedThemeId: string;
+  lastPlayedLevelIndex: number;
 };
 
-export default function LevelsScreen({ onLevelSelect }: Props) {
+export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId, lastPlayedLevelIndex }: Props) {
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
 
   if (selectedThemeId) {
@@ -58,6 +61,23 @@ export default function LevelsScreen({ onLevelSelect }: Props) {
       </div>
     );
   }
+
+  // Calculate next uncompleted level
+  let nextThemeId = themes[0].id;
+  let nextLevelIdx = 0;
+  for (const t of themes) {
+    if (t.progress < 100) {
+      nextThemeId = t.id;
+      const category = vocabCategories.find(c => c.themeId === t.id);
+      if (category) {
+        const totalLevels = Math.ceil(category.words.length / 7);
+        const progressIncrement = Math.ceil(100 / totalLevels);
+        nextLevelIdx = Math.min(totalLevels - 1, Math.floor(t.progress / progressIncrement));
+      }
+      break;
+    }
+  }
+
   return (
     <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto pb-24">
       <TopBar title="Goi Kurosuwaado" showBack={false} />
@@ -124,12 +144,15 @@ export default function LevelsScreen({ onLevelSelect }: Props) {
           <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full" />
           <div className="absolute right-10 -bottom-10 w-24 h-24 bg-white/10 rounded-full" />
           
-          <h3 className="font-medium text-white/90 mb-2">Tantangan Mingguan</h3>
+          <h3 className="font-medium text-white/90 mb-2">Lanjutkan Belajar</h3>
           <p className="text-lg font-semibold leading-tight mb-6 max-w-[200px]">
-            Selesaikan puzzle spesial bertema 'Makanan Tradisional'
+            Lanjut ke level berikutnya
           </p>
-          <button className="bg-[#F5F2ED] text-[#D4A373] font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-white active:scale-95 transition-all shadow-sm">
-            MAIN SEKARANG
+          <button 
+            onClick={() => onLevelSelect(nextThemeId, nextLevelIdx)}
+            className="bg-[#F5F2ED] text-[#D4A373] font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-white active:scale-95 transition-all shadow-sm"
+          >
+            LANJUTKAN
           </button>
         </div>
       </div>
