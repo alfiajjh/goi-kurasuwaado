@@ -29,11 +29,9 @@ export default function VocabScreen() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto pb-24">
-      <div className="flex items-center justify-center px-5 pt-5 pb-2 bg-white sticky top-0 z-10 border-b border-[#E6E2D3]">
-        <h1 className="text-lg font-bold text-[#7B8E61]">Kosa Kata N4</h1>
-      </div>
+      <TopBar title="Kosa Kata N4" showBack={false} />
 
-      <div className="px-5 pt-3 pb-5 bg-white shadow-sm border-b border-[#E6E2D3] z-10 sticky top-[60px]">
+      <div className="px-5 pt-3 pb-5 bg-white shadow-sm border-b border-[#E6E2D3] z-40 sticky top-[68px]">
         <div className="relative">
           <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-[#8B8B7A]" />
           <input

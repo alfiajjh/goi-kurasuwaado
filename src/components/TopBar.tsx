@@ -15,7 +15,7 @@ export default function TopBar({ title, showBack, onBack, rightElement, transpar
 
   return (
     <>
-      <div className={`flex items-center justify-between px-4 py-4 ${transparent ? 'bg-transparent text-white' : 'bg-white border-b border-[#E6E2D3] text-[#2D2D2A]'} z-10 sticky top-0`}>
+      <div className={`flex items-center justify-between px-4 py-4 w-full ${transparent ? 'bg-transparent text-white' : 'bg-white border-b border-[#E6E2D3] shadow-sm text-[#2D2D2A]'} z-50 sticky top-0`}>
       <div className="flex items-center space-x-3">
         {showBack && (
           <button onClick={onBack} className={`p-2 -ml-2 rounded-full transition-colors ${transparent ? 'text-white hover:bg-white/10' : 'text-[#7B8E61] hover:bg-[#F5F2ED]'}`}>
