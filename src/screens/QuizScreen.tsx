@@ -429,17 +429,17 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
         title="Goi Kurosuwaado" 
         showBack={true} 
         onBack={onBack}
-        transparent={true}
+        transparent={false}
         rightElement={
           <div className="flex items-center space-x-2">
             <button 
               onClick={() => setIsHardMode(!isHardMode)}
-              className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-colors ${isHardMode ? 'bg-purple-500/20 text-purple-300' : 'bg-white/10 text-white/70'}`}
+              className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-colors ${isHardMode ? 'bg-purple-100 text-purple-700' : 'bg-[#F5F2ED] text-[#8B8B7A]'}`}
             >
               <Brain className="w-3.5 h-3.5" />
               <span>{isHardMode ? 'HARD' : 'EASY'}</span>
             </button>
-            <div className="flex items-center space-x-2 bg-white/10 text-[#7B8E61] px-3 py-1.5 rounded-lg text-sm font-bold font-mono">
+            <div className="flex items-center space-x-2 bg-[#F5F2ED] text-[#7B8E61] px-3 py-1.5 rounded-lg text-sm font-bold font-mono">
               <Timer className="w-4 h-4" />
               <span>{formatTime(timeLeft)}</span>
             </div>
