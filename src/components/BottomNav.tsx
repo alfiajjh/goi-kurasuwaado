@@ -6,7 +6,7 @@ type BottomNavProps = {
 };
 
 export default function BottomNav({ currentScreen, onNavigate }: BottomNavProps) {
-  const isNavVisible = ['home', 'levels', 'vocab', 'profile'].includes(currentScreen);
+  const isNavVisible = ['home', 'levels', 'vocab'].includes(currentScreen);
   
   if (!isNavVisible) return null;
 
@@ -29,12 +29,6 @@ export default function BottomNav({ currentScreen, onNavigate }: BottomNavProps)
         label="Kosa Kata" 
         isActive={currentScreen === 'vocab'} 
         onClick={() => onNavigate('vocab')} 
-      />
-      <NavItem 
-        icon={<User className="w-6 h-6" />} 
-        label="Profil" 
-        isActive={currentScreen === 'profile'} 
-        onClick={() => onNavigate('profile')} 
       />
     </div>
   );

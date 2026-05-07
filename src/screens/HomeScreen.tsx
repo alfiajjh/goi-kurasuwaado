@@ -2,11 +2,12 @@ import { Play, Calendar, BookOpen, Star } from 'lucide-react';
 import { APP_DATA } from '../data';
 
 type Props = {
+  overallProgress: number;
   onPlay: () => void;
   onVocab: () => void;
 };
 
-export default function HomeScreen({ onPlay, onVocab }: Props) {
+export default function HomeScreen({ overallProgress, onPlay, onVocab }: Props) {
   return (
     <div className="flex flex-col h-full overflow-y-auto pb-24 bg-[#F5F2ED]">
       <div className="px-6 pt-12 pb-6 flex flex-col items-center relative">
@@ -41,16 +42,15 @@ export default function HomeScreen({ onPlay, onVocab }: Props) {
         </button>
       </div>
 
-      <div className="px-6 grid grid-cols-2 gap-4 mb-6">
-        <button className="bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm">
-          <Calendar className="w-6 h-6 text-[#7B8E61] mb-3" />
-          <h3 className="font-semibold text-[#2D2D2A] mb-1 leading-tight">Tantangan Harian</h3>
-          <p className="text-xs text-[#8B8B7A]">Selesaikan untuk +50 XP</p>
-        </button>
-        <button onClick={onVocab} className="bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm">
-          <BookOpen className="w-6 h-6 text-[#D4A373] mb-3" />
-          <h3 className="font-semibold text-[#2D2D2A] mb-1 leading-tight">Bank Kosakata</h3>
-          <p className="text-xs text-[#8B8B7A]">Tinjau 450+ kata</p>
+      <div className="px-6 mb-4">
+        <button onClick={onVocab} className="w-full bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm flex items-center space-x-4 active:scale-[0.98]">
+          <div className="bg-[#F5F2ED] p-3 rounded-2xl">
+            <BookOpen className="w-6 h-6 text-[#D4A373]" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-[#2D2D2A] mb-1 leading-tight">Bank Kosakata</h3>
+            <p className="text-xs text-[#8B8B7A]">Tinjau seluruh kosakata JLPT N4</p>
+          </div>
         </button>
       </div>
 
@@ -58,12 +58,12 @@ export default function HomeScreen({ onPlay, onVocab }: Props) {
         <div className="bg-white p-5 rounded-3xl shadow-sm border border-[#E6E2D3] flex flex-col space-y-3">
           <div className="flex justify-between items-end">
             <span className="font-semibold text-[#2D2D2A]">Progres N4</span>
-            <span className="text-sm font-bold text-[#7B8E61]">{APP_DATA.overallProgress}%</span>
+            <span className="text-sm font-bold text-[#7B8E61]">{overallProgress}%</span>
           </div>
           <div className="w-full bg-[#F5F2ED] h-3.5 rounded-full overflow-hidden relative">
             <div 
               className="h-full bg-[#7B8E61] rounded-full relative" 
-              style={{ width: `${APP_DATA.overallProgress}%` }}
+              style={{ width: `${overallProgress}%` }}
             >
               <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 text-[#D4A373]">
                 <Star className="w-full h-full fill-[#D4A373]" />

@@ -1,18 +1,18 @@
 export const APP_DATA = {
-  xp: 1240,
-  overallProgress: 65,
+  xp: 0,
+  overallProgress: 0,
 };
 
 export const themes = [
-  { id: 'theme_0', title: 'Aktivitas Sehari-hari', subtitle: 'Rutinitas & Kebutuhan', icon: 'Home', progress: 80, isLocked: false, color: 'text-[#7B8E61]', bgColor: 'bg-[#FBF9F6]' },
-  { id: 'theme_1', title: 'Pergerakan & Arah', subtitle: 'Transportasi', icon: 'Plane', progress: 45, isLocked: false, color: 'text-[#D4A373]', bgColor: 'bg-[#FBF9F6]' },
-  { id: 'theme_2', title: 'Komunikasi', subtitle: 'Interaksi Sosial', icon: 'Users', progress: 12, isLocked: false, color: 'text-[#8B8B7A]', bgColor: 'bg-[#FBF9F6]' },
+  { id: 'theme_0', title: 'Aktivitas Sehari-hari', subtitle: 'Rutinitas & Kebutuhan', icon: 'Home', progress: 0, isLocked: false, color: 'text-[#7B8E61]', bgColor: 'bg-[#FBF9F6]' },
+  { id: 'theme_1', title: 'Pergerakan & Arah', subtitle: 'Transportasi', icon: 'Plane', progress: 0, isLocked: false, color: 'text-[#D4A373]', bgColor: 'bg-[#FBF9F6]' },
+  { id: 'theme_2', title: 'Komunikasi', subtitle: 'Interaksi Sosial', icon: 'Users', progress: 0, isLocked: false, color: 'text-[#8B8B7A]', bgColor: 'bg-[#FBF9F6]' },
   { id: 'theme_3', title: 'Pekerjaan & Belajar', subtitle: 'Aktivitas Kognitif', icon: 'Briefcase', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
   { id: 'theme_4', title: 'Transaksi', subtitle: 'Kepemilikan Barang', icon: 'ShoppingBag', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_5', title: 'Tindakan Fisik', subtitle: 'Manipulasi Objek', icon: 'Hand', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_6', title: 'Kondisi & Keadaan', subtitle: 'Perubahan Alam', icon: 'CloudRain', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_7', title: 'Bahasa Hormat', subtitle: 'Keigo', icon: 'Heart', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-];
+  { id: 'theme_5', title: 'Tindakan Fisik', subtitle: 'Manipulasi Objek', icon: 'Hand', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_6', title: 'Kondisi & Keadaan', subtitle: 'Perubahan Alam', icon: 'CloudRain', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_7', title: 'Bahasa Hormat', subtitle: 'Keigo', icon: 'Heart', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' }
+    ];
 
 export const vocabCategories = [
   {
@@ -126,7 +126,7 @@ export const vocabCategories = [
   {
     themeId: "theme_1",
     themeName: "Pergerakan, Arah & Transportasi",
-    count: 28,
+    count: 27,
     icon: "Plane",
     words: [
       {
@@ -204,11 +204,7 @@ export const vocabCategories = [
         romaji: "tooru",
         indonesian: "melalui"
       },
-      {
-        kanji: "泊まる",
-        romaji: "tomaru",
-        indonesian: "bermalam"
-      },
+      
       {
         kanji: "逃げる",
         romaji: "nigeru",
@@ -563,7 +559,7 @@ export const vocabCategories = [
   {
     themeId: "theme_5",
     themeName: "Tindakan Fisik & Manipulasi Objek",
-    count: 46,
+    count: 39,
     icon: "Hand",
     words: [
       {
@@ -626,11 +622,7 @@ export const vocabCategories = [
         romaji: "shimeru",
         indonesian: "menutup"
       },
-      {
-        kanji: "締める",
-        romaji: "shimeru",
-        indonesian: "mengencangkan"
-      },
+      
       {
         kanji: "捨てる",
         romaji: "suteru",
@@ -651,11 +643,7 @@ export const vocabCategories = [
         romaji: "tateru",
         indonesian: "membangun"
       },
-      {
-        kanji: "立てる",
-        romaji: "tateru",
-        indonesian: "mendirikan"
-      },
+      
       {
         kanji: "捕まえる",
         romaji: "tsukamaeru",
@@ -666,11 +654,7 @@ export const vocabCategories = [
         romaji: "tsukeru",
         indonesian: "menyalakan"
       },
-      {
-        kanji: "漬ける",
-        romaji: "tsukeru",
-        indonesian: "merendam"
-      },
+      
       {
         kanji: "包む",
         romaji: "tsutsumu",
@@ -686,11 +670,7 @@ export const vocabCategories = [
         romaji: "toru",
         indonesian: "mengambil"
       },
-      {
-        kanji: "撮る",
-        romaji: "toru",
-        indonesian: "mengambil photo/memotret"
-      },
+      
       {
         kanji: "届ける",
         romaji: "todokeru",
@@ -706,11 +686,7 @@ export const vocabCategories = [
         romaji: "naosu",
         indonesian: "menyembuhkan"
       },
-      {
-        kanji: "直す",
-        romaji: "naosu",
-        indonesian: "memperbaiki"
-      },
+      
       {
         kanji: "投げる",
         romaji: "nageru",
@@ -741,21 +717,13 @@ export const vocabCategories = [
         romaji: "hiku",
         indonesian: "menarik"
       },
-      {
-        kanji: "弾く",
-        romaji: "hiku",
-        indonesian: "memainkan (gitar)"
-      },
+      
       {
         kanji: "引き出す",
         romaji: "hikidasu",
         indonesian: "menarik keluar"
       },
-      {
-        kanji: "引く",
-        romaji: "hiku",
-        indonesian: "memainkan (alat musik)"
-      },
+      
       {
         kanji: "拾う",
         romaji: "hirou",
@@ -1126,7 +1094,7 @@ export const quizData = {
     gridSize: { rows: 6, cols: 5 },
     words: [
       { id: 1, direction: 'down', row: 0, col: 2, answer: 'TABERU', hint: 'Makan' },
-      { id: 2, direction: 'across', row: 2, col: 0, answer: 'ASOBU', hint: 'Bermain' },
+      { id: 2, direction: 'across', row: 2, col: 0, answer: 'ASOBU', hint: 'Bermain' }
     ]
   }
 };

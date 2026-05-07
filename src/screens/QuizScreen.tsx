@@ -2,62 +2,37 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import TopBar from '../components/TopBar';
 import { vocabCategories, themes } from '../data';
 import { generateCrossword } from '../utils/crossword';
-import { Timer, Star, CheckCircle2, X } from 'lucide-react';
+import { Timer, Star, CheckCircle2, X, Brain } from 'lucide-react';
 
 type Props = {
   themeId: string;
   levelIndex: number;
+  themeProgress?: number;
   onBack: () => void;
   onVocab?: () => void;
+  onComplete?: (xpGain: number) => void;
 };
 
-// Keyboard Component
-const Keyboard = ({ onKeyPress, onDelete, onEnter }: { onKeyPress: (key: string) => void, onDelete: () => void, onEnter: () => void }) => {
-  const rows = [
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Del', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Cek']
-  ];
-
-  return (
-    <div className="bg-[#2D2D2A] px-2 py-3 rounded-t-2xl shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full max-w-md mx-auto">
-      <div className="w-10 h-1 bg-[#4A4A45] rounded-full mx-auto mb-3" />
-      {rows.map((row, i) => (
-        <div key={i} className="flex justify-center space-x-1 mb-1">
-          {row.map(key => {
-            const isSpecial = key === 'Del' || key === 'Cek';
-            return (
-              <button
-                key={key}
-                onClick={() => {
-                  if (key === 'Del') onDelete();
-                  else if (key === 'Cek') onEnter();
-                  else onKeyPress(key);
-                }}
-                className={`${isSpecial ? 'w-10 text-xs font-semibold' : 'w-8 text-sm font-bold'} aspect-square bg-[#4A4A45] text-white rounded flex items-center justify-center shadow-sm active:bg-[#3A3A35] active:scale-95 transition-all`}
-              >
-                {key === 'Del' ? <X className="w-4 h-4" /> : key}
-              </button>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Props) {
+export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onBack, onVocab, onComplete }: Props) {
   const data = useMemo(() => {
     const category = vocabCategories.find(c => c.themeId === themeId);
     if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [] };
     
-    // Get the 7 words for this specific level
-    const wordsForLevel = category.words
+    // Get the 7 words for this specific level, deduplicate by answer
+    const rawWords = category.words
       .slice(levelIndex * 7, (levelIndex + 1) * 7)
       .map(w => ({
         answer: w.romaji.toUpperCase().replace(/[^A-Z]/g, ''),
         hint: w.indonesian
       }));
+    
+    // Remove duplicate answers — keep only the first occurrence
+    const seen = new Set<string>();
+    const wordsForLevel = rawWords.filter(w => {
+      if (seen.has(w.answer)) return false;
+      seen.add(w.answer);
+      return true;
+    });
       
     return generateCrossword(wordsForLevel);
   }, [themeId, levelIndex]);
@@ -67,7 +42,20 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
   const [selectedCell, setSelectedCell] = useState<{r: number, c: number} | null>(null);
   const [activeWordId, setActiveWordId] = useState<number | null>(null);
   const [wrongCells, setWrongCells] = useState<Set<string>>(new Set());
+  const [lockedCells, setLockedCells] = useState<Set<string>>(new Set());
+  const [shakingCells, setShakingCells] = useState<Set<string>>(new Set());
   const [quizStatus, setQuizStatus] = useState<'playing' | 'success' | 'failed' | 'results'>('playing');
+  const [isHardMode, setIsHardMode] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const shakeTimeouts = useRef<NodeJS.Timeout[]>([]);
+  const latestLockedCells = useRef(lockedCells);
+  useEffect(() => { latestLockedCells.current = lockedCells; }, [lockedCells]);
+
+  useEffect(() => {
+    return () => {
+      shakeTimeouts.current.forEach(clearTimeout);
+    };
+  }, []);
 
   const themeTitle = useMemo(() => {
     const t = themes.find(t => t.id === themeId);
@@ -129,8 +117,12 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
   const handleCellClick = (r: number, c: number) => {
     if (grid[r][c].isBlock) return;
     if (quizStatus === 'success' || quizStatus === 'results' || quizStatus === 'failed') return;
+    // Don't select locked (correct) cells
+    if (lockedCells.has(`${r}-${c}`)) return;
     
     setSelectedCell({ r, c });
+    // Focus native keyboard
+    setTimeout(() => inputRef.current?.focus(), 10);
     
     // Clear error for this cell
     const key = `${r}-${c}`;
@@ -149,51 +141,118 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
     }
   };
 
+  // Count total non-block cells for progress
+  const totalCells = useMemo(() => {
+    let count = 0;
+    for (let r = 0; r < data.gridSize.rows; r++) {
+      for (let c = 0; c < data.gridSize.cols; c++) {
+        if (!grid[r]?.[c]?.isBlock) count++;
+      }
+    }
+    return count;
+  }, [grid, data]);
+
+  // Check if all cells are locked (auto-complete)
+  useEffect(() => {
+    if (quizStatus !== 'playing' || totalCells === 0) return;
+    if (lockedCells.size === totalCells) {
+      setQuizStatus('success');
+      setSelectedCell(null);
+      if (onComplete) onComplete(50);
+    }
+  }, [lockedCells, totalCells, quizStatus]);
+
   const handleKeyPress = (key: string) => {
     const sCell = latestSelectedCell.current || selectedCell;
     if (!sCell) return;
     const { r, c } = sCell;
-    setAnswers(prev => ({ ...prev, [`${r}-${c}`]: key }));
-    
-    // Clear error
     const cellKey = `${r}-${c}`;
+
+    // Don't allow editing locked cells
+    if (latestLockedCells.current.has(cellKey)) return;
+
+    setAnswers(prev => ({ ...prev, [cellKey]: key }));
+    
+    // Clear previous error
     if (wrongCells.has(cellKey)) {
       const newWg = new Set(wrongCells);
       newWg.delete(cellKey);
       setWrongCells(newWg);
     }
 
-    // Move to next cell automatically
+    const cell = grid[r][c];
+
+    if (!isHardMode) {
+      if (key === cell.correct) {
+        latestLockedCells.current = new Set([...latestLockedCells.current, cellKey]);
+        setLockedCells(latestLockedCells.current);
+      } else {
+        setShakingCells(prev => {
+          const next = new Set(prev);
+          next.add(cellKey);
+          return next;
+        });
+        const timeoutId = setTimeout(() => {
+          setShakingCells(prev => {
+            const next = new Set(prev);
+            next.delete(cellKey);
+            return next;
+          });
+        }, 400);
+        shakeTimeouts.current.push(timeoutId);
+      }
+    }
+
+    // Move to next unlocked cell automatically
     const word = data.words.find(w => w.id === activeWordId);
     if (!word) return;
 
-    if (word.direction === 'across') {
-      if (c + 1 < data.gridSize.cols && !grid[r][c+1].isBlock && grid[r][c+1].wordIds.includes(word.id)) {
-        const nextCell = { r, c: c + 1 };
-        latestSelectedCell.current = nextCell;
-        setSelectedCell(nextCell);
+    const findNextUnlockedCell = () => {
+      if (word.direction === 'across') {
+        for (let nc = c + 1; nc < data.gridSize.cols; nc++) {
+          if (!grid[r][nc].isBlock && grid[r][nc].wordIds.includes(word.id) && !latestLockedCells.current.has(`${r}-${nc}`)) {
+            return { r, c: nc };
+          }
+        }
+      } else {
+        for (let nr = r + 1; nr < data.gridSize.rows; nr++) {
+          if (!grid[nr][c].isBlock && grid[nr][c].wordIds.includes(word.id) && !latestLockedCells.current.has(`${nr}-${c}`)) {
+            return { r: nr, c };
+          }
+        }
       }
-    } else {
-      if (r + 1 < data.gridSize.rows && !grid[r+1][c].isBlock && grid[r+1][c].wordIds.includes(word.id)) {
-        const nextCell = { r: r + 1, c };
-        latestSelectedCell.current = nextCell;
-        setSelectedCell(nextCell);
-      }
+      return null;
+    };
+
+    const nextCell = findNextUnlockedCell();
+    if (nextCell) {
+      latestSelectedCell.current = nextCell;
+      setSelectedCell(nextCell);
     }
   };
 
   const checkAnswers = () => {
     let hasMistake = false;
     const wrongs = new Set<string>();
+    const newShaking = new Set<string>();
 
     for (let r = 0; r < data.gridSize.rows; r++) {
       for (let c = 0; c < data.gridSize.cols; c++) {
         const cell = grid[r][c];
-        if (!cell.isBlock) {
-          const val = answers[`${r}-${c}`];
+        const cellKey = `${r}-${c}`;
+        if (!cell.isBlock && !lockedCells.has(cellKey)) {
+          const val = answers[cellKey];
           if (!val || val !== cell.correct) {
             hasMistake = true;
-            wrongs.add(`${r}-${c}`);
+            wrongs.add(cellKey);
+            if (val) newShaking.add(cellKey);
+          } else {
+            // Lock correct cells found during check
+            setLockedCells(prev => {
+              const next = new Set(prev);
+              next.add(cellKey);
+              return next;
+            });
           }
         }
       }
@@ -201,9 +260,15 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
 
     if (hasMistake) {
       setWrongCells(wrongs);
+      setShakingCells(newShaking);
+      const timeoutId = setTimeout(() => setShakingCells(new Set()), 400);
+      shakeTimeouts.current.push(timeoutId);
     } else {
       setQuizStatus('success');
       setSelectedCell(null);
+      if (onComplete) {
+        onComplete(50);
+      }
     }
   };
 
@@ -212,6 +277,8 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
     setAnswers({});
     setSelectedCell(null);
     setWrongCells(new Set());
+    setLockedCells(new Set());
+    setShakingCells(new Set());
     setQuizStatus('playing');
   };
 
@@ -219,25 +286,35 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
     const sCell = latestSelectedCell.current || selectedCell;
     if (!sCell) return;
     const { r, c } = sCell;
+    const cellKey = `${r}-${c}`;
     
-    if (answers[`${r}-${c}`]) {
+    // Don't delete locked cells
+    if (lockedCells.has(cellKey)) return;
+    
+    if (answers[cellKey]) {
       // Delete current cell's content
       const newAns = { ...answers };
-      delete newAns[`${r}-${c}`];
+      delete newAns[cellKey];
       setAnswers(newAns);
     } else {
-      // Step back and delete
+      // Step back to previous unlocked cell and delete
       const word = data.words.find(w => w.id === activeWordId);
       if (!word) return;
 
       let prevR = r, prevC = c;
       if (word.direction === 'across') {
-        if (c - 1 >= 0 && !grid[r][c-1].isBlock && grid[r][c-1].wordIds.includes(word.id)) {
-          prevC = c - 1;
+        for (let nc = c - 1; nc >= 0; nc--) {
+          if (!grid[r][nc].isBlock && grid[r][nc].wordIds.includes(word.id) && !lockedCells.has(`${r}-${nc}`)) {
+            prevC = nc;
+            break;
+          }
         }
       } else {
-        if (r - 1 >= 0 && !grid[r-1][c].isBlock && grid[r-1][c].wordIds.includes(word.id)) {
-          prevR = r - 1;
+        for (let nr = r - 1; nr >= 0; nr--) {
+          if (!grid[nr][c].isBlock && grid[nr][c].wordIds.includes(word.id) && !lockedCells.has(`${nr}-${c}`)) {
+            prevR = nr;
+            break;
+          }
         }
       }
 
@@ -259,20 +336,37 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
 
     let targetR = word.row;
     let targetC = word.col;
+    let foundUnlocked = false;
 
     for (let i = 0; i < word.answer.length; i++) {
       const r = word.direction === 'down' ? word.row + i : word.row;
       const c = word.direction === 'across' ? word.col + i : word.col;
-      if (!answers[`${r}-${c}`]) {
+      const cellKey = `${r}-${c}`;
+      if (!lockedCells.has(cellKey) && !answers[cellKey]) {
         targetR = r;
         targetC = c;
+        foundUnlocked = true;
         break;
+      }
+    }
+
+    // If all empty cells are filled, find first unlocked cell
+    if (!foundUnlocked) {
+      for (let i = 0; i < word.answer.length; i++) {
+        const r = word.direction === 'down' ? word.row + i : word.row;
+        const c = word.direction === 'across' ? word.col + i : word.col;
+        if (!lockedCells.has(`${r}-${c}`)) {
+          targetR = r;
+          targetC = c;
+          break;
+        }
       }
     }
 
     const nextCell = { r: targetR, c: targetC };
     latestSelectedCell.current = nextCell;
     setSelectedCell(nextCell);
+    setTimeout(() => inputRef.current?.focus(), 10);
   };
 
   const currentHandleKeyPress = useRef(handleKeyPress);
@@ -291,7 +385,9 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
       if (!latestSelectedCell.current) return;
 
       if (/^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey) {
-        currentHandleKeyPress.current(e.key.toUpperCase());
+        if (document.activeElement !== inputRef.current) {
+          currentHandleKeyPress.current(e.key.toUpperCase());
+        }
       } else if (e.key === 'Backspace') {
         currentHandleDelete.current();
       } else if (e.key === 'Enter') {
@@ -335,18 +431,27 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
         onBack={onBack}
         transparent={true}
         rightElement={
-          <div className="flex items-center space-x-2 bg-white/10 text-[#7B8E61] px-3 py-1.5 rounded-lg text-sm font-bold font-mono">
-            <Timer className="w-4 h-4" />
-            <span>{formatTime(timeLeft)}</span>
+          <div className="flex items-center space-x-2">
+            <button 
+              onClick={() => setIsHardMode(!isHardMode)}
+              className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-colors ${isHardMode ? 'bg-purple-500/20 text-purple-300' : 'bg-white/10 text-white/70'}`}
+            >
+              <Brain className="w-3.5 h-3.5" />
+              <span>{isHardMode ? 'HARD' : 'EASY'}</span>
+            </button>
+            <div className="flex items-center space-x-2 bg-white/10 text-[#7B8E61] px-3 py-1.5 rounded-lg text-sm font-bold font-mono">
+              <Timer className="w-4 h-4" />
+              <span>{formatTime(timeLeft)}</span>
+            </div>
           </div>
         }
       />
 
-      <div className="flex-1 overflow-y-auto pb-72">
+      <div className="flex-1 overflow-y-auto pb-32">
         <div className="px-5 mb-5 w-full flex justify-between items-center mt-2">
            <div className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white font-bold tracking-widest uppercase">{themeTitle} - Level {levelIndex + 1}</div>
            <div className="flex items-center space-x-2 text-[#7B8E61] text-sm font-bold">
-             <span>Kemajuan 0%</span>
+             <span>Kemajuan {totalCells > 0 ? Math.round((lockedCells.size / totalCells) * 100) : 0}%</span>
            </div>
         </div>
 
@@ -356,7 +461,7 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
             className="grid gap-[2px] w-full" 
             style={{ 
               gridTemplateColumns: `repeat(${data.gridSize.cols}, minmax(0, 1fr))`,
-              maxWidth: '300px'
+              maxWidth: Math.max(300, data.gridSize.cols * 35) + 'px'
             }}
           >
             {grid.map((row, r) => 
@@ -365,27 +470,33 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
                    return <div key={`${r}-${c}`} className="aspect-square bg-[#1A1A17] rounded-[4px]"></div>;
                  }
                  
+                 const cellKey = `${r}-${c}`;
                  const isSelected = selectedCell?.r === r && selectedCell?.c === c;
                  const isActiveWord = cell.wordIds?.includes(activeWordId);
-                 const isWrong = wrongCells.has(`${r}-${c}`);
+                 const isWrong = wrongCells.has(cellKey);
+                 const isLocked = lockedCells.has(cellKey);
+                 const isShaking = shakingCells.has(cellKey);
                  
                  // If results mode, show correct answer instead (or just disable clicking)
-                 const val = quizStatus === 'results' ? cell.correct : (answers[`${r}-${c}`] || '');
+                 const val = quizStatus === 'results' ? cell.correct : (answers[cellKey] || '');
 
                  return (
                    <div 
-                     key={`${r}-${c}`} 
+                     key={`${r}-${c}-${isShaking ? 's' : ''}`} 
                      onClick={() => handleCellClick(r, c)}
                      className={`aspect-square relative flex items-center justify-center font-bold text-xl rounded-[4px] transition-colors shadow-sm
-                       ${quizStatus === 'playing' ? 'cursor-pointer' : 'cursor-default'}
-                       ${isWrong ? 'bg-red-500 text-white ring-2 ring-red-300 z-10' :
-                         isSelected ? 'bg-[#7B8E61] text-white ring-2 ring-white/50 z-10' : 
-                         isActiveWord ? 'bg-white text-black ring-1 ring-white/20' : 
-                         'bg-white/90 text-black ring-1 ring-white/20'}
+                       ${isShaking ? 'animate-cell-shake' : ''}
+                       ${isLocked ? 'animate-cell-correct' : ''}
+                       ${isLocked ? 'bg-emerald-500 text-white ring-2 ring-emerald-300 cursor-default' :
+                         quizStatus === 'playing' ? 'cursor-pointer' : 'cursor-default'}
+                       ${!isLocked && isWrong ? 'bg-red-500 text-white ring-2 ring-red-300 z-10' :
+                         !isLocked && isSelected ? 'bg-[#7B8E61] text-white ring-2 ring-white/50 z-10' : 
+                         !isLocked && isActiveWord ? 'bg-white text-black ring-1 ring-white/20' : 
+                         !isLocked ? 'bg-white/90 text-black ring-1 ring-white/20' : ''}
                      `}
                    >
                      {cell.number && (
-                       <span className={`absolute top-0.5 left-1 text-[9px] leading-none ${isSelected || isWrong ? 'text-white/80' : 'text-slate-500'} font-bold`}>{cell.number}</span>
+                       <span className={`absolute top-0.5 left-1 text-[9px] leading-none ${isSelected || isWrong || isLocked ? 'text-white/80' : 'text-slate-500'} font-bold`}>{cell.number}</span>
                      )}
                      <span>{val}</span>
                    </div>
@@ -426,21 +537,36 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
         </div>
       </div>
 
-      {/* Virtual Keyboard */}
+      {/* Native Keyboard Support & Action Button */}
       {selectedCell && quizStatus === 'playing' && (
-        <div className="absolute bottom-0 left-0 w-full z-50 transform translate-y-0 transition-transform bg-[#2D2D2A]">
-           <div className="bg-[#2D2D2A] p-3 border-t border-[#4A4A45]/50 flex justify-center">
+        <div className="absolute bottom-0 left-0 w-full z-50 bg-[#2D2D2A] border-t border-[#4A4A45]/50 p-4 pb-8 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+           <div className="max-w-md mx-auto">
              <button 
                 onClick={checkAnswers}
-                className="w-full max-w-sm bg-[#D4A373] text-white font-bold py-2.5 rounded-lg text-sm hover:bg-[#C28E5C] transition-colors shadow-md active:scale-[0.98] flex items-center justify-center space-x-2"
+                className="w-full bg-[#D4A373] text-white font-bold py-4 rounded-2xl text-base hover:bg-[#C28E5C] transition-colors shadow-lg active:scale-[0.98] flex items-center justify-center space-x-2"
               >
+                <CheckCircle2 className="w-5 h-5" />
                 <span>CEK JAWABAN</span>
               </button>
            </div>
-           <Keyboard 
-             onKeyPress={handleKeyPress} 
-             onDelete={handleDelete} 
-             onEnter={checkAnswers} 
+           
+           {/* Hidden input to trigger native keyboard */}
+           <input
+             ref={inputRef}
+             type="text"
+             className="absolute opacity-0 pointer-events-none"
+             autoFocus
+             autoCapitalize="characters"
+             autoCorrect="off"
+             spellCheck="false"
+             value=""
+             onChange={(e) => {
+               const val = e.target.value.slice(-1).toUpperCase();
+               if (/^[A-Z]$/.test(val)) {
+                 handleKeyPress(val);
+               }
+               e.target.value = '';
+             }}
            />
         </div>
       )}
@@ -459,11 +585,11 @@ export default function QuizScreen({ themeId, levelIndex, onBack, onVocab }: Pro
               
               <div className="flex w-full space-x-4 mb-8">
                 <div className="flex-1 bg-slate-100 rounded-2xl py-3 flex flex-col items-center">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">XP EARNED</span>
-                  <span className="text-xl font-bold text-amber-500 flex items-center">⚡ +50</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">PROGRES TEMA</span>
+                  <span className="text-xl font-bold text-green-600 flex items-center">{themeProgress}%</span>
                 </div>
                 <div className="flex-1 bg-slate-100 rounded-2xl py-3 flex flex-col items-center">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">TOTAL TIME</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">TOTAL WAKTU</span>
                   <span className="text-xl font-bold text-blue-700 flex items-center">⏱ {(180 - timeLeft)}s</span>
                 </div>
               </div>
