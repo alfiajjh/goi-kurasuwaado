@@ -3,7 +3,6 @@ import HomeScreen from './screens/HomeScreen';
 import LevelsScreen from './screens/LevelsScreen';
 import VocabScreen from './screens/VocabScreen';
 import QuizScreen from './screens/QuizScreen';
-import BottomNav from './components/BottomNav';
 import { themes as initialThemes, APP_DATA as initialAppData, vocabCategories } from './data';
 
 type ScreenState = 'home' | 'levels' | 'vocab' | 'quiz';
@@ -31,6 +30,24 @@ export default function App() {
         console.error('Failed to parse saved progress', e);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault();
+      // Push state again to prevent back
+      window.history.pushState(null, '', window.location.href);
+      
+      setCurrentScreen(prev => {
+        if (prev === 'quiz') return 'levels';
+        if (prev === 'levels' || prev === 'vocab') return 'home';
+        return prev;
+      });
+    };
+    
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Save progress to localStorage
@@ -68,14 +85,15 @@ export default function App() {
   const overallProgress = Math.round(themes.reduce((sum, t) => sum + t.progress, 0) / themes.length) || 0;
 
   return (
-    <div className="w-full h-screen h-[100dvh] bg-black">
+    <div className="w-full h-screen h-[100dvh] bg-black bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
       <div className="w-full max-w-md h-full mx-auto bg-white relative overflow-hidden shadow-2xl flex flex-col font-sans">
-        <main className="flex-1 relative overflow-hidden">
+        <main className="flex-1 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-[#F5F2ED]">
           {currentScreen === 'home' && (
             <HomeScreen 
               overallProgress={overallProgress}
               onPlay={() => navigateTo('levels')} 
-              onVocab={() => navigateTo('vocab')} 
+              onVocab={() => navigateTo('vocab')}
+              onNavigate={navigateTo}
             />
           )}
           {currentScreen === 'levels' && (
@@ -84,10 +102,13 @@ export default function App() {
               onLevelSelect={startLevel} 
               lastPlayedThemeId={activeThemeId}
               lastPlayedLevelIndex={activeLevelIndex}
+              onNavigate={navigateTo}
             />
           )}
           {currentScreen === 'vocab' && (
-            <VocabScreen />
+            <VocabScreen 
+              onNavigate={navigateTo}
+            />
           )}
           {currentScreen === 'quiz' && (
             <QuizScreen 
@@ -97,11 +118,10 @@ export default function App() {
               onBack={() => navigateTo('levels')} 
               onVocab={() => navigateTo('vocab')}
               onComplete={(xpGain) => handleLevelComplete(activeThemeId, xpGain)}
+              onNavigate={navigateTo}
             />
           )}
         </main>
-        
-        <BottomNav currentScreen={currentScreen} onNavigate={(s) => navigateTo(s as ScreenState)} />
       </div>
     </div>
   );

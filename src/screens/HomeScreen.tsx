@@ -1,16 +1,25 @@
-import { Play, Calendar, BookOpen, Star } from 'lucide-react';
+import { Play, BookOpen, Star } from 'lucide-react';
+import TopBar from '../components/TopBar';
 import { APP_DATA } from '../data';
 
 type Props = {
   overallProgress: number;
   onPlay: () => void;
   onVocab: () => void;
+  onNavigate?: (screen: string) => void;
 };
 
-export default function HomeScreen({ overallProgress, onPlay, onVocab }: Props) {
+export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigate }: Props) {
   return (
-    <div className="flex flex-col h-full overflow-y-auto pb-24 bg-[#F5F2ED]">
-      <div className="px-6 pt-12 pb-6 flex flex-col items-center relative">
+    <div className="flex flex-col h-full overflow-y-auto bg-[#F5F2ED] relative">
+      <TopBar title="Goi Kurosuwaado" showBack={false} onNavigate={onNavigate} />
+
+      {/* Background decorations */}
+      <div className="absolute top-20 left-0 w-full h-64 bg-gradient-to-b from-[#7B8E61]/5 to-transparent pointer-events-none" />
+      <div className="absolute top-28 right-0 w-40 h-40 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 left-0 w-48 h-48 bg-[#7B8E61]/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="px-6 pt-8 pb-6 flex flex-col items-center relative z-10">
         {/* Background decorative elements */}
         <div className="absolute top-10 left-4 text-[#7B8E61] opacity-10"><BookOpen className="w-24 h-24" /></div>
         <div className="absolute top-32 right-4 text-[#D4A373] opacity-20">
@@ -42,7 +51,7 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab }: Props) 
         </button>
       </div>
 
-      <div className="px-6 mb-4">
+      <div className="px-6 mb-4 relative z-10">
         <button onClick={onVocab} className="w-full bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm flex items-center space-x-4 active:scale-[0.98]">
           <div className="bg-[#F5F2ED] p-3 rounded-2xl">
             <BookOpen className="w-6 h-6 text-[#D4A373]" />
@@ -54,7 +63,7 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab }: Props) 
         </button>
       </div>
 
-      <div className="px-6 mb-8">
+      <div className="px-6 mb-8 relative z-10">
         <div className="bg-white p-5 rounded-3xl shadow-sm border border-[#E6E2D3] flex flex-col space-y-3">
           <div className="flex justify-between items-end">
             <span className="font-semibold text-[#2D2D2A]">Progres N4</span>

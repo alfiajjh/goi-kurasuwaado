@@ -18,7 +18,7 @@
       {
         "kanji": "洗う",
         "romaji": "arau",
-        "indonesian": "mencuci"
+        "indonesian": "mencuci (tangan)"
       },
       {
         "kanji": "歌う",
@@ -28,7 +28,7 @@
       {
         "kanji": "起きる",
         "romaji": "okiru",
-        "indonesian": "bangun/terjadi"
+        "indonesian": "bangun (tidur)"
       },
       {
         "kanji": "泳ぐ",
@@ -38,22 +38,22 @@
       {
         "kanji": "被る",
         "romaji": "kaburu",
-        "indonesian": "memakan (ke kepala)"
+        "indonesian": "memakai (untuk kepala)"
       },
       {
         "kanji": "着る",
         "romaji": "kiru",
-        "indonesian": "mengenakan"
+        "indonesian": "mengenakan (untuk badan)"
       },
       {
         "kanji": "吸う",
         "romaji": "suu",
-        "indonesian": "mengisap"
+        "indonesian": "mengisap, menghirup"
       },
       {
         "kanji": "住む",
         "romaji": "sumu",
-        "indonesian": "bertempat tinggal"
+        "indonesian": "bertempat tinggal, menetap, hidup"
       },
       {
         "kanji": "座る",
@@ -63,7 +63,7 @@
       {
         "kanji": "楽しむ",
         "romaji": "tanoshimu",
-        "indonesian": "menikmati"
+        "indonesian": "menikmati, bersenang-senang"
       },
       {
         "kanji": "食べる",
@@ -73,12 +73,12 @@
       {
         "kanji": "釣る",
         "romaji": "tsuru",
-        "indonesian": "memancing"
+        "indonesian": "memancing, menggoda, menangkap, memikat"
       },
       {
         "kanji": "脱ぐ",
         "romaji": "nugu",
-        "indonesian": "menanggalkan"
+        "indonesian": "menanggalkan, melepaskan, melepas"
       },
       {
         "kanji": "寝る",
@@ -93,17 +93,17 @@
       {
         "kanji": "履く",
         "romaji": "haku",
-        "indonesian": "memakai (sepatu)"
+        "indonesian": "memakai (sepatu, kaos kaki, celana)"
       },
       {
         "kanji": "磨く",
         "romaji": "migaku",
-        "indonesian": "menggosok"
+        "indonesian": "menggosok, memoles, menyikat, mengasah"
       },
       {
         "kanji": "休む",
         "romaji": "yasumu",
-        "indonesian": "beristirahat"
+        "indonesian": "beristirahat, mengambil cuti, lalai"
       }
     ]
   },
@@ -116,142 +116,142 @@
       {
         "kanji": "上がる",
         "romaji": "agaru",
-        "indonesian": "naik"
+        "indonesian": "naik, pergi ke (atas), meningkat, naik (harga)"
       },
       {
         "kanji": "歩く",
         "romaji": "aruku",
-        "indonesian": "berjalan"
+        "indonesian": "berjalan, berjalan kaki, berjalan jauh"
       },
       {
         "kanji": "行く",
         "romaji": "iku",
-        "indonesian": "pergi"
+        "indonesian": "pergi, berangkat, pergi ke, pergi untuk (melakukan)"
       },
       {
         "kanji": "降りる",
         "romaji": "oriru",
-        "indonesian": "menurunkan"
+        "indonesian": "turun dari, turun"
       },
       {
         "kanji": "帰る",
         "romaji": "kaeru",
-        "indonesian": "kembali"
+        "indonesian": "kembali, pulang"
       },
       {
         "kanji": "来る",
         "romaji": "kuru",
-        "indonesian": "datang"
+        "indonesian": "datang, datang untuk (melakukan), datang dan (melakukan)"
       },
       {
         "kanji": "下がる",
         "romaji": "sagaru",
-        "indonesian": "turun"
+        "indonesian": "turun, menurun, turun (harga)"
       },
       {
         "kanji": "進む",
         "romaji": "susumu",
-        "indonesian": "maju"
+        "indonesian": "maju, berkembang, melanjutkan, terus"
       },
       {
         "kanji": "立つ",
         "romaji": "tatsu",
-        "indonesian": "berdiri"
+        "indonesian": "berdiri, bangkit"
       },
       {
         "kanji": "着く",
         "romaji": "tsuku",
-        "indonesian": "tiba"
+        "indonesian": "tiba, mendarat"
       },
       {
         "kanji": "出かける",
         "romaji": "dekakeru",
-        "indonesian": "pergi keluar"
+        "indonesian": "pergi keluar, pergi untuk (melakukan)"
       },
       {
         "kanji": "出る",
         "romaji": "deru",
-        "indonesian": "keluar"
+        "indonesian": "keluar, pergi, muncul, terbit"
       },
       {
         "kanji": "飛ぶ",
         "romaji": "tobu",
-        "indonesian": "terbang"
+        "indonesian": "terbang, melompat, meloncat"
       },
       {
         "kanji": "止まる",
         "romaji": "tomaru",
-        "indonesian": "berhenti"
+        "indonesian": "berhenti, terhenti"
       },
       {
         "kanji": "通る",
         "romaji": "tooru",
-        "indonesian": "melalui"
+        "indonesian": "melalui, lewat, lulus"
       },
       {
         "kanji": "泊まる",
         "romaji": "tomaru",
-        "indonesian": "bermalam"
+        "indonesian": "bermalam, menginap"
       },
       {
         "kanji": "逃げる",
         "romaji": "nigeru",
-        "indonesian": "melarikan diri"
+        "indonesian": "melarikan diri, kabur"
       },
       {
         "kanji": "登る",
         "romaji": "noboru",
-        "indonesian": "mendaki"
+        "indonesian": "mendaki, memanjat"
       },
       {
         "kanji": "乗る",
         "romaji": "noru",
-        "indonesian": "naik (kendaraan)"
+        "indonesian": "naik (kendaraan), menunggang"
       },
       {
         "kanji": "入る",
         "romaji": "hairu",
-        "indonesian": "masuk"
+        "indonesian": "masuk, memasuki"
       },
       {
         "kanji": "走る",
         "romaji": "hashiru",
-        "indonesian": "berlari"
+        "indonesian": "berlari, lari"
       },
       {
         "kanji": "引っ越す",
         "romaji": "hikkosu",
-        "indonesian": "pindah rumah"
+        "indonesian": "pindah rumah, pindah"
       },
       {
         "kanji": "踏む",
         "romaji": "fumu",
-        "indonesian": "melangkah"
+        "indonesian": "melangkah, menginjak"
       },
       {
         "kanji": "曲がる",
         "romaji": "magaru",
-        "indonesian": "berbelok/bengkok"
+        "indonesian": "berbelok, membengkok"
       },
       {
         "kanji": "回る",
         "romaji": "mawaru",
-        "indonesian": "mengelilingi"
+        "indonesian": "mengelilingi, berputar"
       },
       {
         "kanji": "向かう",
         "romaji": "mukau",
-        "indonesian": "menghadapi"
+        "indonesian": "menghadapi, menuju"
       },
       {
         "kanji": "戻る",
         "romaji": "modoru",
-        "indonesian": "kembali"
+        "indonesian": "kembali, pulih"
       },
       {
         "kanji": "渡る",
         "romaji": "wataru",
-        "indonesian": "menyebrang"
+        "indonesian": "menyebrang, melintasi"
       }
     ]
   },
@@ -264,117 +264,117 @@
       {
         "kanji": "会う",
         "romaji": "au",
-        "indonesian": "bertemu"
+        "indonesian": "bertemu, menjumpai"
       },
       {
         "kanji": "言う",
         "romaji": "iu",
-        "indonesian": "berkata"
+        "indonesian": "berkata, mengatakan"
       },
       {
         "kanji": "電話をかける",
         "romaji": "denwa o kakeru",
-        "indonesian": "menelepon"
+        "indonesian": "menelepon, menghubungi lewat telepon"
       },
       {
         "kanji": "聞く",
         "romaji": "kiku",
-        "indonesian": "mendengar/bertanya"
+        "indonesian": "mendengar, mendengarkan, bertanya"
       },
       {
         "kanji": "答える",
         "romaji": "kotaeru",
-        "indonesian": "menjawab"
+        "indonesian": "menjawab, membalas"
       },
       {
         "kanji": "騒ぐ",
         "romaji": "sawagu",
-        "indonesian": "membuat kebisingan"
+        "indonesian": "membuat kebisingan, ribut"
       },
       {
         "kanji": "叱る",
         "romaji": "shikaru",
-        "indonesian": "mengomeli"
+        "indonesian": "mengomeli, memarahi"
       },
       {
         "kanji": "知らせる",
         "romaji": "shiraseru",
-        "indonesian": "memberitahu"
+        "indonesian": "memberitahu, menginformasikan"
       },
       {
         "kanji": "頼む",
         "romaji": "tanomu",
-        "indonesian": "memohon"
+        "indonesian": "memohon, meminta bantuan"
       },
       {
         "kanji": "訪ねる",
         "romaji": "tazuneru",
-        "indonesian": "mengunjungi"
+        "indonesian": "mengunjungi, menjenguk"
       },
       {
         "kanji": "尋ねる",
         "romaji": "tazuneru",
-        "indonesian": "bertanya"
+        "indonesian": "bertanya, menanyakan"
       },
       {
         "kanji": "伝える",
         "romaji": "tsutaeru",
-        "indonesian": "menyampaikan"
+        "indonesian": "menyampaikan, memberi tahu"
       },
       {
         "kanji": "連れる",
         "romaji": "tsureru",
-        "indonesian": "memimpin"
+        "indonesian": "mengajak, membawa (orang)"
       },
       {
         "kanji": "手伝う",
         "romaji": "tetsudau",
-        "indonesian": "membantu"
+        "indonesian": "membantu, menolong"
       },
       {
         "kanji": "泣く",
         "romaji": "naku",
-        "indonesian": "menangis"
+        "indonesian": "menangis, meratap"
       },
       {
         "kanji": "話す",
         "romaji": "hanasu",
-        "indonesian": "berbicara"
+        "indonesian": "berbicara, berbicara dengan"
       },
       {
         "kanji": "褒める",
         "romaji": "homeru",
-        "indonesian": "memuji"
+        "indonesian": "memuji, menyombongkan diri"
       },
       {
         "kanji": "待つ",
         "romaji": "matsu",
-        "indonesian": "menunggu"
+        "indonesian": "menunggu, menahan"
       },
       {
         "kanji": "見せる",
         "romaji": "miseru",
-        "indonesian": "memperlihatkan"
+        "indonesian": "memperlihatkan, menampilkan"
       },
       {
         "kanji": "迎える",
         "romaji": "mukaeru",
-        "indonesian": "mendekati"
+        "indonesian": "mendekati, menyambut"
       },
       {
         "kanji": "呼ぶ",
         "romaji": "yobu",
-        "indonesian": "memanggil"
+        "indonesian": "memanggil, menyebut"
       },
       {
         "kanji": "喜ぶ",
         "romaji": "yorokobu",
-        "indonesian": "bersuka cita"
+        "indonesian": "bersuka cita, gembira"
       },
       {
         "kanji": "別れる",
         "romaji": "wakareru",
-        "indonesian": "berpisah"
+        "indonesian": "berpisah, berpisah dari"
       }
     ]
   },
@@ -387,7 +387,7 @@
       {
         "kanji": "覚える",
         "romaji": "oboeru",
-        "indonesian": "mengingat"
+        "indonesian": "mengingat, belajar"
       },
       {
         "kanji": "書く",
@@ -397,52 +397,52 @@
       {
         "kanji": "決まる",
         "romaji": "kimaru",
-        "indonesian": "diputuskan"
+        "indonesian": "diputuskan, ditentukan"
       },
       {
         "kanji": "決める",
         "romaji": "kimeru",
-        "indonesian": "memutuskan"
+        "indonesian": "memutuskan, menentukan"
       },
       {
         "kanji": "比べる",
         "romaji": "kuraberu",
-        "indonesian": "membandingkan"
+        "indonesian": "membandingkan, mengontraskan"
       },
       {
         "kanji": "調べる",
         "romaji": "shiraberu",
-        "indonesian": "menginvestigasi"
+        "indonesian": "menginvestigasi, memeriksa"
       },
       {
         "kanji": "知る",
         "romaji": "shiru",
-        "indonesian": "tahu"
+        "indonesian": "tahu, mengetahui"
       },
       {
         "kanji": "育てる",
         "romaji": "sodateru",
-        "indonesian": "membesarkan, mendidik"
+        "indonesian": "membesarkan, mendidik, memelihara"
       },
       {
         "kanji": "足す",
         "romaji": "tasu",
-        "indonesian": "menambah, tambah (angka)"
+        "indonesian": "menambah, tambah (angka), menambahkan"
       },
       {
         "kanji": "使う",
         "romaji": "tsukau",
-        "indonesian": "menggunakan"
+        "indonesian": "menggunakan, memanfaatkan"
       },
       {
         "kanji": "作る",
         "romaji": "tsukuru",
-        "indonesian": "membuat"
+        "indonesian": "membuat, menciptakan"
       },
       {
         "kanji": "勤める",
         "romaji": "tsutomeru",
-        "indonesian": "bekerja untuk seseorang"
+        "indonesian": "bekerja untuk seseorang, bekerja di"
       },
       {
         "kanji": "働く",
@@ -452,27 +452,27 @@
       {
         "kanji": "間違える",
         "romaji": "machigaeru",
-        "indonesian": "melakukan kesalahan"
+        "indonesian": "melakukan kesalahan, keliru"
       },
       {
         "kanji": "辞める",
         "romaji": "yameru",
-        "indonesian": "berhenti"
+        "indonesian": "berhenti, mengundurkan diri"
       },
       {
         "kanji": "読む",
         "romaji": "yomu",
-        "indonesian": "membaca"
+        "indonesian": "membaca, membaca keras"
       },
       {
         "kanji": "分かる",
         "romaji": "wakaru",
-        "indonesian": "mengerti"
+        "indonesian": "mengerti, memahami"
       },
       {
         "kanji": "忘れる",
         "romaji": "wasureru",
-        "indonesian": "lupa"
+        "indonesian": "lupa, meninggalkan"
       }
     ]
   },
@@ -485,7 +485,7 @@
       {
         "kanji": "あげる",
         "romaji": "ageru",
-        "indonesian": "memberi"
+        "indonesian": "memberi, memberikan"
       },
       {
         "kanji": "売る",
@@ -495,7 +495,7 @@
       {
         "kanji": "送る",
         "romaji": "okuru",
-        "indonesian": "mengirim"
+        "indonesian": "mengirim, mengirimkan"
       },
       {
         "kanji": "買う",
@@ -505,32 +505,32 @@
       {
         "kanji": "返す",
         "romaji": "kaesu",
-        "indonesian": "mengembalikan"
+        "indonesian": "mengembalikan, mengembalikan uang"
       },
       {
         "kanji": "貸す",
         "romaji": "kasu",
-        "indonesian": "meminjamkan"
+        "indonesian": "meminjamkan, meminjamkan untuk waktu singkat"
       },
       {
         "kanji": "借りる",
         "romaji": "kariru",
-        "indonesian": "meminjam"
+        "indonesian": "meminjam, meminjam untuk waktu singkat"
       },
       {
         "kanji": "くれる",
         "romaji": "kureru",
-        "indonesian": "memberi"
+        "indonesian": "diberi oleh orang yang lebih tinggi, menerima"
       },
       {
         "kanji": "取り替える",
         "romaji": "torikaeru",
-        "indonesian": "menukarkan"
+        "indonesian": "menukar, mengganti"
       },
       {
         "kanji": "払う",
         "romaji": "harau",
-        "indonesian": "membayar"
+        "indonesian": "membayar, melunasi"
       },
       {
         "kanji": "貰う",
@@ -540,7 +540,7 @@
       {
         "kanji": "渡す",
         "romaji": "watasu",
-        "indonesian": "menyerahkan"
+        "indonesian": "menyerahkan, menyerahkan untuk waktu singkat"
       }
     ]
   },
@@ -553,167 +553,167 @@
       {
         "kanji": "開ける",
         "romaji": "akeru",
-        "indonesian": "membuka"
+        "indonesian": "membuka, membuka untuk waktu singkat"
       },
       {
         "kanji": "入れる",
         "romaji": "ireru",
-        "indonesian": "memasukan"
+        "indonesian": "memasukkan, memasukkan untuk waktu singkat"
       },
       {
         "kanji": "置く",
         "romaji": "oku",
-        "indonesian": "meletakan"
+        "indonesian": "meletakkan, meletakkan untuk waktu singkat"
       },
       {
         "kanji": "押す",
         "romaji": "osu",
-        "indonesian": "menekan"
+        "indonesian": "menekan, mendorong, menyetrika"
       },
       {
         "kanji": "かける",
         "romaji": "kakeru",
-        "indonesian": "menggantung"
+        "indonesian": "menggantung, mengenakan, menelepon, menjalankan"
       },
       {
         "kanji": "切る",
         "romaji": "kiru",
-        "indonesian": "memotong"
+        "indonesian": "memotong, memotong-motong"
       },
       {
         "kanji": "消す",
         "romaji": "kesu",
-        "indonesian": "menghapus"
+        "indonesian": "menghapus, mematikan, memadamkan"
       },
       {
         "kanji": "壊す",
         "romaji": "kowasu",
-        "indonesian": "merusak"
+        "indonesian": "merusak, merusakkan"
       },
       {
         "kanji": "下げる",
         "romaji": "sageru",
-        "indonesian": "menurunkan"
+        "indonesian": "menurunkan, mengecilkan volume"
       },
       {
         "kanji": "差す",
         "romaji": "sasu",
-        "indonesian": "menunjuk/membuka payung"
+        "indonesian": "menunjuk/membuka payung, menuangkan, memasukkan"
       },
       {
         "kanji": "触る",
         "romaji": "sawaru",
-        "indonesian": "menyentuh"
+        "indonesian": "menyentuh, menusuk, menyentuh untuk waktu singkat"
       },
       {
         "kanji": "閉める",
         "romaji": "shimeru",
-        "indonesian": "menutup"
+        "indonesian": "menutup, menutup untuk waktu singkat"
       },
       {
         "kanji": "締める",
         "romaji": "shimeru",
-        "indonesian": "mengencangkan"
+        "indonesian": "mengencangkan, mengetatkan, mengikat"
       },
       {
         "kanji": "捨てる",
         "romaji": "suteru",
-        "indonesian": "membuang"
+        "indonesian": "membuang, membuang untuk waktu singkat, menyingkirkan"
       },
       {
         "kanji": "する",
         "romaji": "suru",
-        "indonesian": "melakukan"
+        "indonesian": "melakukan, melakukan untuk waktu singkat, mengerjakan"
       },
       {
         "kanji": "出す",
         "romaji": "dasu",
-        "indonesian": "mengeluarkan"
+        "indonesian": "mengeluarkan, mengeluarkan untuk waktu singkat, mengirim, mengajukan"
       },
       {
         "kanji": "建てる",
         "romaji": "tateru",
-        "indonesian": "membangun"
+        "indonesian": "membangun, mendirikan, mendirikan untuk waktu singkat"
       },
       {
         "kanji": "立てる",
         "romaji": "tateru",
-        "indonesian": "mendirikan"
+        "indonesian": "mendirikan, mendirikan untuk waktu singkat"
       },
       {
         "kanji": "捕まえる",
         "romaji": "tsukamaeru",
-        "indonesian": "menangkap"
+        "indonesian": "menangkap, menangkap untuk waktu singkat"
       },
       {
         "kanji": "つける",
         "romaji": "tsukeru",
-        "indonesian": "menyalakan"
+        "indonesian": "menyalakan, menyalakan untuk waktu singkat"
       },
       {
         "kanji": "漬ける",
         "romaji": "tsukeru",
-        "indonesian": "merendam"
+        "indonesian": "merendam, merendam untuk waktu singkat"
       },
       {
         "kanji": "包む",
         "romaji": "tsutsumu",
-        "indonesian": "membungkus"
+        "indonesian": "membungkus, membungkus untuk waktu singkat"
       },
       {
         "kanji": "止める",
         "romaji": "tomeru",
-        "indonesian": "menghentikan"
+        "indonesian": "menghentikan, menahan, berhenti di/berhenti untuk waktu singkat"
       },
       {
         "kanji": "取る",
         "romaji": "toru",
-        "indonesian": "mengambil"
+        "indonesian": "mengambil, mengambil untuk waktu singkat, memakan/meminum"
       },
       {
         "kanji": "撮る",
         "romaji": "toru",
-        "indonesian": "mengambil photo/memotret"
+        "indonesian": "mengambil photo/memotret, mengambil photo/memotret untuk waktu singkat, memakan/meminum"
       },
       {
         "kanji": "届ける",
         "romaji": "todokeru",
-        "indonesian": "mencapai"
+        "indonesian": "mencapai, mencapai untuk waktu singkat"
       },
       {
         "kanji": "並べる",
         "romaji": "naraberu",
-        "indonesian": "menyusun"
+        "indonesian": "menyusun, menyusun untuk waktu singkat"
       },
       {
         "kanji": "治す",
         "romaji": "naosu",
-        "indonesian": "menyembuhkan"
+        "indonesian": "menyembuhkan, menyembuhkan untuk waktu singkat"
       },
       {
         "kanji": "直す",
         "romaji": "naosu",
-        "indonesian": "memperbaiki"
+        "indonesian": "memperbaiki, memperbaiki untuk waktu singkat"
       },
       {
         "kanji": "投げる",
         "romaji": "nageru",
-        "indonesian": "melempar"
+        "indonesian": "melempar, melempar untuk waktu singkat"
       },
       {
         "kanji": "盗む",
         "romaji": "nusumu",
-        "indonesian": "mencuri"
+        "indonesian": "mencuri, mencuri untuk waktu singkat"
       },
       {
         "kanji": "塗る",
         "romaji": "nuru",
-        "indonesian": "mencat"
+        "indonesian": "mencat, mencat untuk waktu singkat"
       },
       {
         "kanji": "運ぶ",
         "romaji": "hakobu",
-        "indonesian": "mengangkut"
+        "indonesian": "mengangkut, mengangkut untuk waktu singkat"
       },
       {
         "kanji": "張る",
@@ -728,7 +728,7 @@
       {
         "kanji": "弾く",
         "romaji": "hiku",
-        "indonesian": "memainkan (gitar)"
+        "indonesian": "memainkan (gitar),"
       },
       {
         "kanji": "引き出す",
@@ -753,32 +753,32 @@
       {
         "kanji": "見る",
         "romaji": "miru",
-        "indonesian": "melihat"
+        "indonesian": "melihat, mengunjungi, mencoba"
       },
       {
         "kanji": "持つ",
         "romaji": "motsu",
-        "indonesian": "membawa"
+        "indonesian": "memiliki, membawa"
       },
       {
         "kanji": "焼く",
         "romaji": "yaku",
-        "indonesian": "memanggang"
+        "indonesian": "memanggang, membakar"
       },
       {
         "kanji": "やる",
         "romaji": "yaru",
-        "indonesian": "melakukan"
+        "indonesian": "melakukan, memberikan"
       },
       {
         "kanji": "沸かす",
         "romaji": "wakasu",
-        "indonesian": "mendidihkan"
+        "indonesian": "mendidihkan, memanaskan"
       },
       {
         "kanji": "割る",
         "romaji": "waru",
-        "indonesian": "terbagi"
+        "indonesian": "terbagi, membagi"
       }
     ]
   },
@@ -791,22 +791,22 @@
       {
         "kanji": "合う",
         "romaji": "au",
-        "indonesian": "cocok, pas"
+        "indonesian": "cocok, pas, sesuai"
       },
       {
         "kanji": "開く",
         "romaji": "aku",
-        "indonesian": "terbuka"
+        "indonesian": "terbuka, buka, mulai"
       },
       {
         "kanji": "空く",
         "romaji": "aku",
-        "indonesian": "kosong"
+        "indonesian": "kosong, lengang, mengosongkan diri"
       },
       {
         "kanji": "ある",
         "romaji": "aru",
-        "indonesian": "ada, memiliki"
+        "indonesian": "ada, memiliki, terjadi"
       },
       {
         "kanji": "いる",
@@ -821,22 +821,27 @@
       {
         "kanji": "生まれる",
         "romaji": "umareru",
-        "indonesian": "lahir"
+        "indonesian": "lahir, dilahirkan"
       },
       {
         "kanji": "終わる",
         "romaji": "owaru",
-        "indonesian": "berakhir"
+        "indonesian": "berakhir, mengakhiri"
       },
       {
         "kanji": "かかる",
         "romaji": "kakaru",
-        "indonesian": "membutuhkan (waktu/biaya)"
+        "indonesian": "membutuhkan (waktu/biaya), tergantung, terpasang"
       },
       {
         "kanji": "消える",
         "romaji": "kieru",
-        "indonesian": "menghilang"
+        "indonesian": "menghilang, padam, padam sendiri"
+      },
+      {
+        "kanji": "暮れる",
+        "romaji": "kureru",
+        "indonesian": "menjadi gelap, senja"
       },
       {
         "kanji": "暮れる",
@@ -846,82 +851,82 @@
       {
         "kanji": "困る",
         "romaji": "komaru",
-        "indonesian": "bermasalah"
+        "indonesian": "bermasalah, kesulitan"
       },
       {
         "kanji": "込む",
         "romaji": "komu",
-        "indonesian": "melekuk, menjadi sesak"
+        "indonesian": "melekuk, menjadi sesak, padat"
       },
       {
         "kanji": "壊れる",
         "romaji": "kowareru",
-        "indonesian": "rusak"
+        "indonesian": "rusak, rusak sendiri"
       },
       {
         "kanji": "咲く",
         "romaji": "saku",
-        "indonesian": "mekar"
+        "indonesian": "mekar, berkembang"
       },
       {
         "kanji": "死ぬ",
         "romaji": "shinu",
-        "indonesian": "mati"
+        "indonesian": "mati, meninggal"
       },
       {
         "kanji": "閉まる",
         "romaji": "shimaru",
-        "indonesian": "tertutup"
+        "indonesian": "tertutup, tutup"
       },
       {
         "kanji": "育つ",
         "romaji": "sodatsu",
-        "indonesian": "tumbuh besar"
+        "indonesian": "tumbuh besar, membesar"
       },
       {
         "kanji": "過ぎる",
         "romaji": "sugiru",
-        "indonesian": "melewati"
+        "indonesian": "melewati, melewati diri sendiri"
       },
       {
         "kanji": "済む",
         "romaji": "sumu",
-        "indonesian": "reda"
+        "indonesian": "selesai, usai"
       },
       {
         "kanji": "滑る",
         "romaji": "suberu",
-        "indonesian": "terselip, tergelincir"
+        "indonesian": "tergelincir, terpeleset"
       },
       {
         "kanji": "倒れる",
         "romaji": "taoreru",
-        "indonesian": "runtuh"
+        "indonesian": "runtuh, roboh"
       },
       {
         "kanji": "足りる",
         "romaji": "tariru",
-        "indonesian": "menjadi cukup"
+        "indonesian": "menjadi cukup, cukup"
       },
       {
         "kanji": "違う",
         "romaji": "chigau",
-        "indonesian": "berbeda"
+        "indonesian": "berbeda, salah"
       },
       {
         "kanji": "疲れる",
         "romaji": "tsukareru",
-        "indonesian": "lelah"
+        "indonesian": "lelah, menjadi lelah"
       },
       {
         "kanji": "捕まる",
         "romaji": "tsukamaru",
-        "indonesian": "tertangkap"
+        "indonesian": "tertangkap, ditahan"
       },
       {
         "kanji": "続く",
         "romaji": "tsuzuku",
-        "indonesian": "berlanjut"
+        "indonesian": "berlanjut, beruntun"
       },
       {
         "kanji": "続ける",
@@ -931,67 +936,67 @@
       {
         "kanji": "出来る",
         "romaji": "dekiru",
-        "indonesian": "bisa"
+        "indonesian": "bisa, mampu"
       },
       {
         "kanji": "届く",
         "romaji": "todoku",
-        "indonesian": "tercapai"
+        "indonesian": "tercapai, tiba"
       },
       {
         "kanji": "鳴く",
         "romaji": "naku",
-        "indonesian": "berbunyi"
+        "indonesian": "berbunyi (hewan), berkicau"
       },
       {
         "kanji": "亡くなる",
         "romaji": "nakunaru",
-        "indonesian": "meninggal"
+        "indonesian": "meninggal dunia"
       },
       {
         "kanji": "無くなる",
         "romaji": "nakunaru",
-        "indonesian": "hilang"
+        "indonesian": "hilang, menjadi habis"
       },
       {
         "kanji": "並ぶ",
         "romaji": "narabu",
-        "indonesian": "berbaris"
+        "indonesian": "berbaris, berjejer"
       },
       {
         "kanji": "なる",
         "romaji": "naru",
-        "indonesian": "menjadi"
+        "indonesian": "menjadi, tumbuh menjadi, berubah menjadi"
       },
       {
         "kanji": "治る",
         "romaji": "naoru",
-        "indonesian": "sembuh"
+        "indonesian": "sembuh, pulih, diperbaiki"
       },
       {
         "kanji": "直る",
         "romaji": "naoru",
-        "indonesian": "menjadi diperbaiki"
+        "indonesian": "menjadi diperbaiki, diperbaiki"
       },
       {
         "kanji": "慣れる",
         "romaji": "nareru",
-        "indonesian": "terbiasa"
+        "indonesian": "terbiasa, menjadi terbiasa"
       },
       {
         "kanji": "似る",
         "romaji": "niru",
-        "indonesian": "mirip"
+        "indonesian": "mirip, menyerupai"
       },
       {
         "kanji": "濡れる",
         "romaji": "nureru",
-        "indonesian": "menjadi basah"
+        "indonesian": "menjadi basah, basah kuyup"
       },
       {
         "kanji": "残る",
         "romaji": "nokoru",
-        "indonesian": "menyisakan"
+        "indonesian": "menyisakan, tersisa"
       },
       {
         "kanji": "始まる",
@@ -1001,7 +1006,7 @@
       {
         "kanji": "晴れる",
         "romaji": "hareru",
-        "indonesian": "menjadi cerah"
+        "indonesian": "menjadi cerah, cuaca cerah"
       },
       {
         "kanji": "冷える",
@@ -1011,67 +1016,67 @@
       {
         "kanji": "光る",
         "romaji": "hikaru",
-        "indonesian": "bersinar"
+        "indonesian": "bersinar, bercahaya"
       },
       {
         "kanji": "開く",
         "romaji": "hiraku",
-        "indonesian": "membuka (acara, event)"
+        "indonesian": "membuka (acara, event), membuka diri"
       },
       {
         "kanji": "吹く",
         "romaji": "fuku",
-        "indonesian": "meniup/bertiup"
+        "indonesian": "meniup, berhembus"
       },
       {
         "kanji": "増える",
         "romaji": "fueru",
-        "indonesian": "bertambah"
+        "indonesian": "bertambah, bertambah besar"
       },
       {
         "kanji": "太る",
         "romaji": "futoru",
-        "indonesian": "bertambah gemuk"
+        "indonesian": "bertambah gemuk, menjadi gemuk"
       },
       {
         "kanji": "降る",
         "romaji": "furu",
-        "indonesian": "turun"
+        "indonesian": "turun (hujan, salju)"
       },
       {
         "kanji": "負ける",
         "romaji": "makeru",
-        "indonesian": "kalah"
+        "indonesian": "kalah, menyerah"
       },
       {
         "kanji": "間に合う",
         "romaji": "maniau",
-        "indonesian": "tepat waktu"
+        "indonesian": "tepat waktu, cukup"
       },
       {
         "kanji": "見つかる",
         "romaji": "mitsukaru",
-        "indonesian": "ditemukan"
+        "indonesian": "ditemukan, ditemukan sendiri"
       },
       {
         "kanji": "役に立つ",
         "romaji": "yakunitatsu",
-        "indonesian": "berguna"
+        "indonesian": "berguna, bermanfaat"
       },
       {
         "kanji": "痩せる",
         "romaji": "yaseru",
-        "indonesian": "menjadi kurus"
+        "indonesian": "menjadi kurus, menurunkan berat badan"
       },
       {
         "kanji": "沸く",
         "romaji": "waku",
-        "indonesian": "mendidih"
+        "indonesian": "mendidih, mendidih sendiri"
       },
       {
         "kanji": "割れる",
         "romaji": "wareru",
-        "indonesian": "membagi"
+        "indonesian": "membagi, pecah"
       }
     ]
   },

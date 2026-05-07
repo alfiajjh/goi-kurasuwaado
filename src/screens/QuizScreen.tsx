@@ -11,9 +11,10 @@ type Props = {
   onBack: () => void;
   onVocab?: () => void;
   onComplete?: (xpGain: number) => void;
+  onNavigate?: (screen: string) => void;
 };
 
-export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onBack, onVocab, onComplete }: Props) {
+export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onBack, onVocab, onComplete, onNavigate }: Props) {
   const data = useMemo(() => {
     const category = vocabCategories.find(c => c.themeId === themeId);
     if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [] };
@@ -425,11 +426,16 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
 
   return (
     <div className="flex flex-col h-screen h-[100dvh] bg-[#2D2D2A] text-white relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-20 right-0 w-64 h-64 bg-[#7B8E61]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 left-0 w-64 h-64 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
+
       <TopBar 
         title="Goi Kurosuwaado" 
         showBack={true} 
         onBack={onBack}
         transparent={true}
+        onNavigate={onNavigate}
         rightElement={
           <div className="flex items-center space-x-2">
             <button 
@@ -447,21 +453,21 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
         }
       />
 
-      <div className="flex-1 overflow-y-auto pb-32">
-        <div className="px-5 mb-5 w-full flex justify-between items-center mt-2">
+      <div className="flex-1 flex flex-col min-h-0 relative z-10">
+        <div className="px-5 py-2 w-full flex justify-between items-center shrink-0">
            <div className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white font-bold tracking-widest uppercase">{themeTitle} - Level {levelIndex + 1}</div>
            <div className="flex items-center space-x-2 text-[#7B8E61] text-sm font-bold">
              <span>Kemajuan {totalCells > 0 ? Math.round((lockedCells.size / totalCells) * 100) : 0}%</span>
            </div>
         </div>
 
-        {/* The Grid Box */}
-        <div className="mx-5 mb-6 flex items-center justify-center">
+        {/* The Grid Box - Fixed height and centered */}
+        <div className="px-5 py-4 flex items-center justify-center shrink-0">
           <div 
-            className="grid gap-[2px] w-full" 
+            className="grid gap-[2px] w-full mx-auto" 
             style={{ 
               gridTemplateColumns: `repeat(${data.gridSize.cols}, minmax(0, 1fr))`,
-              maxWidth: Math.max(300, data.gridSize.cols * 35) + 'px'
+              maxWidth: 'min(90vw, 400px)',
             }}
           >
             {grid.map((row, r) => 
@@ -484,7 +490,7 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                    <div 
                      key={`${r}-${c}-${isShaking ? 's' : ''}`} 
                      onClick={() => handleCellClick(r, c)}
-                     className={`aspect-square relative flex items-center justify-center font-bold text-xl rounded-[4px] transition-colors shadow-sm
+                     className={`aspect-square relative flex items-center justify-center font-bold text-lg sm:text-xl rounded-[4px] transition-colors shadow-sm
                        ${isShaking ? 'animate-cell-shake' : ''}
                        ${isLocked ? 'animate-cell-correct' : ''}
                        ${isLocked ? 'bg-emerald-500 text-white ring-2 ring-emerald-300 cursor-default' :
@@ -496,7 +502,7 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                      `}
                    >
                      {cell.number && (
-                       <span className={`absolute top-0.5 left-1 text-[9px] leading-none ${isSelected || isWrong || isLocked ? 'text-white/80' : 'text-slate-500'} font-bold`}>{cell.number}</span>
+                       <span className={`absolute top-0.5 left-0.5 text-[8px] sm:text-[9px] leading-none ${isSelected || isWrong || isLocked ? 'text-white/80' : 'text-slate-500'} font-bold`}>{cell.number}</span>
                      )}
                      <span>{val}</span>
                    </div>
@@ -506,7 +512,8 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
           </div>
         </div>
 
-        <div className="px-5">
+        {/* Scrollable Hints Section */}
+        <div className="flex-1 overflow-y-auto px-5 pb-32">
            <div className="space-y-3">
              {acrossWords.map(w => (
                <div 

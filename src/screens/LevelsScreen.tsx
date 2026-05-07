@@ -8,9 +8,10 @@ type Props = {
   onLevelSelect: (themeId: string, levelIndex: number) => void;
   lastPlayedThemeId: string;
   lastPlayedLevelIndex: number;
+  onNavigate?: (screen: string) => void;
 };
 
-export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId, lastPlayedLevelIndex }: Props) {
+export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId, lastPlayedLevelIndex, onNavigate }: Props) {
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
 
   if (selectedThemeId) {
@@ -25,15 +26,19 @@ export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId,
     }
 
     return (
-      <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto pb-24">
-        <TopBar title={theme.title} showBack={true} onBack={() => setSelectedThemeId(null)} />
+      <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto relative">
+        {/* Background decorations */}
+        <div className="absolute top-20 right-0 w-36 h-36 bg-[#7B8E61]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-32 left-0 w-44 h-44 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="px-5 pt-6 pb-4">
+        <TopBar title={theme.title} showBack={true} onBack={() => setSelectedThemeId(null)} onNavigate={onNavigate} />
+        
+        <div className="px-5 pt-6 pb-4 relative z-10">
           <h2 className="text-2xl font-bold text-[#2D2D2A] mb-2">{theme.title}</h2>
           <p className="text-[#8B8B7A] text-sm">Selesaikan level untuk menguasai kosakata tema ini.</p>
         </div>
 
-        <div className="px-5 space-y-3">
+        <div className="px-5 space-y-3 pb-8 relative z-10">
           {chunks.map((chunk, idx) => {
             const difficultyLabel = idx < 2 ? 'Mudah' : idx < 4 ? 'Sedang' : 'Sulit';
             const difficultyColor = idx < 2 ? 'text-green-600 bg-green-50' : idx < 4 ? 'text-amber-600 bg-amber-50' : 'text-red-600 bg-red-50';
@@ -79,15 +84,19 @@ export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId,
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto pb-24">
-      <TopBar title="Goi Kurosuwaado" showBack={false} />
+    <div className="flex flex-col h-full bg-[#F5F2ED] overflow-y-auto relative">
+      {/* Background decorations */}
+      <div className="absolute top-32 left-0 w-48 h-48 bg-[#7B8E61]/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-0 w-40 h-40 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
       
-      <div className="px-5 pt-6 pb-4">
+      <TopBar title="Goi Kurosuwaado" showBack={false} onNavigate={onNavigate} />
+      
+      <div className="px-5 pt-6 pb-4 relative z-10">
         <h2 className="text-2xl font-bold text-[#2D2D2A] mb-2">Tema Kata Benda</h2>
         <p className="text-[#8B8B7A] text-sm">Pilih topik JLPT N4 untuk mulai mengisi teka-teki silang.</p>
       </div>
 
-      <div className="px-5 space-y-4 mb-8">
+      <div className="px-5 space-y-4 mb-8 relative z-10">
         {themes.map((theme) => {
           const Icon = (Icons as any)[theme.icon] || Icons.HelpCircle;
           return (
@@ -138,7 +147,7 @@ export default function LevelsScreen({ themes, onLevelSelect, lastPlayedThemeId,
         })}
       </div>
 
-      <div className="px-5 mb-6">
+      <div className="px-5 mb-6 relative z-10">
         <div className="bg-[#D4A373] rounded-3xl p-6 text-white relative overflow-hidden shadow-md">
           {/* Deco circles */}
           <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full" />
