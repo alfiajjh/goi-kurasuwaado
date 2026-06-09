@@ -12,14 +12,50 @@ type Props = {
   onVocab?: () => void;
   onComplete?: (xpGain: number) => void;
   onNavigate?: (screen: string) => void;
+  showExitConfirm?: boolean;
+  onExitRequest?: () => void;
+  onExitConfirm?: () => void;
+  onExitCancel?: () => void;
 };
 
-export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onBack, onVocab, onComplete, onNavigate }: Props) {
-  const data = useMemo(() => {
+type Word = {
+  id: number;
+  direction: 'across' | 'down';
+  row: number;
+  col: number;
+  answer: string;
+  hint: string;
+};
+
+type GridCell = {
+  isBlock: boolean;
+  correct?: string;
+  number?: number;
+  wordIds?: number[];
+};
+
+type QuizData = {
+  gridSize: { rows: number; cols: number };
+  words: Word[];
+};
+
+export default function QuizScreen({ 
+  themeId, 
+  levelIndex, 
+  themeProgress = 0, 
+  onBack, 
+  onVocab, 
+  onComplete, 
+  onNavigate,
+  showExitConfirm = false,
+  onExitRequest,
+  onExitConfirm,
+  onExitCancel
+}: Props) {
+  const data = useMemo<QuizData>(() => {
     const category = vocabCategories.find(c => c.themeId === themeId);
     if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [] };
     
-    // Get the 7 words for this specific level, deduplicate by answer
     const rawWords = category.words
       .slice(levelIndex * 7, (levelIndex + 1) * 7)
       .map(w => ({
@@ -27,29 +63,28 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
         hint: w.indonesian
       }));
     
-    // Remove duplicate answers — keep only the first occurrence
     const seen = new Set<string>();
     const wordsForLevel = rawWords.filter(w => {
       if (seen.has(w.answer)) return false;
       seen.add(w.answer);
       return true;
     });
-      
+    
     return generateCrossword(wordsForLevel);
   }, [themeId, levelIndex]);
 
   const [timeLeft, setTimeLeft] = useState(3 * 60);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [selectedCell, setSelectedCell] = useState<{r: number, c: number} | null>(null);
+  const [selectedCell, setSelectedCell] = useState<{r: number; c: number} | null>(null);
   const [activeWordId, setActiveWordId] = useState<number | null>(null);
   const [wrongCells, setWrongCells] = useState<Set<string>>(new Set());
   const [lockedCells, setLockedCells] = useState<Set<string>>(new Set());
   const [shakingCells, setShakingCells] = useState<Set<string>>(new Set());
   const [quizStatus, setQuizStatus] = useState<'playing' | 'success' | 'failed' | 'results'>('playing');
   const [isHardMode, setIsHardMode] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const shakeTimeouts = useRef<NodeJS.Timeout[]>([]);
-  const latestLockedCells = useRef(lockedCells);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const shakeTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const latestLockedCells = useRef<Set<string>>(lockedCells);
   useEffect(() => { latestLockedCells.current = lockedCells; }, [lockedCells]);
 
   useEffect(() => {
@@ -63,13 +98,11 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     return t ? t.title : 'Quiz';
   }, [themeId]);
 
-  // Handle latest refs for keyboard
-  const latestSelectedCell = useRef(selectedCell);
-  const latestQuizStatus = useRef(quizStatus);
+  const latestSelectedCell = useRef<{r: number; c: number} | null>(selectedCell);
+  const latestQuizStatus = useRef<'playing' | 'success' | 'failed' | 'results'>(quizStatus);
   useEffect(() => { latestSelectedCell.current = selectedCell; }, [selectedCell]);
   useEffect(() => { latestQuizStatus.current = quizStatus; }, [quizStatus]);
 
-  // Timer logic
   useEffect(() => {
     if (quizStatus !== 'playing') return;
     const timer = setInterval(() => {
@@ -91,13 +124,12 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  // Build grid layout from data
-  const grid = useMemo(() => {
-    const g: any[][] = Array(data.gridSize.rows).fill(null).map(() => 
+  const grid = useMemo<GridCell[][]>(() => {
+    const g: GridCell[][] = Array(data.gridSize.rows).fill(null).map(() => 
       Array(data.gridSize.cols).fill(null).map(() => ({ isBlock: true }))
     );
 
-    data.words.forEach(word => {
+    data.words.forEach((word: Word) => {
       let r = word.row;
       let c = word.col;
       for (let i = 0; i < word.answer.length; i++) {
@@ -115,17 +147,23 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     return g;
   }, [data]);
 
+  const handleBackClick = () => {
+    if (onExitRequest) {
+      onExitRequest();
+    } else if (quizStatus === 'playing') {
+    } else {
+      onBack();
+    }
+  };
+
   const handleCellClick = (r: number, c: number) => {
     if (grid[r][c].isBlock) return;
     if (quizStatus === 'success' || quizStatus === 'results' || quizStatus === 'failed') return;
-    // Don't select locked (correct) cells
     if (lockedCells.has(`${r}-${c}`)) return;
     
     setSelectedCell({ r, c });
-    // Focus native keyboard
     setTimeout(() => inputRef.current?.focus(), 10);
     
-    // Clear error for this cell
     const key = `${r}-${c}`;
     if (wrongCells.has(key)) {
       const newWg = new Set(wrongCells);
@@ -133,16 +171,14 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
       setWrongCells(newWg);
     }
     
-    // Auto-select corresponding word
     const wIds = grid[r][c].wordIds;
     if (wIds && wIds.length > 0) {
-       if (!wIds.includes(activeWordId)) {
-          setActiveWordId(wIds[0]);
-       }
+      if (activeWordId !== null && !wIds.includes(activeWordId)) {
+        setActiveWordId(wIds[0]);
+      }
     }
   };
 
-  // Count total non-block cells for progress
   const totalCells = useMemo(() => {
     let count = 0;
     for (let r = 0; r < data.gridSize.rows; r++) {
@@ -153,7 +189,6 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     return count;
   }, [grid, data]);
 
-  // Check if all cells are locked (auto-complete)
   useEffect(() => {
     if (quizStatus !== 'playing' || totalCells === 0) return;
     if (lockedCells.size === totalCells) {
@@ -169,12 +204,10 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     const { r, c } = sCell;
     const cellKey = `${r}-${c}`;
 
-    // Don't allow editing locked cells
     if (latestLockedCells.current.has(cellKey)) return;
 
     setAnswers(prev => ({ ...prev, [cellKey]: key }));
     
-    // Clear previous error
     if (wrongCells.has(cellKey)) {
       const newWg = new Set(wrongCells);
       newWg.delete(cellKey);
@@ -204,20 +237,19 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
       }
     }
 
-    // Move to next unlocked cell automatically
-    const word = data.words.find(w => w.id === activeWordId);
-    if (!word) return;
+    const word = data.words.find((w: Word) => w.id === activeWordId);
+    if (!word || activeWordId === null) return;
 
-    const findNextUnlockedCell = () => {
+    const findNextUnlockedCell = (): {r: number; c: number} | null => {
       if (word.direction === 'across') {
         for (let nc = c + 1; nc < data.gridSize.cols; nc++) {
-          if (!grid[r][nc].isBlock && grid[r][nc].wordIds.includes(word.id) && !latestLockedCells.current.has(`${r}-${nc}`)) {
+          if (!grid[r][nc].isBlock && grid[r][nc].wordIds?.includes(word.id) && !latestLockedCells.current.has(`${r}-${nc}`)) {
             return { r, c: nc };
           }
         }
       } else {
         for (let nr = r + 1; nr < data.gridSize.rows; nr++) {
-          if (!grid[nr][c].isBlock && grid[nr][c].wordIds.includes(word.id) && !latestLockedCells.current.has(`${nr}-${c}`)) {
+          if (!grid[nr][c].isBlock && grid[nr][c].wordIds?.includes(word.id) && !latestLockedCells.current.has(`${nr}-${c}`)) {
             return { r: nr, c };
           }
         }
@@ -248,7 +280,6 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
             wrongs.add(cellKey);
             if (val) newShaking.add(cellKey);
           } else {
-            // Lock correct cells found during check
             setLockedCells(prev => {
               const next = new Set(prev);
               next.add(cellKey);
@@ -289,30 +320,27 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     const { r, c } = sCell;
     const cellKey = `${r}-${c}`;
     
-    // Don't delete locked cells
     if (lockedCells.has(cellKey)) return;
     
     if (answers[cellKey]) {
-      // Delete current cell's content
       const newAns = { ...answers };
       delete newAns[cellKey];
       setAnswers(newAns);
     } else {
-      // Step back to previous unlocked cell and delete
-      const word = data.words.find(w => w.id === activeWordId);
-      if (!word) return;
+      const word = data.words.find((w: Word) => w.id === activeWordId);
+      if (!word || activeWordId === null) return;
 
       let prevR = r, prevC = c;
       if (word.direction === 'across') {
         for (let nc = c - 1; nc >= 0; nc--) {
-          if (!grid[r][nc].isBlock && grid[r][nc].wordIds.includes(word.id) && !lockedCells.has(`${r}-${nc}`)) {
+          if (!grid[r][nc].isBlock && grid[r][nc].wordIds?.includes(word.id) && !lockedCells.has(`${r}-${nc}`)) {
             prevC = nc;
             break;
           }
         }
       } else {
         for (let nr = r - 1; nr >= 0; nr--) {
-          if (!grid[nr][c].isBlock && grid[nr][c].wordIds.includes(word.id) && !lockedCells.has(`${nr}-${c}`)) {
+          if (!grid[nr][c].isBlock && grid[nr][c].wordIds?.includes(word.id) && !lockedCells.has(`${nr}-${c}`)) {
             prevR = nr;
             break;
           }
@@ -332,7 +360,7 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
 
   const handleHintClick = (wordId: number) => {
     setActiveWordId(wordId);
-    const word = data.words.find(w => w.id === wordId);
+    const word = data.words.find((w: Word) => w.id === wordId);
     if (!word) return;
 
     let targetR = word.row;
@@ -351,7 +379,6 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
       }
     }
 
-    // If all empty cells are filled, find first unlocked cell
     if (!foundUnlocked) {
       for (let i = 0; i < word.answer.length; i++) {
         const r = word.direction === 'down' ? word.row + i : word.row;
@@ -420,20 +447,18 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [data, grid]);
 
-  // Group hints by direction
-  const acrossWords = data.words.filter(w => w.direction === 'across');
-  const downWords = data.words.filter(w => w.direction === 'down');
+  const acrossWords = data.words.filter((w: Word) => w.direction === 'across');
+  const downWords = data.words.filter((w: Word) => w.direction === 'down');
 
   return (
     <div className="flex flex-col h-screen h-[100dvh] bg-[#2D2D2A] text-white relative overflow-hidden">
-      {/* Background decorations */}
       <div className="absolute top-20 right-0 w-64 h-64 bg-[#7B8E61]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 left-0 w-64 h-64 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
 
       <TopBar 
         title="Goi Kurosuwaado" 
         showBack={true} 
-        onBack={onBack}
+        onBack={handleBackClick}
         transparent={true}
         onNavigate={onNavigate}
         rightElement={
@@ -461,7 +486,6 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
            </div>
         </div>
 
-        {/* The Grid Box - Fixed height and centered */}
         <div className="px-5 py-4 flex items-center justify-center shrink-0">
           <div 
             className="grid gap-[2px] w-full mx-auto" 
@@ -478,12 +502,11 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                  
                  const cellKey = `${r}-${c}`;
                  const isSelected = selectedCell?.r === r && selectedCell?.c === c;
-                 const isActiveWord = cell.wordIds?.includes(activeWordId);
+                 const isActiveWord = activeWordId !== null && cell.wordIds?.includes(activeWordId);
                  const isWrong = wrongCells.has(cellKey);
                  const isLocked = lockedCells.has(cellKey);
                  const isShaking = shakingCells.has(cellKey);
                  
-                 // If results mode, show correct answer instead (or just disable clicking)
                  const val = quizStatus === 'results' ? cell.correct : (answers[cellKey] || '');
 
                  return (
@@ -512,10 +535,9 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
           </div>
         </div>
 
-        {/* Scrollable Hints Section */}
         <div className="flex-1 overflow-y-auto px-5 pb-32">
            <div className="space-y-3">
-             {acrossWords.map(w => (
+             {acrossWords.map((w: Word) => (
                <div 
                  key={w.id} 
                  onClick={() => handleHintClick(w.id)}
@@ -528,7 +550,7 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                </div>
              ))}
 
-             {downWords.map(w => (
+             {downWords.map((w: Word) => (
                <div 
                  key={w.id} 
                  onClick={() => handleHintClick(w.id)}
@@ -541,10 +563,9 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                </div>
              ))}
            </div>
-        </div>
-      </div>
+         </div>
+       </div>
 
-      {/* Native Keyboard Support & Action Button */}
       {selectedCell && quizStatus === 'playing' && (
         <div className="absolute bottom-0 left-0 w-full z-50 bg-[#2D2D2A] border-t border-[#4A4A45]/50 p-4 pb-8 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
            <div className="max-w-md mx-auto">
@@ -557,7 +578,6 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
               </button>
            </div>
            
-           {/* Hidden input to trigger native keyboard */}
            <input
              ref={inputRef}
              type="text"
@@ -567,7 +587,7 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
              autoCorrect="off"
              spellCheck="false"
              value=""
-             onChange={(e) => {
+             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                const val = e.target.value.slice(-1).toUpperCase();
                if (/^[A-Z]$/.test(val)) {
                  handleKeyPress(val);
@@ -575,10 +595,9 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                e.target.value = '';
              }}
            />
-        </div>
+         </div>
       )}
 
-      {/* Popovers */}
       {quizStatus === 'success' && (
         <div className="absolute inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
           <div className="bg-white rounded-[32px] w-full max-w-sm overflow-hidden flex flex-col pt-10 shadow-2xl relative">
@@ -643,6 +662,30 @@ export default function QuizScreen({ themeId, levelIndex, themeProgress = 0, onB
                   className="w-full bg-red-600 text-white font-bold py-4 rounded-xl text-lg hover:bg-red-700 transition-colors"
                 >
                   Lihat Bank Kosakata
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {(showExitConfirm || onExitRequest) && (
+        <div className="absolute inset-0 z-[110] bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-white rounded-[28px] w-full max-w-sm shadow-2xl overflow-hidden">
+            <div className="px-8 py-10 text-center">
+              <h3 className="text-xl font-bold text-[#2D2D2A] mb-4">Yakin ingin keluar kuis?</h3>
+              <div className="flex flex-col space-y-3">
+                <button 
+                  onClick={onExitConfirm || onBack}
+                  className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-base hover:bg-[#687951] transition-colors"
+                >
+                  Kembali
+                </button>
+                <button 
+                  onClick={onExitCancel || onBack}
+                  className="w-full bg-white border-2 border-[#E6E2D3] text-[#2D2D2A] font-bold py-4 rounded-xl text-base hover:bg-[#F5F2ED] transition-colors"
+                >
+                  Kerjakan Kuis
                 </button>
               </div>
             </div>
