@@ -1,12 +1,12 @@
 import { Play, BookOpen, Star } from 'lucide-react';
 import TopBar from '../components/TopBar';
 import { APP_DATA } from '../data';
+import type { SharedScreenProps } from '../types';
 
-type Props = {
+type Props = SharedScreenProps & {
   overallProgress: number;
   onPlay: () => void;
   onVocab: () => void;
-  onNavigate?: (screen: string) => void;
 };
 
 export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigate }: Props) {
@@ -23,7 +23,7 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
         {/* Background decorative elements */}
         <div className="absolute top-10 left-4 text-[#7B8E61] opacity-10"><BookOpen className="w-24 h-24" /></div>
         <div className="absolute top-32 right-4 text-[#D4A373] opacity-20">
-           <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
 
         {/* Hero Graphic */}
@@ -37,12 +37,12 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
 
         <div className="text-center mb-8 px-4 relative z-10">
           <div className="inline-block border-l-4 border-[#7B8E61] pl-3 text-left w-full mb-3">
-             <h1 className="text-3xl font-bold text-[#2D2D2A] tracking-tight mb-0.5">Goi Kurosuwaado</h1>
-             <p className="text-[#8B8B7A] font-medium text-sm">JLPT N4 Vocabulary Training</p>
+            <h1 className="text-3xl font-bold text-[#2D2D2A] tracking-tight mb-0.5">Goi Kurosuwaado</h1>
+            <p className="text-[#8B8B7A] font-medium text-sm">JLPT N4 Vocabulary Training</p>
           </div>
         </div>
 
-        <button 
+        <button
           onClick={onPlay}
           className="w-full max-w-sm bg-[#7B8E61] hover:bg-[#687951] text-white rounded-xl py-4 flex items-center justify-center space-x-3 shadow-md transition-all active:scale-[0.98]"
         >
@@ -70,8 +70,8 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
             <span className="text-sm font-bold text-[#7B8E61]">{overallProgress}%</span>
           </div>
           <div className="w-full bg-[#F5F2ED] h-3.5 rounded-full overflow-hidden relative">
-            <div 
-              className="h-full bg-[#7B8E61] rounded-full relative" 
+            <div
+              className="h-full bg-[#7B8E61] rounded-full relative"
               style={{ width: `${overallProgress}%` }}
             >
               <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 text-[#D4A373]">

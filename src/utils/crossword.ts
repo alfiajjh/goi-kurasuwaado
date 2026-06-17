@@ -1,162 +1,311 @@
-export function generateCrossword(words: { answer: string, hint: string }[]) {
-  if (words.length === 0) return { gridSize: { rows: 0, cols: 0 }, words: [] };
+type Point = {
+  x: number;
+  y: number;
+};
 
-  const MAX_ATTEMPTS = 50;
-  let bestLayout: any = null;
-  let bestScore = -1000000;
+type PlacedWord = {
+  word: string;
+  start: Point;
+  direction: 'across' | 'down';
+};
 
-  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-    // Shuffle words for different layouts, but keep the longest word first on attempt 0
-    let currentWords = [...words];
-    if (attempt === 0) {
-      currentWords.sort((a, b) => b.answer.length - a.answer.length);
-    } else {
-      currentWords.sort(() => Math.random() - 0.5);
+type CrosswordResult = {
+  grid: string[][];
+  words: PlacedWord[];
+};
+
+function generateCrossword(words: string[]): CrosswordResult {
+  if (words.length === 0) {
+    return {
+      grid: [[]],
+      words: []
+    };
+  }
+
+  // Sort words by length (descending) to place longer words first
+  const sortedWords = [...words].sort((a, b) => b.length - a.length);
+  
+  let bestLayout: CrosswordResult | null = null;
+  
+  // Try placing each word as the first word
+  for (let i = 0; i < Math.min(sortedWords.length, 5); i++) {
+    const firstWord = sortedWords[i];
+    const remainingWords = sortedWords.filter((_, index) => index !== i);
+    
+    // Try both horizontal and vertical placement for the first word
+    for (const direction of ['across', 'down'] as const) {
+      const layout = attemptLayout(firstWord, direction, remainingWords);
+      if (layout && (!bestLayout || layout.words.length > bestLayout.words.length)) {
+        bestLayout = layout;
+      }
     }
+  }
+  
+  return bestLayout ?? {
+    grid: [['']],
+    words: []
+  };
+}
 
-    const placedWords: any[] = [];
-    const grid = new Map<string, { char: string, wordId: number, direction: string }>();
-    let idCounter = 1;
+function attemptLayout(
+  firstWord: string,
+  firstDirection: 'across' | 'down',
+  words: string[]
+): CrosswordResult | null {
+  const placedWords: PlacedWord[] = [];
+  
+  // Place the first word at center (0,0) for simplicity
+  const startPoint: Point = { x: 0, y: 0 };
+  placedWords.push({
+    word: firstWord,
+    start: startPoint,
+    direction: firstDirection
+  });
+  
+  // Try to place remaining words
+  const unplaced = [...words];
+  let progress = true;
+  
+  while (progress && unplaced.length > 0) {
+    progress = false;
+    for (let i = 0; i < unplaced.length; i++) {
+      const word = unplaced[i];
+      const placement = findBestPlacement(word, placedWords);
+      if (placement) {
+        placedWords.push(placement);
+        unplaced.splice(i, 1);
+        progress = true;
+        break;
+      }
+    }
+  }
+  
+  if (placedWords.length === 0) return null;
+  
+  // Find minX and minY to shift
+  let minX = 0, minY = 0;
+  for (const placed of placedWords) {
+    minX = Math.min(minX, placed.start.x);
+    minY = Math.min(minY, placed.start.y);
+  }
+  
+  // Shift all placed words so top-left is 0,0
+  for (const placed of placedWords) {
+    placed.start.x -= minX;
+    placed.start.y -= minY;
+  }
+  
+  // Create grid from placed words
+  const grid = createGrid(placedWords);
+  
+  return {
+    grid,
+    words: placedWords
+  };
+}
 
-    function isValidPlacement(word: string, startR: number, startC: number, direction: string) {
-      let intersects = false;
-      const beforeR = direction === 'down' ? startR - 1 : startR;
-      const beforeC = direction === 'across' ? startC - 1 : startC;
-      if (grid.has(`${beforeR},${beforeC}`)) return false; 
+function findBestPlacement(
+  word: string,
+  placedWords: PlacedWord[]
+): PlacedWord | null {
+  let bestPlacement: PlacedWord | null = null;
+  let maxOverlaps = 0;
+  
+  // Try to place the word crossing each already placed word
+  for (const placed of placedWords) {
+    const crossings = findCrossings(word, placed.word);
+    
+    for (const [wordIndex, placedIndex] of crossings) {
+      // Calculate start position for current word based on crossing
+      let startPoint: Point;
+      let direction: 'across' | 'down';
       
-      const afterR = direction === 'down' ? startR + word.length : startR;
-      const afterC = direction === 'across' ? startC + word.length : startC;
-      if (grid.has(`${afterR},${afterC}`)) return false; 
-
-      for (let i = 0; i < word.length; i++) {
-        const r = direction === 'down' ? startR + i : startR;
-        const c = direction === 'across' ? startC + i : startC;
+      if (placed.direction === 'across') {
+        // Placed word is horizontal, we can cross vertically (down)
+        startPoint = {
+          x: placed.start.x + placedIndex,
+          y: placed.start.y - wordIndex
+        };
+        direction = 'down';
         
-        if (grid.has(`${r},${c}`)) {
-          if (grid.get(`${r},${c}`)!.char !== word[i]) return false;
-          intersects = true;
-        } else {
-          if (direction === 'down') {
-            if (grid.has(`${r},${c - 1}`) || grid.has(`${r},${c + 1}`)) return false;
-          } else {
-            if (grid.has(`${r - 1},${c}`) || grid.has(`${r + 1},${c}`)) return false;
+        if (canPlaceWord(word, startPoint, direction, placedWords)) {
+          const overlaps = countOverlaps(word, startPoint, direction, placedWords);
+          if (overlaps > maxOverlaps) {
+            maxOverlaps = overlaps;
+            bestPlacement = { word, start: startPoint, direction };
+          }
+        }
+      } else {
+        // Placed word is vertical, try horizontal crossing
+        startPoint = {
+          x: placed.start.x - wordIndex,
+          y: placed.start.y + placedIndex
+        };
+        direction = 'across';
+        
+        if (canPlaceWord(word, startPoint, direction, placedWords)) {
+          const overlaps = countOverlaps(word, startPoint, direction, placedWords);
+          if (overlaps > maxOverlaps) {
+            maxOverlaps = overlaps;
+            bestPlacement = { word, start: startPoint, direction };
           }
         }
       }
-      return intersects;
     }
+  }
+  
+  return bestPlacement;
+}
 
-    function placeWord(wordObj: any, startR: number, startC: number, direction: string) {
-      const word = wordObj.answer;
-      placedWords.push({
-        id: idCounter, direction, row: startR, col: startC, answer: word, hint: wordObj.hint
-      });
-      for (let i = 0; i < word.length; i++) {
-        const r = direction === 'down' ? startR + i : startR;
-        const c = direction === 'across' ? startC + i : startC;
-        grid.set(`${r},${c}`, { char: word[i], wordId: idCounter, direction });
+function findCrossings(word1: string, word2: string): [number, number][] {
+  const crossings: [number, number][] = [];
+  for (let i = 0; i < word1.length; i++) {
+    for (let j = 0; j < word2.length; j++) {
+      if (word1[i] === word2[j]) {
+        crossings.push([i, j]);
       }
-      idCounter++;
+    }
+  }
+  return crossings;
+}
+
+function canPlaceWord(
+  word: string,
+  start: Point,
+  direction: 'across' | 'down',
+  placedWords: PlacedWord[]
+): boolean {
+  for (let i = -1; i <= word.length; i++) {
+    const pos = getPositionAt(start, direction, i);
+    const isWordCell = i >= 0 && i < word.length;
+    
+    let occupiedBy: { char: string, direction: 'across' | 'down' } | null = null;
+    for (const placed of placedWords) {
+      const existingPos = findLetterPosition(placed, pos);
+      if (existingPos !== null) {
+        occupiedBy = { char: placed.word[existingPos], direction: placed.direction };
+        break;
+      }
     }
 
-    placeWord(currentWords[0], 0, 0, 'across');
-    let unplaced = currentWords.slice(1);
-    let changed = true;
-
-    while (changed && unplaced.length > 0) {
-      changed = false;
-      const nextUnplaced = [];
-
-      for (const wordObj of unplaced) {
-        const word = wordObj.answer;
-        let placed = false;
+    if (isWordCell) {
+      if (occupiedBy) {
+        if (occupiedBy.char !== word[i] || occupiedBy.direction === direction) {
+          return false;
+        }
+      } else {
+        const adj1 = direction === 'across' ? { x: pos.x, y: pos.y - 1 } : { x: pos.x - 1, y: pos.y };
+        const adj2 = direction === 'across' ? { x: pos.x, y: pos.y + 1 } : { x: pos.x + 1, y: pos.y };
         
-        const possiblePlacements = [];
-        for (const [pos, cellData] of grid.entries()) {
-          const [rStr, cStr] = pos.split(',');
-          const r = parseInt(rStr);
-          const c = parseInt(cStr);
-
-          for (let i = 0; i < word.length; i++) {
-            if (word[i] === cellData.char) {
-              const newDir = cellData.direction === 'across' ? 'down' : 'across';
-              const startR = newDir === 'down' ? r - i : r;
-              const startC = newDir === 'across' ? c - i : c;
-              if (isValidPlacement(word, startR, startC, newDir)) {
-                possiblePlacements.push({ startR, startC, newDir });
-              }
+        for (const adj of [adj1, adj2]) {
+          for (const placed of placedWords) {
+            if (findLetterPosition(placed, adj) !== null) {
+              return false;
             }
           }
         }
-
-        if (possiblePlacements.length > 0) {
-          const placement = possiblePlacements[Math.floor(Math.random() * possiblePlacements.length)];
-          placeWord(wordObj, placement.startR, placement.startC, placement.newDir);
-          placed = true;
-          changed = true;
-        }
-
-        if (!placed) {
-          nextUnplaced.push(wordObj);
-        }
       }
-      unplaced = nextUnplaced;
-    }
-
-    let minR = 1000, minC = 1000, maxR = -1000, maxC = -1000;
-    for (const pos of grid.keys()) {
-      const [r, c] = pos.split(',').map(Number);
-      if (r < minR) minR = r;
-      if (r > maxR) maxR = r;
-      if (c < minC) minC = c;
-      if (c > maxC) maxC = c;
-    }
-    
-    // Fallback if grid is empty (shouldn't happen since first word is always placed)
-    if (minR === 1000) { minR = 0; maxR = 0; minC = 0; maxC = 0; }
-
-    const area = (maxR - minR + 1) * (maxC - minC + 1);
-    const score = (placedWords.length * 10000) - area;
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestLayout = {
-        placedWords: [...placedWords],
-        unplaced: [...unplaced],
-        minR, minC, maxR, maxC
-      };
-    }
-    
-    if (placedWords.length === currentWords.length && attempt > 10) {
-        break;
+    } else {
+      if (occupiedBy) {
+        return false;
+      }
     }
   }
-
-  const finalPlacedWords = bestLayout.placedWords;
-  let idCount = 1;
-  for (const w of finalPlacedWords) w.id = idCount++;
   
-  for (const wordObj of bestLayout.unplaced) {
-    wordObj.id = idCount++;
-    wordObj.direction = 'across';
-    wordObj.row = bestLayout.maxR + 2;
-    wordObj.col = bestLayout.minC;
-    finalPlacedWords.push(wordObj);
-    bestLayout.maxR += 2; 
-  }
-
-  let finalMaxR = 0, finalMaxC = 0;
-  for (const w of finalPlacedWords) {
-    w.row -= bestLayout.minR;
-    w.col -= bestLayout.minC;
-    const endRow = w.direction === 'down' ? w.row + w.answer.length - 1 : w.row;
-    const endCol = w.direction === 'across' ? w.col + w.answer.length - 1 : w.col;
-    if (endRow > finalMaxR) finalMaxR = endRow;
-    if (endCol > finalMaxC) finalMaxC = endCol;
-  }
-
-  return {
-    gridSize: { rows: finalMaxR + 1, cols: finalMaxC + 1 },
-    words: finalPlacedWords
-  };
+  return true;
 }
+
+function getPositionAt(start: Point, direction: 'across' | 'down', offset: number): Point {
+  if (direction === 'across') {
+    return { x: start.x + offset, y: start.y };
+  } else {
+    return { x: start.x, y: start.y + offset };
+  }
+}
+
+function findLetterPosition(placed: PlacedWord, point: Point): number | null {
+  if (placed.direction === 'across') {
+    if (point.y === placed.start.y) {
+      const offset = point.x - placed.start.x;
+      if (offset >= 0 && offset < placed.word.length) {
+        return offset;
+      }
+    }
+  } else {
+    if (point.x === placed.start.x) {
+      const offset = point.y - placed.start.y;
+      if (offset >= 0 && offset < placed.word.length) {
+        return offset;
+      }
+    }
+  }
+  return null;
+}
+
+function countOverlaps(
+  word: string,
+  start: Point,
+  direction: 'across' | 'down',
+  placedWords: PlacedWord[]
+): number {
+  let overlaps = 0;
+  for (let i = 0; i < word.length; i++) {
+    const pos = getPositionAt(start, direction, i);
+    for (const placed of placedWords) {
+      const existingPos = findLetterPosition(placed, pos);
+      if (existingPos !== null && placed.word[existingPos] === word[i]) {
+        overlaps++;
+        break;
+      }
+    }
+  }
+  return overlaps;
+}
+
+function createGrid(placedWords: PlacedWord[]): string[][] {
+  if (placedWords.length === 0) return [['']];
+  
+  // Find bounds
+  let minX = 0, maxX = 0, minY = 0, maxY = 0;
+  
+  for (const placed of placedWords) {
+    const start = placed.start;
+    const end = getPositionAt(
+      start, 
+      placed.direction, 
+      placed.word.length - 1
+    );
+    
+    minX = Math.min(minX, start.x, end.x);
+    maxX = Math.max(maxX, start.x, end.x);
+    minY = Math.min(minY, start.y, end.y);
+    maxY = Math.max(maxY, start.y, end.y);
+  }
+  
+  const width = maxX - minX + 1;
+  const height = maxY - minY + 1;
+  
+  // Initialize grid with empty strings
+  const grid: string[][] = Array(height)
+    .fill(null)
+    .map(() => Array(width).fill(''));
+  
+  // Fill in the words
+  for (const placed of placedWords) {
+    const start = placed.start;
+    for (let i = 0; i < placed.word.length; i++) {
+      const pos = getPositionAt(start, placed.direction, i);
+      const gridX = pos.x - minX;
+      const gridY = pos.y - minY;
+      
+      if (gridX >= 0 && gridX < width && gridY >= 0 && gridY < height) {
+        grid[gridY][gridX] = placed.word[i];
+      }
+    }
+  }
+  
+  return grid;
+}
+
+export { generateCrossword };
+export type { CrosswordResult, PlacedWord };

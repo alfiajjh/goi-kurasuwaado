@@ -6,1084 +6,1051 @@ export const APP_DATA = {
 export const themes = [
   { id: 'theme_0', title: 'Aktivitas Sehari-hari', subtitle: 'Rutinitas & Kebutuhan', icon: 'Home', progress: 0, isLocked: false, color: 'text-[#7B8E61]', bgColor: 'bg-[#FBF9F6]' },
   { id: 'theme_1', title: 'Pergerakan & Arah', subtitle: 'Transportasi', icon: 'Plane', progress: 0, isLocked: false, color: 'text-[#D4A373]', bgColor: 'bg-[#FBF9F6]' },
-  { id: 'theme_2', title: 'Komunikasi', subtitle: 'Interaksi Sosial', icon: 'Users', progress: 0, isLocked: false, color: 'text-[#8B8B7A]', bgColor: 'bg-[#FBF9F6]' },
-  { id: 'theme_3', title: 'Pekerjaan & Belajar', subtitle: 'Aktivitas Kognitif', icon: 'Briefcase', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_4', title: 'Transaksi', subtitle: 'Kepemilikan Barang', icon: 'ShoppingBag', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_5', title: 'Tindakan Fisik', subtitle: 'Manipulasi Objek', icon: 'Hand', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_6', title: 'Kondisi & Keadaan', subtitle: 'Perubahan Alam', icon: 'CloudRain', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
-  { id: 'theme_7', title: 'Bahasa Hormat', subtitle: 'Keigo', icon: 'Heart', progress: 0, isLocked: false, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' }
-    ];
+  { id: 'theme_2', title: 'Komunikasi', subtitle: 'Interaksi Sosial', icon: 'Users', progress: 0, isLocked: true, color: 'text-[#8B8B7A]', bgColor: 'bg-[#FBF9F6]' },
+  { id: 'theme_3', title: 'Pekerjaan & Belajar', subtitle: 'Aktivitas Kognitif', icon: 'Briefcase', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_4', title: 'Transaksi', subtitle: 'Kepemilikan Barang', icon: 'ShoppingBag', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_5', title: 'Tindakan Fisik', subtitle: 'Manipulasi Objek', icon: 'Hand', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_6', title: 'Kondisi & Keadaan', subtitle: 'Perubahan Alam', icon: 'CloudRain', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+  { id: 'theme_7', title: 'Bahasa Hormat', subtitle: 'Keigo', icon: 'Heart', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
+];
 
 export const vocabCategories = [
   {
-    themeId: "theme_0",
-    themeName: "Aktivitas Sehari-hari & Kebutuhan Dasar",
-    count: 20,
-    icon: "Home",
-    words: [
+    "themeId": "theme_0",
+    "themeName": "Aktivitas Sehari-hari & Kebutuhan Dasar",
+    "count": 20,
+    "icon": "Home",
+    "words": [
       {
-        kanji: "遊ぶ",
-        romaji: "asobu",
-        indonesian: "bermain"
+        "kanji": "遊ぶ",
+        "romaji": "asobu",
+        "indonesian": "bermain"
       },
       {
-        kanji: "浴びる",
-        romaji: "abiru",
-        indonesian: "mandi"
+        "kanji": "浴びる",
+        "romaji": "abiru",
+        "indonesian": "mandi"
       },
       {
-        kanji: "洗う",
-        romaji: "arau",
-        indonesian: "mencuci"
+        "kanji": "洗う",
+        "romaji": "arau",
+        "indonesian": "mencuci (tangan)"
       },
       {
-        kanji: "歌う",
-        romaji: "utau",
-        indonesian: "bernyanyi"
+        "kanji": "歌う",
+        "romaji": "utau",
+        "indonesian": "bernyanyi"
       },
       {
-        kanji: "起きる",
-        romaji: "okiru",
-        indonesian: "bangun/terjadi"
+        "kanji": "起きる",
+        "romaji": "okiru",
+        "indonesian": "bangun (tidur)"
       },
       {
-        kanji: "泳ぐ",
-        romaji: "oyogu",
-        indonesian: "berenang"
+        "kanji": "泳ぐ",
+        "romaji": "oyogu",
+        "indonesian": "berenang"
       },
       {
-        kanji: "被る",
-        romaji: "kaburu",
-        indonesian: "memakai (ke kepala)"
+        "kanji": "被る",
+        "romaji": "kaburu",
+        "indonesian": "memakai (untuk kepala)"
       },
       {
-        kanji: "着る",
-        romaji: "kiru",
-        indonesian: "mengenakan"
+        "kanji": "着る",
+        "romaji": "kiru",
+        "indonesian": "mengenakan (untuk badan)"
       },
       {
-        kanji: "吸う",
-        romaji: "suu",
-        indonesian: "mengisap"
+        "kanji": "吸う",
+        "romaji": "suu",
+        "indonesian": "mengisap, menghirup"
       },
       {
-        kanji: "住む",
-        romaji: "sumu",
-        indonesian: "bertempat tinggal"
+        "kanji": "住む",
+        "romaji": "sumu",
+        "indonesian": "bertempat tinggal, menetap, hidup"
       },
       {
-        kanji: "座る",
-        romaji: "suwaru",
-        indonesian: "duduk"
+        "kanji": "座る",
+        "romaji": "suwaru",
+        "indonesian": "duduk"
       },
       {
-        kanji: "楽しむ",
-        romaji: "tanoshimu",
-        indonesian: "menikmati"
+        "kanji": "楽しむ",
+        "romaji": "tanoshimu",
+        "indonesian": "menikmati, bersenang-senang"
       },
       {
-        kanji: "食べる",
-        romaji: "taberu",
-        indonesian: "makan"
+        "kanji": "食べる",
+        "romaji": "taberu",
+        "indonesian": "makan"
       },
       {
-        kanji: "釣る",
-        romaji: "tsuru",
-        indonesian: "memancing"
+        "kanji": "釣る",
+        "romaji": "tsuru",
+        "indonesian": "memancing, menggoda, menangkap, memikat"
       },
       {
-        kanji: "脱ぐ",
-        romaji: "nugu",
-        indonesian: "menanggalkan"
+        "kanji": "脱ぐ",
+        "romaji": "nugu",
+        "indonesian": "menanggalkan, melepaskan, melepas"
       },
       {
-        kanji: "寝る",
-        romaji: "neru",
-        indonesian: "tidur"
+        "kanji": "寝る",
+        "romaji": "neru",
+        "indonesian": "tidur"
       },
       {
-        kanji: "飲む",
-        romaji: "nomu",
-        indonesian: "minum"
+        "kanji": "飲む",
+        "romaji": "nomu",
+        "indonesian": "minum"
       },
       {
-        kanji: "履く",
-        romaji: "haku",
-        indonesian: "memakai (sepatu)"
+        "kanji": "履く",
+        "romaji": "haku",
+        "indonesian": "memakai (sepatu, kaos kaki, celana)"
       },
       {
-        kanji: "磨く",
-        romaji: "migaku",
-        indonesian: "menggosok"
+        "kanji": "磨く",
+        "romaji": "migaku",
+        "indonesian": "menggosok, memoles, menyikat, mengasah"
       },
       {
-        kanji: "休む",
-        romaji: "yasumu",
-        indonesian: "beristirahat"
+        "kanji": "休む",
+        "romaji": "yasumu",
+        "indonesian": "beristirahat, mengambil cuti, lalai"
       }
     ]
   },
   {
-    themeId: "theme_1",
-    themeName: "Pergerakan, Arah & Transportasi",
-    count: 27,
-    icon: "Plane",
-    words: [
+    "themeId": "theme_1",
+    "themeName": "Pergerakan, Arah & Transportasi",
+    "count": 27,
+    "icon": "Plane",
+    "words": [
       {
-        kanji: "上がる",
-        romaji: "agaru",
-        indonesian: "naik"
+        "kanji": "上がる",
+        "romaji": "agaru",
+        "indonesian": "naik, pergi ke (atas), meningkat, naik (harga)"
       },
       {
-        kanji: "歩く",
-        romaji: "aruku",
-        indonesian: "berjalan"
+        "kanji": "歩く",
+        "romaji": "aruku",
+        "indonesian": "berjalan, berjalan kaki, berjalan jauh"
       },
       {
-        kanji: "行く",
-        romaji: "iku",
-        indonesian: "pergi"
+        "kanji": "行く",
+        "romaji": "iku",
+        "indonesian": "pergi, berangkat, pergi ke, pergi untuk (melakukan)"
       },
       {
-        kanji: "降りる",
-        romaji: "oriru",
-        indonesian: "menurunkan"
+        "kanji": "降りる",
+        "romaji": "oriru",
+        "indonesian": "turun dari, turun"
       },
       {
-        kanji: "帰る",
-        romaji: "kaeru",
-        indonesian: "kembali"
+        "kanji": "帰る",
+        "romaji": "kaeru",
+        "indonesian": "kembali, pulang"
       },
       {
-        kanji: "来る",
-        romaji: "kuru",
-        indonesian: "datang"
+        "kanji": "来る",
+        "romaji": "kuru",
+        "indonesian": "datang, datang untuk (melakukan), datang dan (melakukan)"
       },
       {
-        kanji: "下がる",
-        romaji: "sagaru",
-        indonesian: "turun"
+        "kanji": "下がる",
+        "romaji": "sagaru",
+        "indonesian": "turun, menurun, turun (harga)"
       },
       {
-        kanji: "進む",
-        romaji: "susumu",
-        indonesian: "maju"
+        "kanji": "進む",
+        "romaji": "susumu",
+        "indonesian": "maju, berkembang, melanjutkan, terus"
       },
       {
-        kanji: "立つ",
-        romaji: "tatsu",
-        indonesian: "berdiri"
+        "kanji": "立つ",
+        "romaji": "tatsu",
+        "indonesian": "berdiri, bangkit"
       },
       {
-        kanji: "着く",
-        romaji: "tsuku",
-        indonesian: "tiba"
+        "kanji": "着く",
+        "romaji": "tsuku",
+        "indonesian": "tiba, mendarat"
       },
       {
-        kanji: "出かける",
-        romaji: "dekakeru",
-        indonesian: "pergi keluar"
+        "kanji": "出かける",
+        "romaji": "dekakeru",
+        "indonesian": "pergi keluar, pergi untuk (melakukan)"
       },
       {
-        kanji: "出る",
-        romaji: "deru",
-        indonesian: "keluar"
+        "kanji": "出る",
+        "romaji": "deru",
+        "indonesian": "keluar, pergi, muncul, terbit"
       },
       {
-        kanji: "飛ぶ",
-        romaji: "tobu",
-        indonesian: "terbang"
+        "kanji": "飛ぶ",
+        "romaji": "tobu",
+        "indonesian": "terbang, melompat, meloncat"
       },
       {
-        kanji: "止まる",
-        romaji: "tomaru",
-        indonesian: "berhenti"
+        "kanji": "止まる",
+        "romaji": "tomaru",
+        "indonesian": "berhenti, terhenti"
       },
       {
-        kanji: "通る",
-        romaji: "tooru",
-        indonesian: "melalui"
-      },
-      
-      {
-        kanji: "逃げる",
-        romaji: "nigeru",
-        indonesian: "melarikan diri"
+        "kanji": "通る",
+        "romaji": "tooru",
+        "indonesian": "melalui, lewat, lulus"
       },
       {
-        kanji: "登る",
-        romaji: "noboru",
-        indonesian: "mendaki"
+        "kanji": "逃げる",
+        "romaji": "nigeru",
+        "indonesian": "melarikan diri, kabur"
       },
       {
-        kanji: "乗る",
-        romaji: "noru",
-        indonesian: "naik (kendaraan)"
+        "kanji": "登る",
+        "romaji": "noboru",
+        "indonesian": "mendaki, memanjat"
       },
       {
-        kanji: "入る",
-        romaji: "hairu",
-        indonesian: "masuk"
+        "kanji": "乗る",
+        "romaji": "noru",
+        "indonesian": "naik (kendaraan), menunggang"
       },
       {
-        kanji: "走る",
-        romaji: "hashiru",
-        indonesian: "berlari"
+        "kanji": "入る",
+        "romaji": "hairu",
+        "indonesian": "masuk, memasuki"
       },
       {
-        kanji: "引っ越す",
-        romaji: "hikkosu",
-        indonesian: "pindah rumah"
+        "kanji": "走る",
+        "romaji": "hashiru",
+        "indonesian": "berlari, lari"
       },
       {
-        kanji: "踏む",
-        romaji: "fumu",
-        indonesian: "melangkah"
+        "kanji": "引っ越す",
+        "romaji": "hikkosu",
+        "indonesian": "pindah rumah, pindah"
       },
       {
-        kanji: "曲がる",
-        romaji: "magaru",
-        indonesian: "berbelok/bengkok"
+        "kanji": "踏む",
+        "romaji": "fumu",
+        "indonesian": "melangkah, menginjak"
       },
       {
-        kanji: "回る",
-        romaji: "mawaru",
-        indonesian: "mengelilingi"
+        "kanji": "曲がる",
+        "romaji": "magaru",
+        "indonesian": "berbelok, membengkok"
       },
       {
-        kanji: "向かう",
-        romaji: "mukau",
-        indonesian: "menghadapi"
+        "kanji": "回る",
+        "romaji": "mawaru",
+        "indonesian": "mengelilingi, berputar"
       },
       {
-        kanji: "戻る",
-        romaji: "modoru",
-        indonesian: "kembali"
+        "kanji": "向かう",
+        "romaji": "mukau",
+        "indonesian": "menghadapi, menuju"
       },
       {
-        kanji: "渡る",
-        romaji: "wataru",
-        indonesian: "menyebrang"
+        "kanji": "戻る",
+        "romaji": "modoru",
+        "indonesian": "kembali, pulih"
+      },
+      {
+        "kanji": "渡る",
+        "romaji": "wataru",
+        "indonesian": "menyebrang, melintasi"
       }
     ]
   },
   {
-    themeId: "theme_2",
-    themeName: "Komunikasi & Interaksi Sosial",
-    count: 23,
-    icon: "Users",
-    words: [
+    "themeId": "theme_2",
+    "themeName": "Komunikasi & Interaksi Sosial",
+    "count": 22,
+    "icon": "Users",
+    "words": [
       {
-        kanji: "会う",
-        romaji: "au",
-        indonesian: "bertemu"
+        "kanji": "会う",
+        "romaji": "au",
+        "indonesian": "bertemu, menjumpai"
       },
       {
-        kanji: "言う",
-        romaji: "iu",
-        indonesian: "berkata"
+        "kanji": "言う",
+        "romaji": "iu",
+        "indonesian": "berkata, mengatakan"
       },
       {
-        kanji: "電話をかける",
-        romaji: "denwa o kakeru",
-        indonesian: "menelepon"
+        "kanji": "電話をかける",
+        "romaji": "denwa o kakeru",
+        "indonesian": "menelepon, menghubungi lewat telepon"
       },
       {
-        kanji: "聞く",
-        romaji: "kiku",
-        indonesian: "mendengar/bertanya"
+        "kanji": "聞く",
+        "romaji": "kiku",
+        "indonesian": "mendengar, mendengarkan, bertanya"
       },
       {
-        kanji: "答える",
-        romaji: "kotaeru",
-        indonesian: "menjawab"
+        "kanji": "答える",
+        "romaji": "kotaeru",
+        "indonesian": "menjawab, membalas"
       },
       {
-        kanji: "騒ぐ",
-        romaji: "sawagu",
-        indonesian: "membuat kebisingan"
+        "kanji": "騒ぐ",
+        "romaji": "sawagu",
+        "indonesian": "membuat kebisingan, ribut"
       },
       {
-        kanji: "叱る",
-        romaji: "shikaru",
-        indonesian: "mengomeli"
+        "kanji": "叱る",
+        "romaji": "shikaru",
+        "indonesian": "mengomeli, memarahi"
       },
       {
-        kanji: "知らせる",
-        romaji: "shiraseru",
-        indonesian: "memberitahu"
+        "kanji": "知らせる",
+        "romaji": "shiraseru",
+        "indonesian": "memberitahu, menginformasikan"
       },
       {
-        kanji: "頼む",
-        romaji: "tanomu",
-        indonesian: "memohon"
+        "kanji": "頼む",
+        "romaji": "tanomu",
+        "indonesian": "memohon, meminta bantuan"
       },
       {
-        kanji: "訪ねる",
-        romaji: "tazuneru",
-        indonesian: "mengunjungi"
+        "kanji": "訪ねる",
+        "romaji": "tazuneru",
+        "indonesian": "mengunjungi, menjenguk"
       },
       {
-        kanji: "尋ねる",
-        romaji: "tazuneru",
-        indonesian: "bertanya"
+        "kanji": "伝える",
+        "romaji": "tsutaeru",
+        "indonesian": "menyampaikan, memberi tahu"
       },
       {
-        kanji: "伝える",
-        romaji: "tsutaeru",
-        indonesian: "menyampaikan"
+        "kanji": "連れる",
+        "romaji": "tsureru",
+        "indonesian": "mengajak, membawa (orang)"
       },
       {
-        kanji: "連れる",
-        romaji: "tsureru",
-        indonesian: "memimpin"
+        "kanji": "手伝う",
+        "romaji": "tetsudau",
+        "indonesian": "membantu, menolong"
       },
       {
-        kanji: "手伝う",
-        romaji: "tetsudau",
-        indonesian: "membantu"
+        "kanji": "泣く",
+        "romaji": "naku",
+        "indonesian": "menangis, meratap"
       },
       {
-        kanji: "泣く",
-        romaji: "naku",
-        indonesian: "menangis"
+        "kanji": "話す",
+        "romaji": "hanasu",
+        "indonesian": "berbicara, berbicara dengan"
       },
       {
-        kanji: "話す",
-        romaji: "hanasu",
-        indonesian: "berbicara"
+        "kanji": "褒める",
+        "romaji": "homeru",
+        "indonesian": "memuji, menyombongkan diri"
       },
       {
-        kanji: "褒める",
-        romaji: "homeru",
-        indonesian: "memuji"
+        "kanji": "待つ",
+        "romaji": "matsu",
+        "indonesian": "menunggu, menahan"
       },
       {
-        kanji: "待つ",
-        romaji: "matsu",
-        indonesian: "menunggu"
+        "kanji": "見せる",
+        "romaji": "miseru",
+        "indonesian": "memperlihatkan, menampilkan"
       },
       {
-        kanji: "見せる",
-        romaji: "miseru",
-        indonesian: "memperlihatkan"
+        "kanji": "迎える",
+        "romaji": "mukaeru",
+        "indonesian": "mendekati, menyambut"
       },
       {
-        kanji: "迎える",
-        romaji: "mukaeru",
-        indonesian: "mendekati"
+        "kanji": "呼ぶ",
+        "romaji": "yobu",
+        "indonesian": "memanggil, menyebut"
       },
       {
-        kanji: "呼ぶ",
-        romaji: "yobu",
-        indonesian: "memanggil"
+        "kanji": "喜ぶ",
+        "romaji": "yorokobu",
+        "indonesian": "bersuka cita, gembira"
       },
       {
-        kanji: "喜ぶ",
-        romaji: "yorokobu",
-        indonesian: "bersuka cita"
-      },
-      {
-        kanji: "別れる",
-        romaji: "wakareru",
-        indonesian: "berpisah"
+        "kanji": "別れる",
+        "romaji": "wakareru",
+        "indonesian": "berpisah, berpisah dari"
       }
     ]
   },
   {
-    themeId: "theme_3",
-    themeName: "Pekerjaan, Belajar & Aktivitas Kognitif",
-    count: 18,
-    icon: "Briefcase",
-    words: [
+    "themeId": "theme_3",
+    "themeName": "Pekerjaan, Belajar & Aktivitas Kognitif",
+    "count": 18,
+    "icon": "Briefcase",
+    "words": [
       {
-        kanji: "覚える",
-        romaji: "oboeru",
-        indonesian: "mengingat"
+        "kanji": "覚える",
+        "romaji": "oboeru",
+        "indonesian": "mengingat, belajar"
       },
       {
-        kanji: "書く",
-        romaji: "kaku",
-        indonesian: "menulis"
+        "kanji": "書く",
+        "romaji": "kaku",
+        "indonesian": "menulis"
       },
       {
-        kanji: "決まる",
-        romaji: "kimaru",
-        indonesian: "diputuskan"
+        "kanji": "決まる",
+        "romaji": "kimaru",
+        "indonesian": "diputuskan, ditentukan"
       },
       {
-        kanji: "決める",
-        romaji: "kimeru",
-        indonesian: "memutuskan"
+        "kanji": "決める",
+        "romaji": "kimeru",
+        "indonesian": "memutuskan, menentukan"
       },
       {
-        kanji: "比べる",
-        romaji: "kuraberu",
-        indonesian: "membandingkan"
+        "kanji": "比べる",
+        "romaji": "kuraberu",
+        "indonesian": "membandingkan, mengontraskan"
       },
       {
-        kanji: "調べる",
-        romaji: "shiraberu",
-        indonesian: "menginvestigasi"
+        "kanji": "調べる",
+        "romaji": "shiraberu",
+        "indonesian": "menginvestigasi, memeriksa"
       },
       {
-        kanji: "知る",
-        romaji: "shiru",
-        indonesian: "tahu"
+        "kanji": "知る",
+        "romaji": "shiru",
+        "indonesian": "tahu, mengetahui"
       },
       {
-        kanji: "育てる",
-        romaji: "sodateru",
-        indonesian: "membesarkan, mendidik"
+        "kanji": "育てる",
+        "romaji": "sodateru",
+        "indonesian": "membesarkan, mendidik, memelihara"
       },
       {
-        kanji: "足す",
-        romaji: "tasu",
-        indonesian: "menambah, tambah (angka)"
+        "kanji": "足す",
+        "romaji": "tasu",
+        "indonesian": "menambah, tambah (angka), menambahkan"
       },
       {
-        kanji: "使う",
-        romaji: "tsukau",
-        indonesian: "menggunakan"
+        "kanji": "使う",
+        "romaji": "tsukau",
+        "indonesian": "menggunakan, memanfaatkan"
       },
       {
-        kanji: "作る",
-        romaji: "tsukuru",
-        indonesian: "membuat"
+        "kanji": "作る",
+        "romaji": "tsukuru",
+        "indonesian": "membuat, menciptakan"
       },
       {
-        kanji: "勤める",
-        romaji: "tsutomeru",
-        indonesian: "bekerja untuk seseorang"
+        "kanji": "勤める",
+        "romaji": "tsutomeru",
+        "indonesian": "bekerja untuk seseorang, bekerja di"
       },
       {
-        kanji: "働く",
-        romaji: "hataraku",
-        indonesian: "bekerja"
+        "kanji": "働く",
+        "romaji": "hataraku",
+        "indonesian": "bekerja"
       },
       {
-        kanji: "間違える",
-        romaji: "machigaeru",
-        indonesian: "melakukan kesalahan"
+        "kanji": "間違える",
+        "romaji": "machigaeru",
+        "indonesian": "melakukan kesalahan, keliru"
       },
       {
-        kanji: "辞める",
-        romaji: "yameru",
-        indonesian: "berhenti"
+        "kanji": "辞める",
+        "romaji": "yameru",
+        "indonesian": "berhenti, mengundurkan diri"
       },
       {
-        kanji: "読む",
-        romaji: "yomu",
-        indonesian: "membaca"
+        "kanji": "読む",
+        "romaji": "yomu",
+        "indonesian": "membaca, membaca keras"
       },
       {
-        kanji: "分かる",
-        romaji: "wakaru",
-        indonesian: "mengerti"
+        "kanji": "分かる",
+        "romaji": "wakaru",
+        "indonesian": "mengerti, memahami"
       },
       {
-        kanji: "忘れる",
-        romaji: "wasureru",
-        indonesian: "lupa"
+        "kanji": "忘れる",
+        "romaji": "wasureru",
+        "indonesian": "lupa, meninggalkan"
       }
     ]
   },
   {
-    themeId: "theme_4",
-    themeName: "Transaksi, Kepemilikan & Perpindahan Barang",
-    count: 12,
-    icon: "ShoppingBag",
-    words: [
+    "themeId": "theme_4",
+    "themeName": "Transaksi, Kepemilikan & Perpindahan Barang",
+    "count": 12,
+    "icon": "ShoppingBag",
+    "words": [
       {
-        kanji: "あげる",
-        romaji: "ageru",
-        indonesian: "memberi"
+        "kanji": "あげる",
+        "romaji": "ageru",
+        "indonesian": "memberi, memberikan"
       },
       {
-        kanji: "売る",
-        romaji: "uru",
-        indonesian: "menjual"
+        "kanji": "売る",
+        "romaji": "uru",
+        "indonesian": "menjual"
       },
       {
-        kanji: "送る",
-        romaji: "okuru",
-        indonesian: "mengirim"
+        "kanji": "送る",
+        "romaji": "okuru",
+        "indonesian": "mengirim, mengirimkan"
       },
       {
-        kanji: "買う",
-        romaji: "kau",
-        indonesian: "membeli"
+        "kanji": "買う",
+        "romaji": "kau",
+        "indonesian": "membeli"
       },
       {
-        kanji: "返す",
-        romaji: "kaesu",
-        indonesian: "mengembalikan"
+        "kanji": "返す",
+        "romaji": "kaesu",
+        "indonesian": "mengembalikan, mengembalikan uang"
       },
       {
-        kanji: "貸す",
-        romaji: "kasu",
-        indonesian: "meminjamkan"
+        "kanji": "貸す",
+        "romaji": "kasu",
+        "indonesian": "meminjamkan, meminjamkan untuk waktu singkat"
       },
       {
-        kanji: "借りる",
-        romaji: "kariru",
-        indonesian: "meminjam"
+        "kanji": "借りる",
+        "romaji": "kariru",
+        "indonesian": "meminjam, meminjam untuk waktu singkat"
       },
       {
-        kanji: "くれる",
-        romaji: "kureru",
-        indonesian: "memberi"
+        "kanji": "くれる",
+        "romaji": "kureru",
+        "indonesian": "diberi oleh orang yang lebih tinggi, menerima"
       },
       {
-        kanji: "取り替える",
-        romaji: "torikaeru",
-        indonesian: "menukarkan"
+        "kanji": "取り替える",
+        "romaji": "torikaeru",
+        "indonesian": "menukar, mengganti"
       },
       {
-        kanji: "払う",
-        romaji: "harau",
-        indonesian: "membayar"
+        "kanji": "払う",
+        "romaji": "harau",
+        "indonesian": "membayar, melunasi"
       },
       {
-        kanji: "貰う",
-        romaji: "morau",
-        indonesian: "menerima"
+        "kanji": "貰う",
+        "romaji": "morau",
+        "indonesian": "menerima"
       },
       {
-        kanji: "渡す",
-        romaji: "watasu",
-        indonesian: "menyerahkan"
+        "kanji": "渡す",
+        "romaji": "watasu",
+        "indonesian": "menyerahkan, menyerahkan untuk waktu singkat"
       }
     ]
   },
   {
-    themeId: "theme_5",
-    themeName: "Tindakan Fisik & Manipulasi Objek",
-    count: 39,
-    icon: "Hand",
-    words: [
+    "themeId": "theme_5",
+    "themeName": "Tindakan Fisik & Manipulasi Objek",
+    "count": 39,
+    "icon": "Hand",
+    "words": [
       {
-        kanji: "開ける",
-        romaji: "akeru",
-        indonesian: "membuka"
+        "kanji": "開ける",
+        "romaji": "akeru",
+        "indonesian": "membuka, membuka untuk waktu singkat"
       },
       {
-        kanji: "入れる",
-        romaji: "ireru",
-        indonesian: "memasukan"
+        "kanji": "入れる",
+        "romaji": "ireru",
+        "indonesian": "memasukkan, memasukkan untuk waktu singkat"
       },
       {
-        kanji: "置く",
-        romaji: "oku",
-        indonesian: "meletakan"
+        "kanji": "置く",
+        "romaji": "oku",
+        "indonesian": "meletakkan, meletakkan untuk waktu singkat"
       },
       {
-        kanji: "押す",
-        romaji: "osu",
-        indonesian: "menekan"
+        "kanji": "押す",
+        "romaji": "osu",
+        "indonesian": "menekan, mendorong, menyetrika"
       },
       {
-        kanji: "かける",
-        romaji: "kakeru",
-        indonesian: "menggantung"
+        "kanji": "かける",
+        "romaji": "kakeru",
+        "indonesian": "menggantung, mengenakan, menelepon, menjalankan"
       },
       {
-        kanji: "切る",
-        romaji: "kiru",
-        indonesian: "memotong"
+        "kanji": "切る",
+        "romaji": "kiru",
+        "indonesian": "memotong, memotong-motong"
       },
       {
-        kanji: "消す",
-        romaji: "kesu",
-        indonesian: "menghapus"
+        "kanji": "消す",
+        "romaji": "kesu",
+        "indonesian": "menghapus, mematikan, memadamkan"
       },
       {
-        kanji: "壊す",
-        romaji: "kowasu",
-        indonesian: "merusak"
+        "kanji": "壊す",
+        "romaji": "kowasu",
+        "indonesian": "merusak, merusakkan"
       },
       {
-        kanji: "下げる",
-        romaji: "sageru",
-        indonesian: "menurunkan"
+        "kanji": "下げる",
+        "romaji": "sageru",
+        "indonesian": "menurunkan, mengecilkan volume"
       },
       {
-        kanji: "差す",
-        romaji: "sasu",
-        indonesian: "menunjuk/membuka payung"
+        "kanji": "差す",
+        "romaji": "sasu",
+        "indonesian": "menunjuk/membuka payung, menuangkan, memasukkan"
       },
       {
-        kanji: "触る",
-        romaji: "sawaru",
-        indonesian: "menyentuh"
+        "kanji": "触る",
+        "romaji": "sawaru",
+        "indonesian": "menyentuh, menusuk, menyentuh untuk waktu singkat"
       },
       {
-        kanji: "閉める",
-        romaji: "shimeru",
-        indonesian: "menutup"
-      },
-      
-      {
-        kanji: "捨てる",
-        romaji: "suteru",
-        indonesian: "membuang"
+        "kanji": "閉める",
+        "romaji": "shimeru",
+        "indonesian": "menutup, menutup untuk waktu singkat"
       },
       {
-        kanji: "する",
-        romaji: "suru",
-        indonesian: "melakukan"
+        "kanji": "捨てる",
+        "romaji": "suteru",
+        "indonesian": "membuang, membuang untuk waktu singkat, menyingkirkan"
       },
       {
-        kanji: "出す",
-        romaji: "dasu",
-        indonesian: "mengeluarkan"
+        "kanji": "する",
+        "romaji": "suru",
+        "indonesian": "melakukan, melakukan untuk waktu singkat, mengerjakan"
       },
       {
-        kanji: "建てる",
-        romaji: "tateru",
-        indonesian: "membangun"
-      },
-      
-      {
-        kanji: "捕まえる",
-        romaji: "tsukamaeru",
-        indonesian: "menangkap"
+        "kanji": "出す",
+        "romaji": "dasu",
+        "indonesian": "mengeluarkan, mengeluarkan untuk waktu singkat, mengirim, mengajukan"
       },
       {
-        kanji: "つける",
-        romaji: "tsukeru",
-        indonesian: "menyalakan"
-      },
-      
-      {
-        kanji: "包む",
-        romaji: "tsutsumu",
-        indonesian: "membungkus"
+        "kanji": "建てる",
+        "romaji": "tateru",
+        "indonesian": "membangun, mendirikan, mendirikan untuk waktu singkat"
       },
       {
-        kanji: "止める",
-        romaji: "tomeru",
-        indonesian: "menghentikan"
+        "kanji": "捕まえる",
+        "romaji": "tsukamaeru",
+        "indonesian": "menangkap, menangkap untuk waktu singkat"
       },
       {
-        kanji: "取る",
-        romaji: "toru",
-        indonesian: "mengambil"
-      },
-      
-      {
-        kanji: "届ける",
-        romaji: "todokeru",
-        indonesian: "mencapai"
+        "kanji": "つける",
+        "romaji": "tsukeru",
+        "indonesian": "menyalakan, menyalakan untuk waktu singkat"
       },
       {
-        kanji: "並べる",
-        romaji: "naraberu",
-        indonesian: "menyusun"
+        "kanji": "包む",
+        "romaji": "tsutsumu",
+        "indonesian": "membungkus, membungkus untuk waktu singkat"
       },
       {
-        kanji: "治す",
-        romaji: "naosu",
-        indonesian: "menyembuhkan"
-      },
-      
-      {
-        kanji: "投げる",
-        romaji: "nageru",
-        indonesian: "melempar"
+        "kanji": "止める",
+        "romaji": "tomeru",
+        "indonesian": "menghentikan, menahan, berhenti di/berhenti untuk waktu singkat"
       },
       {
-        kanji: "盗む",
-        romaji: "nusumu",
-        indonesian: "mencuri"
+        "kanji": "取る",
+        "romaji": "toru",
+        "indonesian": "mengambil, mengambil untuk waktu singkat, memakan/meminum"
       },
       {
-        kanji: "塗る",
-        romaji: "nuru",
-        indonesian: "mencat"
+        "kanji": "届ける",
+        "romaji": "todokeru",
+        "indonesian": "mencapai, mencapai untuk waktu singkat"
       },
       {
-        kanji: "運ぶ",
-        romaji: "hakobu",
-        indonesian: "mengangkut"
+        "kanji": "並べる",
+        "romaji": "naraberu",
+        "indonesian": "menyusun, menyusun untuk waktu singkat"
       },
       {
-        kanji: "張る",
-        romaji: "haru",
-        indonesian: "menempelkan"
+        "kanji": "治す",
+        "romaji": "naosu",
+        "indonesian": "menyembuhkan, menyembuhkan untuk waktu singkat"
       },
       {
-        kanji: "引く",
-        romaji: "hiku",
-        indonesian: "menarik"
-      },
-      
-      {
-        kanji: "引き出す",
-        romaji: "hikidasu",
-        indonesian: "menarik keluar"
-      },
-      
-      {
-        kanji: "拾う",
-        romaji: "hirou",
-        indonesian: "memungut"
+        "kanji": "投げる",
+        "romaji": "nageru",
+        "indonesian": "melempar, melempar untuk waktu singkat"
       },
       {
-        kanji: "見つける",
-        romaji: "mitsukeru",
-        indonesian: "menemukan"
+        "kanji": "盗む",
+        "romaji": "nusumu",
+        "indonesian": "mencuri, mencuri untuk waktu singkat"
       },
       {
-        kanji: "見る",
-        romaji: "miru",
-        indonesian: "melihat"
+        "kanji": "塗る",
+        "romaji": "nuru",
+        "indonesian": "mencat, mencat untuk waktu singkat"
       },
       {
-        kanji: "持つ",
-        romaji: "motsu",
-        indonesian: "membawa"
+        "kanji": "運ぶ",
+        "romaji": "hakobu",
+        "indonesian": "mengangkut, mengangkut untuk waktu singkat"
       },
       {
-        kanji: "焼く",
-        romaji: "yaku",
-        indonesian: "memanggang"
+        "kanji": "張る",
+        "romaji": "haru",
+        "indonesian": "menempelkan"
       },
       {
-        kanji: "やる",
-        romaji: "yaru",
-        indonesian: "melakukan"
+        "kanji": "引く",
+        "romaji": "hiku",
+        "indonesian": "menarik"
       },
       {
-        kanji: "沸かす",
-        romaji: "wakasu",
-        indonesian: "mendidihkan"
+        "kanji": "引き出す",
+        "romaji": "hikidasu",
+        "indonesian": "menarik keluar"
       },
       {
-        kanji: "割る",
-        romaji: "waru",
-        indonesian: "terbagi"
+        "kanji": "拾う",
+        "romaji": "hirou",
+        "indonesian": "memungut"
+      },
+      {
+        "kanji": "見つける",
+        "romaji": "mitsukeru",
+        "indonesian": "menemukan"
+      },
+      {
+        "kanji": "見る",
+        "romaji": "miru",
+        "indonesian": "melihat, mengunjungi, mencoba"
+      },
+      {
+        "kanji": "持つ",
+        "romaji": "motsu",
+        "indonesian": "memiliki, membawa"
+      },
+      {
+        "kanji": "焼く",
+        "romaji": "yaku",
+        "indonesian": "memanggang, membakar"
+      },
+      {
+        "kanji": "やる",
+        "romaji": "yaru",
+        "indonesian": "melakukan, memberikan"
+      },
+      {
+        "kanji": "沸かす",
+        "romaji": "wakasu",
+        "indonesian": "mendidihkan, memanaskan"
+      },
+      {
+        "kanji": "割る",
+        "romaji": "waru",
+        "indonesian": "terbagi, membagi"
       }
     ]
   },
   {
-    themeId: "theme_6",
-    themeName: "Kondisi, Keadaan, Perubahan & Alam",
-    count: 57,
-    icon: "CloudRain",
-    words: [
+    "themeId": "theme_6",
+    "themeName": "Kondisi, Keadaan, Perubahan & Alam",
+    "count": 53,
+    "icon": "CloudRain",
+    "words": [
       {
-        kanji: "合う",
-        romaji: "au",
-        indonesian: "cocok, pas"
+        "kanji": "合う",
+        "romaji": "au",
+        "indonesian": "cocok, pas, sesuai"
       },
       {
-        kanji: "開く",
-        romaji: "aku",
-        indonesian: "terbuka"
+        "kanji": "開く",
+        "romaji": "aku",
+        "indonesian": "terbuka, buka, mulai"
       },
       {
-        kanji: "空く",
-        romaji: "aku",
-        indonesian: "kosong"
+        "kanji": "ある",
+        "romaji": "aru",
+        "indonesian": "ada, memiliki, terjadi"
       },
       {
-        kanji: "ある",
-        romaji: "aru",
-        indonesian: "ada, memiliki"
+        "kanji": "いる",
+        "romaji": "iru",
+        "indonesian": "ada"
       },
       {
-        kanji: "いる",
-        romaji: "iru",
-        indonesian: "ada"
+        "kanji": "生まれる",
+        "romaji": "umareru",
+        "indonesian": "lahir, dilahirkan"
       },
       {
-        kanji: "要る",
-        romaji: "iru",
-        indonesian: "membutuhkan"
+        "kanji": "終わる",
+        "romaji": "owaru",
+        "indonesian": "berakhir, mengakhiri"
       },
       {
-        kanji: "生まれる",
-        romaji: "umareru",
-        indonesian: "lahir"
+        "kanji": "かかる",
+        "romaji": "kakaru",
+        "indonesian": "membutuhkan (waktu/biaya), tergantung, terpasang"
       },
       {
-        kanji: "終わる",
-        romaji: "owaru",
-        indonesian: "berakhir"
+        "kanji": "消える",
+        "romaji": "kieru",
+        "indonesian": "menghilang, padam, padam sendiri"
       },
       {
-        kanji: "かかる",
-        romaji: "kakaru",
-        indonesian: "membutuhkan (waktu/biaya)"
+        "kanji": "暮れる",
+        "romaji": "kureru",
+        "indonesian": "menjadi gelap, senja"
       },
       {
-        kanji: "消える",
-        romaji: "kieru",
-        indonesian: "menghilang"
+        "kanji": "困る",
+        "romaji": "komaru",
+        "indonesian": "bermasalah, kesulitan"
       },
       {
-        kanji: "暮れる",
-        romaji: "kureru",
-        indonesian: "menjadi gelap"
+        "kanji": "込む",
+        "romaji": "komu",
+        "indonesian": "melekuk, menjadi sesak, padat"
       },
       {
-        kanji: "困る",
-        romaji: "komaru",
-        indonesian: "bermasalah"
+        "kanji": "壊れる",
+        "romaji": "kowareru",
+        "indonesian": "rusak, rusak sendiri"
       },
       {
-        kanji: "込む",
-        romaji: "komu",
-        indonesian: "melekuk, menjadi sesak"
+        "kanji": "咲く",
+        "romaji": "saku",
+        "indonesian": "mekar, berkembang"
       },
       {
-        kanji: "壊れる",
-        romaji: "kowareru",
-        indonesian: "rusak"
+        "kanji": "死ぬ",
+        "romaji": "shinu",
+        "indonesian": "mati, meninggal"
       },
       {
-        kanji: "咲く",
-        romaji: "saku",
-        indonesian: "mekar"
+        "kanji": "閉まる",
+        "romaji": "shimaru",
+        "indonesian": "tertutup, tutup"
       },
       {
-        kanji: "死ぬ",
-        romaji: "shinu",
-        indonesian: "mati"
+        "kanji": "育つ",
+        "romaji": "sodatsu",
+        "indonesian": "tumbuh besar, membesar"
       },
       {
-        kanji: "閉まる",
-        romaji: "shimaru",
-        indonesian: "tertutup"
+        "kanji": "過ぎる",
+        "romaji": "sugiru",
+        "indonesian": "melewati, melewati diri sendiri"
       },
       {
-        kanji: "育つ",
-        romaji: "sodatsu",
-        indonesian: "tumbuh besar"
+        "kanji": "済む",
+        "romaji": "sumu",
+        "indonesian": "selesai, usai"
       },
       {
-        kanji: "過ぎる",
-        romaji: "sugiru",
-        indonesian: "melewati"
+        "kanji": "滑る",
+        "romaji": "suberu",
+        "indonesian": "tergelincir, terpeleset"
       },
       {
-        kanji: "済む",
-        romaji: "sumu",
-        indonesian: "reda"
+        "kanji": "倒れる",
+        "romaji": "taoreru",
+        "indonesian": "runtuh, roboh"
       },
       {
-        kanji: "滑る",
-        romaji: "suberu",
-        indonesian: "terselip, tergelincir"
+        "kanji": "足りる",
+        "romaji": "tariru",
+        "indonesian": "menjadi cukup, cukup"
       },
       {
-        kanji: "倒れる",
-        romaji: "taoreru",
-        indonesian: "runtuh"
+        "kanji": "違う",
+        "romaji": "chigau",
+        "indonesian": "berbeda, salah"
       },
       {
-        kanji: "足りる",
-        romaji: "tariru",
-        indonesian: "menjadi cukup"
+        "kanji": "疲れる",
+        "romaji": "tsukareru",
+        "indonesian": "lelah, menjadi lelah"
       },
       {
-        kanji: "違う",
-        romaji: "chigau",
-        indonesian: "berbeda"
+        "kanji": "捕まる",
+        "romaji": "tsukamaru",
+        "indonesian": "tertangkap, ditahan"
       },
       {
-        kanji: "疲れる",
-        romaji: "tsukareru",
-        indonesian: "lelah"
+        "kanji": "続く",
+        "romaji": "tsuzuku",
+        "indonesian": "berlanjut, beruntun"
       },
       {
-        kanji: "捕まる",
-        romaji: "tsukamaru",
-        indonesian: "tertangkap"
+        "kanji": "続ける",
+        "romaji": "tsuzukeru",
+        "indonesian": "melanjutkan"
       },
       {
-        kanji: "続く",
-        romaji: "tsuzuku",
-        indonesian: "berlanjut"
+        "kanji": "出来る",
+        "romaji": "dekiru",
+        "indonesian": "bisa, mampu"
       },
       {
-        kanji: "続ける",
-        romaji: "tsuzukeru",
-        indonesian: "melanjutkan"
+        "kanji": "届く",
+        "romaji": "todoku",
+        "indonesian": "tercapai, tiba"
       },
       {
-        kanji: "出来る",
-        romaji: "dekiru",
-        indonesian: "bisa"
+        "kanji": "鳴く",
+        "romaji": "naku",
+        "indonesian": "berbunyi (hewan), berkicau"
       },
       {
-        kanji: "届く",
-        romaji: "todoku",
-        indonesian: "tercapai"
+        "kanji": "亡くなる",
+        "romaji": "nakunaru",
+        "indonesian": "meninggal dunia"
       },
       {
-        kanji: "鳴く",
-        romaji: "naku",
-        indonesian: "berbunyi"
+        "kanji": "並ぶ",
+        "romaji": "narabu",
+        "indonesian": "berbaris, berjejer"
       },
       {
-        kanji: "亡くなる",
-        romaji: "nakunaru",
-        indonesian: "meninggal"
+        "kanji": "なる",
+        "romaji": "naru",
+        "indonesian": "menjadi, tumbuh menjadi, berubah menjadi"
       },
       {
-        kanji: "無くなる",
-        romaji: "nakunaru",
-        indonesian: "hilang"
+        "kanji": "治る",
+        "romaji": "naoru",
+        "indonesian": "sembuh, pulih, diperbaiki"
       },
       {
-        kanji: "並ぶ",
-        romaji: "narabu",
-        indonesian: "berbaris"
+        "kanji": "慣れる",
+        "romaji": "nareru",
+        "indonesian": "terbiasa, menjadi terbiasa"
       },
       {
-        kanji: "なる",
-        romaji: "naru",
-        indonesian: "menjadi"
+        "kanji": "似る",
+        "romaji": "niru",
+        "indonesian": "mirip, menyerupai"
       },
       {
-        kanji: "治る",
-        romaji: "naoru",
-        indonesian: "sembuh"
+        "kanji": "濡れる",
+        "romaji": "nureru",
+        "indonesian": "menjadi basah, basah kuyup"
       },
       {
-        kanji: "直る",
-        romaji: "naoru",
-        indonesian: "menjadi diperbaiki"
+        "kanji": "残る",
+        "romaji": "nokoru",
+        "indonesian": "menyisakan, tersisa"
       },
       {
-        kanji: "慣れる",
-        romaji: "nareru",
-        indonesian: "terbiasa"
+        "kanji": "始まる",
+        "romaji": "hajimaru",
+        "indonesian": "mulai"
       },
       {
-        kanji: "似る",
-        romaji: "niru",
-        indonesian: "mirip"
+        "kanji": "晴れる",
+        "romaji": "hareru",
+        "indonesian": "menjadi cerah, cuaca cerah"
       },
       {
-        kanji: "濡れる",
-        romaji: "nureru",
-        indonesian: "menjadi basah"
+        "kanji": "冷える",
+        "romaji": "hieru",
+        "indonesian": "menjadi dingin"
       },
       {
-        kanji: "残る",
-        romaji: "nokoru",
-        indonesian: "menyisakan"
+        "kanji": "光る",
+        "romaji": "hikaru",
+        "indonesian": "bersinar, bercahaya"
       },
       {
-        kanji: "始まる",
-        romaji: "hajimaru",
-        indonesian: "mulai"
+        "kanji": "開く",
+        "romaji": "hiraku",
+        "indonesian": "membuka (acara, event), membuka diri"
       },
       {
-        kanji: "晴れる",
-        romaji: "hareru",
-        indonesian: "menjadi cerah"
+        "kanji": "吹く",
+        "romaji": "fuku",
+        "indonesian": "meniup, berhembus"
       },
       {
-        kanji: "冷える",
-        romaji: "hieru",
-        indonesian: "menjadi dingin"
+        "kanji": "増える",
+        "romaji": "fueru",
+        "indonesian": "bertambah, bertambah besar"
       },
       {
-        kanji: "光る",
-        romaji: "hikaru",
-        indonesian: "bersinar"
+        "kanji": "太る",
+        "romaji": "futoru",
+        "indonesian": "bertambah gemuk, menjadi gemuk"
       },
       {
-        kanji: "開く",
-        romaji: "hiraku",
-        indonesian: "membuka (acara, event)"
+        "kanji": "降る",
+        "romaji": "furu",
+        "indonesian": "turun (hujan, salju)"
       },
       {
-        kanji: "吹く",
-        romaji: "fuku",
-        indonesian: "meniup/bertiup"
+        "kanji": "負ける",
+        "romaji": "makeru",
+        "indonesian": "kalah, menyerah"
       },
       {
-        kanji: "増える",
-        romaji: "fueru",
-        indonesian: "bertambah"
+        "kanji": "間に合う",
+        "romaji": "maniau",
+        "indonesian": "tepat waktu, cukup"
       },
       {
-        kanji: "太る",
-        romaji: "futoru",
-        indonesian: "bertambah gemuk"
+        "kanji": "見つかる",
+        "romaji": "mitsukaru",
+        "indonesian": "ditemukan, ditemukan sendiri"
       },
       {
-        kanji: "降る",
-        romaji: "furu",
-        indonesian: "turun"
+        "kanji": "役に立つ",
+        "romaji": "yakunitatsu",
+        "indonesian": "berguna, bermanfaat"
       },
       {
-        kanji: "負ける",
-        romaji: "makeru",
-        indonesian: "kalah"
+        "kanji": "痩せる",
+        "romaji": "yaseru",
+        "indonesian": "menjadi kurus, menurunkan berat badan"
       },
       {
-        kanji: "間に合う",
-        romaji: "maniau",
-        indonesian: "tepat waktu"
+        "kanji": "沸く",
+        "romaji": "waku",
+        "indonesian": "mendidih, mendidih sendiri"
       },
       {
-        kanji: "見つかる",
-        romaji: "mitsukaru",
-        indonesian: "ditemukan"
-      },
-      {
-        kanji: "役に立つ",
-        romaji: "yakunitatsu",
-        indonesian: "berguna"
-      },
-      {
-        kanji: "痩せる",
-        romaji: "yaseru",
-        indonesian: "menjadi kurus"
-      },
-      {
-        kanji: "沸く",
-        romaji: "waku",
-        indonesian: "mendidih"
-      },
-      {
-        kanji: "割れる",
-        romaji: "wareru",
-        indonesian: "membagi"
+        "kanji": "割れる",
+        "romaji": "wareru",
+        "indonesian": "membagi, pecah"
       }
     ]
   },
   {
-    themeId: "theme_7",
-    themeName: "Bahasa Hormat (Keigo)",
-    count: 4,
-    icon: "Heart",
-    words: [
+    "themeId": "theme_7",
+    "themeName": "Bahasa Hormat (Keigo)",
+    "count": 4,
+    "icon": "Heart",
+    "words": [
       {
-        kanji: "差し上げる１",
-        romaji: "sashiageru",
-        indonesian: "memberi (hormat)"
+        "kanji": "差し上げる１",
+        "romaji": "sashiageru",
+        "indonesian": "memberi (hormat)"
       },
       {
-        kanji: "召し上がる",
-        romaji: "meshiagaru",
-        indonesian: "makan (hormat)"
+        "kanji": "召し上がる",
+        "romaji": "meshiagaru",
+        "indonesian": "makan (hormat)"
       },
       {
-        kanji: "申し上げる",
-        romaji: "moushiageru",
-        indonesian: "mengatakan (hormat)"
+        "kanji": "申し上げる",
+        "romaji": "moushiageru",
+        "indonesian": "mengatakan (hormat)"
       },
       {
-        kanji: "申す",
-        romaji: "mousu",
-        indonesian: "berkata (hormat)"
+        "kanji": "申す",
+        "romaji": "mousu",
+        "indonesian": "berkata (hormat)"
       }
     ]
   }
@@ -1091,10 +1058,10 @@ export const vocabCategories = [
 
 export const quizData = {
   'theme_0': {
-    gridSize: { rows: 6, cols: 5 },
+    gridSize: { rows: 5, cols: 5 },
     words: [
       { id: 1, direction: 'down', row: 0, col: 2, answer: 'TABERU', hint: 'Makan' },
-      { id: 2, direction: 'across', row: 2, col: 0, answer: 'ASOBU', hint: 'Bermain' }
+      { id: 2, direction: 'across', row: 2, col: 0, answer: 'ASOBU', hint: 'Bermain' },
     ]
   }
 };

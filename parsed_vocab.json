@@ -110,7 +110,7 @@
   {
     "themeId": "theme_1",
     "themeName": "Pergerakan, Arah & Transportasi",
-    "count": 28,
+    "count": 27,
     "icon": "Plane",
     "words": [
       {
@@ -189,11 +189,6 @@
         "indonesian": "melalui, lewat, lulus"
       },
       {
-        "kanji": "泊まる",
-        "romaji": "tomaru",
-        "indonesian": "bermalam, menginap"
-      },
-      {
         "kanji": "逃げる",
         "romaji": "nigeru",
         "indonesian": "melarikan diri, kabur"
@@ -258,7 +253,7 @@
   {
     "themeId": "theme_2",
     "themeName": "Komunikasi & Interaksi Sosial",
-    "count": 23,
+    "count": 22,
     "icon": "Users",
     "words": [
       {
@@ -310,11 +305,6 @@
         "kanji": "訪ねる",
         "romaji": "tazuneru",
         "indonesian": "mengunjungi, menjenguk"
-      },
-      {
-        "kanji": "尋ねる",
-        "romaji": "tazuneru",
-        "indonesian": "bertanya, menanyakan"
       },
       {
         "kanji": "伝える",
@@ -547,7 +537,7 @@
   {
     "themeId": "theme_5",
     "themeName": "Tindakan Fisik & Manipulasi Objek",
-    "count": 46,
+    "count": 39,
     "icon": "Hand",
     "words": [
       {
@@ -611,11 +601,6 @@
         "indonesian": "menutup, menutup untuk waktu singkat"
       },
       {
-        "kanji": "締める",
-        "romaji": "shimeru",
-        "indonesian": "mengencangkan, mengetatkan, mengikat"
-      },
-      {
         "kanji": "捨てる",
         "romaji": "suteru",
         "indonesian": "membuang, membuang untuk waktu singkat, menyingkirkan"
@@ -636,11 +621,6 @@
         "indonesian": "membangun, mendirikan, mendirikan untuk waktu singkat"
       },
       {
-        "kanji": "立てる",
-        "romaji": "tateru",
-        "indonesian": "mendirikan, mendirikan untuk waktu singkat"
-      },
-      {
         "kanji": "捕まえる",
         "romaji": "tsukamaeru",
         "indonesian": "menangkap, menangkap untuk waktu singkat"
@@ -649,11 +629,6 @@
         "kanji": "つける",
         "romaji": "tsukeru",
         "indonesian": "menyalakan, menyalakan untuk waktu singkat"
-      },
-      {
-        "kanji": "漬ける",
-        "romaji": "tsukeru",
-        "indonesian": "merendam, merendam untuk waktu singkat"
       },
       {
         "kanji": "包む",
@@ -671,11 +646,6 @@
         "indonesian": "mengambil, mengambil untuk waktu singkat, memakan/meminum"
       },
       {
-        "kanji": "撮る",
-        "romaji": "toru",
-        "indonesian": "mengambil photo/memotret, mengambil photo/memotret untuk waktu singkat, memakan/meminum"
-      },
-      {
         "kanji": "届ける",
         "romaji": "todokeru",
         "indonesian": "mencapai, mencapai untuk waktu singkat"
@@ -689,11 +659,6 @@
         "kanji": "治す",
         "romaji": "naosu",
         "indonesian": "menyembuhkan, menyembuhkan untuk waktu singkat"
-      },
-      {
-        "kanji": "直す",
-        "romaji": "naosu",
-        "indonesian": "memperbaiki, memperbaiki untuk waktu singkat"
       },
       {
         "kanji": "投げる",
@@ -726,19 +691,9 @@
         "indonesian": "menarik"
       },
       {
-        "kanji": "弾く",
-        "romaji": "hiku",
-        "indonesian": "memainkan (gitar),"
-      },
-      {
         "kanji": "引き出す",
         "romaji": "hikidasu",
         "indonesian": "menarik keluar"
-      },
-      {
-        "kanji": "引く",
-        "romaji": "hiku",
-        "indonesian": "memainkan (alat musik)"
       },
       {
         "kanji": "拾う",
@@ -785,7 +740,7 @@
   {
     "themeId": "theme_6",
     "themeName": "Kondisi, Keadaan, Perubahan & Alam",
-    "count": 57,
+    "count": 53,
     "icon": "CloudRain",
     "words": [
       {
@@ -799,11 +754,6 @@
         "indonesian": "terbuka, buka, mulai"
       },
       {
-        "kanji": "空く",
-        "romaji": "aku",
-        "indonesian": "kosong, lengang, mengosongkan diri"
-      },
-      {
         "kanji": "ある",
         "romaji": "aru",
         "indonesian": "ada, memiliki, terjadi"
@@ -812,11 +762,6 @@
         "kanji": "いる",
         "romaji": "iru",
         "indonesian": "ada"
-      },
-      {
-        "kanji": "要る",
-        "romaji": "iru",
-        "indonesian": "membutuhkan"
       },
       {
         "kanji": "生まれる",
@@ -842,11 +787,6 @@
         "kanji": "暮れる",
         "romaji": "kureru",
         "indonesian": "menjadi gelap, senja"
-      },
-      {
-        "kanji": "暮れる",
-        "romaji": "kureru",
-        "indonesian": "menjadi gelap"
       },
       {
         "kanji": "困る",
@@ -954,11 +894,6 @@
         "indonesian": "meninggal dunia"
       },
       {
-        "kanji": "無くなる",
-        "romaji": "nakunaru",
-        "indonesian": "hilang, menjadi habis"
-      },
-      {
         "kanji": "並ぶ",
         "romaji": "narabu",
         "indonesian": "berbaris, berjejer"
@@ -972,11 +907,6 @@
         "kanji": "治る",
         "romaji": "naoru",
         "indonesian": "sembuh, pulih, diperbaiki"
-      },
-      {
-        "kanji": "直る",
-        "romaji": "naoru",
-        "indonesian": "menjadi diperbaiki, diperbaiki"
       },
       {
         "kanji": "慣れる",

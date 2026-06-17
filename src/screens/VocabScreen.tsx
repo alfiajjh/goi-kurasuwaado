@@ -3,10 +3,9 @@ import TopBar from '../components/TopBar';
 import { vocabCategories } from '../data';
 import { Search, ArrowLeft, ChevronRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import type { SharedScreenProps } from '../types';
 
-type Props = {
-  onNavigate?: (screen: string) => void;
-};
+type Props = SharedScreenProps;
 
 const themeColors = [
   { bg: 'bg-gradient-to-br from-emerald-400 to-emerald-600', icon: 'text-white', badge: 'bg-emerald-700/30' },
@@ -19,7 +18,7 @@ const themeColors = [
   { bg: 'bg-gradient-to-br from-pink-400 to-pink-600', icon: 'text-white', badge: 'bg-pink-700/30' },
 ];
 
-export default function VocabScreen({ onNavigate }: Props) {
+export default function VocabScreen({ onNavigate }: SharedScreenProps) {
   const [search, setSearch] = useState('');
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
 
@@ -34,7 +33,8 @@ export default function VocabScreen({ onNavigate }: Props) {
 
     const filteredWords = category.words.filter(w =>
       w.romaji.toLowerCase().includes(search.toLowerCase()) ||
-      w.indonesian.toLowerCase().includes(search.toLowerCase())
+      w.indonesian.toLowerCase().includes(search.toLowerCase()) ||
+      w.kanji.includes(search)
     );
 
     return (

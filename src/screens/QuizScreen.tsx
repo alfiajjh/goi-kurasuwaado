@@ -69,8 +69,20 @@ export default function QuizScreen({
       seen.add(w.answer);
       return true;
     });
+    const result = generateCrossword(wordsForLevel.map(w => w.answer));
+    const words: Word[] = result.words.map((w, index) => ({
+      id: index,
+      direction: w.direction,
+      row: w.start.y,
+      col: w.start.x,
+      answer: w.word,
+      hint: wordsForLevel.find(wl => wl.answer === w.word)?.hint || ''
+    }));
     
-    return generateCrossword(wordsForLevel);
+    return {
+      gridSize: { rows: result.grid.length, cols: result.grid[0]?.length || 0 },
+      words
+    };
   }, [themeId, levelIndex]);
 
   const [timeLeft, setTimeLeft] = useState(3 * 60);
@@ -148,9 +160,8 @@ export default function QuizScreen({
   }, [data]);
 
   const handleBackClick = () => {
-    if (onExitRequest) {
+    if (onExitRequest && quizStatus === 'playing') {
       onExitRequest();
-    } else if (quizStatus === 'playing') {
     } else {
       onBack();
     }
@@ -173,7 +184,7 @@ export default function QuizScreen({
     
     const wIds = grid[r][c].wordIds;
     if (wIds && wIds.length > 0) {
-      if (activeWordId !== null && !wIds.includes(activeWordId)) {
+      if (activeWordId === null || !wIds.includes(activeWordId)) {
         setActiveWordId(wIds[0]);
       }
     }
@@ -451,7 +462,7 @@ export default function QuizScreen({
   const downWords = data.words.filter((w: Word) => w.direction === 'down');
 
   return (
-    <div className="flex flex-col h-screen h-[100dvh] bg-[#2D2D2A] text-white relative overflow-hidden">
+    <div className="flex flex-col h-dvh bg-[#2D2D2A] text-white relative overflow-hidden">
       <div className="absolute top-20 right-0 w-64 h-64 bg-[#7B8E61]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 left-0 w-64 h-64 bg-[#D4A373]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -586,20 +597,25 @@ export default function QuizScreen({
              autoCapitalize="characters"
              autoCorrect="off"
              spellCheck="false"
-             value=""
+             value=" "
              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-               const val = e.target.value.slice(-1).toUpperCase();
-               if (/^[A-Z]$/.test(val)) {
-                 handleKeyPress(val);
+               const val = e.target.value;
+               if (val === "") {
+                 currentHandleDelete.current();
+               } else {
+                 const char = val.slice(-1).toUpperCase();
+                 if (/^[A-Z]$/.test(char)) {
+                   currentHandleKeyPress.current(char);
+                 }
                }
-               e.target.value = '';
+               e.target.value = ' ';
              }}
            />
          </div>
       )}
 
       {quizStatus === 'success' && (
-        <div className="absolute inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+        <div className="absolute inset-0 z-100 bg-black/60 flex items-center justify-center p-4">
           <div className="bg-white rounded-[32px] w-full max-w-sm overflow-hidden flex flex-col pt-10 shadow-2xl relative">
             <div className="absolute top-0 left-0 w-full h-32 bg-green-200" />
             <div className="relative z-10 flex flex-col items-center px-6 pb-6">
@@ -623,7 +639,7 @@ export default function QuizScreen({
               <div className="flex flex-col w-full space-y-3">
                 <button 
                   onClick={onBack}
-                  className="w-full bg-[#0056A8] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#00488B] transition-colors"
+                  className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#687951] transition-colors"
                 >
                   Lanjut ke Level Berikutnya →
                 </button>
@@ -640,7 +656,7 @@ export default function QuizScreen({
       )}
 
       {quizStatus === 'failed' && (
-        <div className="absolute inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+        <div className="absolute inset-0 z-100 bg-black/60 flex items-center justify-center p-4">
           <div className="bg-white rounded-[32px] w-full max-w-sm overflow-hidden flex flex-col pt-10 shadow-2xl relative">
             <div className="absolute top-0 left-0 w-full h-32 bg-red-200" />
             <div className="relative z-10 flex flex-col items-center px-6 pb-6">
@@ -653,7 +669,7 @@ export default function QuizScreen({
               <div className="flex flex-col w-full space-y-3">
                 <button 
                   onClick={restartQuiz}
-                  className="w-full bg-[#0056A8] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#00488B] transition-colors"
+                  className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#687951] transition-colors"
                 >
                   Mulai Ulang
                 </button>
@@ -670,7 +686,7 @@ export default function QuizScreen({
       )}
 
       {(showExitConfirm || onExitRequest) && (
-        <div className="absolute inset-0 z-[110] bg-black/70 flex items-center justify-center p-4">
+        <div className="absolute inset-0 z-110 bg-black/70 flex items-center justify-center p-4">
           <div className="bg-white rounded-[28px] w-full max-w-sm shadow-2xl overflow-hidden">
             <div className="px-8 py-10 text-center">
               <h3 className="text-xl font-bold text-[#2D2D2A] mb-4">Yakin ingin keluar kuis?</h3>
