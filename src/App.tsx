@@ -19,6 +19,7 @@ const currentScreenRef = useRef<ScreenState>('home');
 const goBackRef = useRef<() => void>(() => {});
 const [showExitConfirm, setShowExitConfirm] = useState(false);
 const [pendingBackAction, setPendingBackAction] = useState<(() => void) | null>(null);
+const isLoadedRef = useRef(false);
 
   // Load progress from localStorage
   useEffect(() => {
@@ -37,10 +38,15 @@ const [pendingBackAction, setPendingBackAction] = useState<(() => void) | null>(
         console.error('Failed to parse saved progress', e);
       }
     }
+    isLoadedRef.current = true;
   }, []);
 
 useEffect(() => {
   const handlePopState = (e: PopStateEvent) => {
+    if (currentScreenRef.current === 'home') {
+      return;
+    }
+
     e.preventDefault();
     window.history.pushState(null, '', window.location.href);
 
@@ -59,6 +65,7 @@ useEffect(() => {
 
   // Save progress to localStorage
   useEffect(() => {
+    if (!isLoadedRef.current) return;
     const progressData = JSON.stringify({ themes, xp, completedLevels, lastPlayed: { themeId: activeThemeId, levelIndex: activeLevelIndex } });
     localStorage.setItem('user_progress', progressData);
   }, [themes, xp, completedLevels, activeThemeId, activeLevelIndex]);

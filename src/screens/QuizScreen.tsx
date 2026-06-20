@@ -25,6 +25,7 @@ type Word = {
   col: number;
   answer: string;
   hint: string;
+  clueNumber: number;
 };
 
 type GridCell = {
@@ -52,9 +53,9 @@ export default function QuizScreen({
   onExitConfirm,
   onExitCancel
 }: Props) {
-  const data = useMemo<QuizData>(() => {
+  const data = useMemo<QuizData & { startCellsMap: Map<string, number> }>(() => {
     const category = vocabCategories.find(c => c.themeId === themeId);
-    if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [] };
+    if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [], startCellsMap: new Map() };
     
     const rawWords = category.words
       .slice(levelIndex * 7, (levelIndex + 1) * 7)
@@ -70,18 +71,39 @@ export default function QuizScreen({
       return true;
     });
     const result = generateCrossword(wordsForLevel.map(w => w.answer));
-    const words: Word[] = result.words.map((w, index) => ({
-      id: index,
-      direction: w.direction,
-      row: w.start.y,
-      col: w.start.x,
-      answer: w.word,
-      hint: wordsForLevel.find(wl => wl.answer === w.word)?.hint || ''
-    }));
+
+    const startCellsMap = new Map<string, number>();
+    let nextNum = 1;
+    
+    const sortedWordsForNumbering = [...result.words].sort((a, b) => {
+      if (a.start.y !== b.start.y) return a.start.y - b.start.y;
+      return a.start.x - b.start.x;
+    });
+
+    sortedWordsForNumbering.forEach(w => {
+      const key = `${w.start.y}-${w.start.x}`;
+      if (!startCellsMap.has(key)) {
+        startCellsMap.set(key, nextNum++);
+      }
+    });
+
+    const words: Word[] = result.words.map((w, index) => {
+      const startNum = startCellsMap.get(`${w.start.y}-${w.start.x}`) || 1;
+      return {
+        id: index,
+        direction: w.direction,
+        row: w.start.y,
+        col: w.start.x,
+        answer: w.word,
+        clueNumber: startNum,
+        hint: wordsForLevel.find(wl => wl.answer === w.word)?.hint || ''
+      };
+    });
     
     return {
       gridSize: { rows: result.grid.length, cols: result.grid[0]?.length || 0 },
-      words
+      words,
+      startCellsMap
     };
   }, [themeId, levelIndex]);
 
@@ -98,6 +120,13 @@ export default function QuizScreen({
   const shakeTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
   const latestLockedCells = useRef<Set<string>>(lockedCells);
   useEffect(() => { latestLockedCells.current = lockedCells; }, [lockedCells]);
+
+  const onCompleteCalledRef = useRef(false);
+  const triggerComplete = () => {
+    if (onCompleteCalledRef.current) return;
+    onCompleteCalledRef.current = true;
+    if (onComplete) onComplete(50);
+  };
 
   useEffect(() => {
     return () => {
@@ -149,7 +178,7 @@ export default function QuizScreen({
           ...g[r][c],
           isBlock: false,
           correct: word.answer[i],
-          number: i === 0 ? word.id : g[r][c].number,
+          number: i === 0 ? word.clueNumber : g[r][c].number,
           wordIds: [...(g[r][c].wordIds || []), word.id]
         };
         if (word.direction === 'across') c++;
@@ -205,7 +234,7 @@ export default function QuizScreen({
     if (lockedCells.size === totalCells) {
       setQuizStatus('success');
       setSelectedCell(null);
-      if (onComplete) onComplete(50);
+      triggerComplete();
     }
   }, [lockedCells, totalCells, quizStatus]);
 
@@ -272,6 +301,31 @@ export default function QuizScreen({
     if (nextCell) {
       latestSelectedCell.current = nextCell;
       setSelectedCell(nextCell);
+    } else {
+      const findAnyUnlockedCell = (): {r: number; c: number} | null => {
+        for (let rowIdx = 0; rowIdx < data.gridSize.rows; rowIdx++) {
+          for (let colIdx = 0; colIdx < data.gridSize.cols; colIdx++) {
+            const k = `${rowIdx}-${colIdx}`;
+            if (!grid[rowIdx][colIdx].isBlock && !latestLockedCells.current.has(k)) {
+              return { r: rowIdx, c: colIdx };
+            }
+          }
+        }
+        return null;
+      };
+
+      const anyUnlockedCell = findAnyUnlockedCell();
+      if (anyUnlockedCell) {
+        latestSelectedCell.current = anyUnlockedCell;
+        setSelectedCell(anyUnlockedCell);
+        const wIds = grid[anyUnlockedCell.r][anyUnlockedCell.c].wordIds;
+        if (wIds && wIds.length > 0) {
+          setActiveWordId(wIds[0]);
+        }
+      } else {
+        latestSelectedCell.current = null;
+        setSelectedCell(null);
+      }
     }
   };
 
@@ -279,6 +333,7 @@ export default function QuizScreen({
     let hasMistake = false;
     const wrongs = new Set<string>();
     const newShaking = new Set<string>();
+    const newlyCorrect = new Set<string>();
 
     for (let r = 0; r < data.gridSize.rows; r++) {
       for (let c = 0; c < data.gridSize.cols; c++) {
@@ -291,14 +346,18 @@ export default function QuizScreen({
             wrongs.add(cellKey);
             if (val) newShaking.add(cellKey);
           } else {
-            setLockedCells(prev => {
-              const next = new Set(prev);
-              next.add(cellKey);
-              return next;
-            });
+            newlyCorrect.add(cellKey);
           }
         }
       }
+    }
+
+    if (newlyCorrect.size > 0) {
+      setLockedCells(prev => {
+        const next = new Set(prev);
+        newlyCorrect.forEach(k => next.add(k));
+        return next;
+      });
     }
 
     if (hasMistake) {
@@ -309,13 +368,12 @@ export default function QuizScreen({
     } else {
       setQuizStatus('success');
       setSelectedCell(null);
-      if (onComplete) {
-        onComplete(50);
-      }
+      triggerComplete();
     }
   };
 
   const restartQuiz = () => {
+    onCompleteCalledRef.current = false;
     setTimeLeft(3 * 60);
     setAnswers({});
     setSelectedCell(null);
@@ -397,15 +455,21 @@ export default function QuizScreen({
         if (!lockedCells.has(`${r}-${c}`)) {
           targetR = r;
           targetC = c;
+          foundUnlocked = true;
           break;
         }
       }
     }
 
-    const nextCell = { r: targetR, c: targetC };
-    latestSelectedCell.current = nextCell;
-    setSelectedCell(nextCell);
-    setTimeout(() => inputRef.current?.focus(), 10);
+    if (foundUnlocked) {
+      const nextCell = { r: targetR, c: targetC };
+      latestSelectedCell.current = nextCell;
+      setSelectedCell(nextCell);
+      setTimeout(() => inputRef.current?.focus(), 10);
+    } else {
+      latestSelectedCell.current = null;
+      setSelectedCell(null);
+    }
   };
 
   const currentHandleKeyPress = useRef(handleKeyPress);
@@ -556,7 +620,7 @@ export default function QuizScreen({
                    ${activeWordId === w.id ? 'bg-[#3A3A35] border-[#7B8E61]' : 'bg-[#1A1A17]/50 border-[#4A4A45] hover:bg-[#1A1A17]'}
                  `}
                >
-                 <div className="text-[10px] text-[#7B8E61] font-bold mb-1 uppercase tracking-widest">MENDATAR ({w.id})</div>
+                 <div className="text-[10px] text-[#7B8E61] font-bold mb-1 uppercase tracking-widest">MENDATAR ({w.clueNumber})</div>
                  <div className="text-sm italic text-gray-300">"{w.hint}"</div>
                </div>
              ))}
@@ -569,7 +633,7 @@ export default function QuizScreen({
                    ${activeWordId === w.id ? 'bg-[#3A3A35] border-[#D4A373]' : 'bg-[#1A1A17]/50 border-[#4A4A45] hover:bg-[#1A1A17]'}
                  `}
                >
-                 <div className="text-[10px] text-[#D4A373] font-bold mb-1 uppercase tracking-widest">MENURUN ({w.id})</div>
+                 <div className="text-[10px] text-[#D4A373] font-bold mb-1 uppercase tracking-widest">MENURUN ({w.clueNumber})</div>
                  <div className="text-sm italic text-gray-300">"{w.hint}"</div>
                </div>
              ))}
@@ -685,23 +749,23 @@ export default function QuizScreen({
         </div>
       )}
 
-      {(showExitConfirm || onExitRequest) && (
+      {showExitConfirm && (
         <div className="absolute inset-0 z-110 bg-black/70 flex items-center justify-center p-4">
           <div className="bg-white rounded-[28px] w-full max-w-sm shadow-2xl overflow-hidden">
             <div className="px-8 py-10 text-center">
               <h3 className="text-xl font-bold text-[#2D2D2A] mb-4">Yakin ingin keluar kuis?</h3>
               <div className="flex flex-col space-y-3">
                 <button 
-                  onClick={onExitConfirm || onBack}
+                  onClick={onExitCancel || onBack}
                   className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-base hover:bg-[#687951] transition-colors"
                 >
-                  Kembali
+                  Lanjutkan Kuis
                 </button>
                 <button 
-                  onClick={onExitCancel || onBack}
+                  onClick={onExitConfirm || onBack}
                   className="w-full bg-white border-2 border-[#E6E2D3] text-[#2D2D2A] font-bold py-4 rounded-xl text-base hover:bg-[#F5F2ED] transition-colors"
                 >
-                  Kerjakan Kuis
+                  Ya, Keluar
                 </button>
               </div>
             </div>
