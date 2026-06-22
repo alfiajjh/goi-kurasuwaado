@@ -261,6 +261,11 @@ export default function QuizScreen({
         latestLockedCells.current = new Set([...latestLockedCells.current, cellKey]);
         setLockedCells(latestLockedCells.current);
       } else {
+        setWrongCells(prev => {
+          const next = new Set(prev);
+          next.add(cellKey);
+          return next;
+        });
         setShakingCells(prev => {
           const next = new Set(prev);
           next.add(cellKey);
@@ -341,10 +346,12 @@ export default function QuizScreen({
         const cellKey = `${r}-${c}`;
         if (!cell.isBlock && !lockedCells.has(cellKey)) {
           const val = answers[cellKey];
-          if (!val || val !== cell.correct) {
+          if (!val) {
+            hasMistake = true;
+          } else if (val !== cell.correct) {
             hasMistake = true;
             wrongs.add(cellKey);
-            if (val) newShaking.add(cellKey);
+            newShaking.add(cellKey);
           } else {
             newlyCorrect.add(cellKey);
           }
@@ -705,7 +712,7 @@ export default function QuizScreen({
                   onClick={onBack}
                   className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#687951] transition-colors"
                 >
-                  Lanjut ke Level Berikutnya →
+                  Kembali ke Daftar Level
                 </button>
                 <button 
                   onClick={() => setQuizStatus('results')}

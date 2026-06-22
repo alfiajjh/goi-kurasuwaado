@@ -9,6 +9,7 @@ type Props = SharedScreenProps & {
   onLevelSelect: (themeId: string, levelIndex: number) => void;
   lastPlayedThemeId: string;
   lastPlayedLevelIndex: number;
+  completedLevels: Record<string, number[]>;
 };
 
 export default function LevelsScreen({
@@ -16,7 +17,8 @@ export default function LevelsScreen({
   onLevelSelect,
   lastPlayedThemeId,
   lastPlayedLevelIndex,
-  onNavigate
+  onNavigate,
+  completedLevels
 }: Props) {
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
 
@@ -51,14 +53,23 @@ export default function LevelsScreen({
                 ? 'text-amber-600 bg-amber-50'
                 : 'text-red-600 bg-red-50';
 
+            const isCompleted = completedLevels[selectedThemeId]?.includes(idx);
+
             return (
               <button
                 key={idx}
                 onClick={() => onLevelSelect(theme.id, idx)}
-                className="w-full bg-white p-4 rounded-2xl border border-[#E6E2D3] shadow-sm flex items-center justify-between hover:border-[#7B8E61] transition-colors active:scale-[0.98] text-left"
+                className="w-full bg-white p-4 rounded-2xl border border-[#E6E2D3] shadow-sm flex items-center justify-between hover:border-[#7B8E61] transition-colors active:scale-[0.98] text-left relative overflow-hidden"
               >
                 <div className="flex flex-col">
-                  <span className="font-bold text-[#2D2D2A] text-lg">Level {idx + 1}</span>
+                  <span className="font-bold text-[#2D2D2A] text-lg flex items-center space-x-2">
+                    <span>Level {idx + 1}</span>
+                    {isCompleted && (
+                      <span className="bg-green-100 text-green-600 rounded-full p-0.5">
+                        <Icons.Check className="w-3 h-3" />
+                      </span>
+                    )}
+                  </span>
                   <span className="text-xs text-[#8B8B7A] mt-1">{chunk.length} Kata</span>
                 </div>
                 <div className={`px-3 py-1 rounded-full text-xs font-bold ${difficultyColor}`}>
@@ -77,16 +88,32 @@ export default function LevelsScreen({
 
   let nextThemeId = themes[0].id;
   let nextLevelIdx = 0;
-  for (const theme of themes) {
-    if (theme.progress < 100) {
-      nextThemeId = theme.id;
-      const category = vocabCategories.find(c => c.themeId === theme.id);
-      if (category) {
-        const totalLevels = Math.ceil(category.words.length / 7);
-        const progressIncrement = Math.ceil(100 / totalLevels);
-        nextLevelIdx = Math.min(totalLevels - 1, Math.floor(theme.progress / progressIncrement));
+
+  const findNextInTheme = (themeId: string) => {
+    const category = vocabCategories.find(c => c.themeId === themeId);
+    if (!category) return null;
+    const totalLevels = Math.ceil(category.words.length / 7);
+    const comp = completedLevels[themeId] || [];
+    for (let i = 0; i < totalLevels; i++) {
+      if (!comp.includes(i)) return i;
+    }
+    return null;
+  };
+
+  const nextIdxInLastTheme = findNextInTheme(lastPlayedThemeId);
+  if (nextIdxInLastTheme !== null) {
+    nextThemeId = lastPlayedThemeId;
+    nextLevelIdx = nextIdxInLastTheme;
+  } else {
+    for (const theme of themes) {
+      if (theme.progress < 100 && !theme.isLocked) {
+        const nextIdx = findNextInTheme(theme.id);
+        if (nextIdx !== null) {
+          nextThemeId = theme.id;
+          nextLevelIdx = nextIdx;
+          break;
+        }
       }
-      break;
     }
   }
 

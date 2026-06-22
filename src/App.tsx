@@ -51,7 +51,7 @@ useEffect(() => {
     window.history.pushState(null, '', window.location.href);
 
     if (currentScreenRef.current === 'quiz') {
-      setPendingBackAction(goBackRef.current);
+      setPendingBackAction(() => goBackRef.current);
       setShowExitConfirm(true);
     } else {
       goBackRef.current();
@@ -126,7 +126,7 @@ goBackRef.current = goBack;
   };
 
   const handleExitRequest = () => {
-    setPendingBackAction(goBack);
+    setPendingBackAction(() => goBack);
     setShowExitConfirm(true);
   };
 
@@ -164,6 +164,7 @@ goBackRef.current = goBack;
               lastPlayedThemeId={activeThemeId}
               lastPlayedLevelIndex={activeLevelIndex}
               onNavigate={navigateTo}
+              completedLevels={completedLevels}
             />
           )}
           {currentScreen === 'vocab' && (
@@ -176,7 +177,8 @@ goBackRef.current = goBack;
               themeId={activeThemeId} 
               levelIndex={activeLevelIndex}
               themeProgress={themes.find(t => t.id === activeThemeId)?.progress || 0}
-              onBack={handleExitRequest}
+              onBack={goBack}
+              onExitRequest={handleExitRequest}
               onVocab={() => navigateTo('vocab')}
               onComplete={(xpGain) => handleLevelComplete(activeThemeId, activeLevelIndex, xpGain)}
               onNavigate={navigateTo}
