@@ -124,6 +124,7 @@ export default function QuizScreen({
   useEffect(() => { latestLockedCells.current = lockedCells; }, [lockedCells]);
 
   const onCompleteCalledRef = useRef(false);
+  const isExitConfirmedRef = useRef(false);
   const triggerComplete = () => {
     if (onCompleteCalledRef.current) return;
     onCompleteCalledRef.current = true;
@@ -133,6 +134,30 @@ export default function QuizScreen({
   useEffect(() => {
     return () => {
       shakeTimeouts.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (quizStatus !== 'playing') return;
+
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = true;
+      return true;
+    };
+
+    window.addEventListener('beforeunload', handler);
+    return () => {
+      window.removeEventListener('beforeunload', handler);
+    };
+  }, [quizStatus]);
+
+  useEffect(() => {
+    return () => {
+      if (quizStatus === 'playing' && !isExitConfirmedRef.current) {
+        isExitConfirmedRef.current = true;
+        if (onExitConfirm) onExitConfirm();
+      }
     };
   }, []);
 
