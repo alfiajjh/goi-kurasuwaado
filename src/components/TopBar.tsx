@@ -9,11 +9,13 @@ type TopBarProps = {
   rightElement?: React.ReactNode;
   transparent?: boolean;
   onNavigate?: (screen: string) => void;
+  hideMenu?: boolean;
 };
 
-export default function TopBar({ title, showBack, onBack, rightElement, transparent, onNavigate }: TopBarProps) {
+export default function TopBar({ title, showBack, onBack, rightElement, transparent, onNavigate, hideMenu }: TopBarProps) {
   const [showResetModal, setShowResetModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const username = localStorage.getItem('username') || '';
 
   return (
     <>
@@ -31,23 +33,28 @@ export default function TopBar({ title, showBack, onBack, rightElement, transpar
         </div>
         <div className="flex items-center space-x-3">
           {rightElement}
-          <button 
-            onClick={() => setShowMenu(true)}
-            className={`p-2 -mr-2 rounded-full transition-colors ${transparent ? 'text-white hover:bg-white/10' : 'text-[#7B8E61] hover:bg-[#F5F2ED]'}`}
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+          {!hideMenu && (
+            <button 
+              onClick={() => setShowMenu(true)}
+              className={`p-2 -mr-2 rounded-full transition-colors ${transparent ? 'text-white hover:bg-white/10' : 'text-[#7B8E61] hover:bg-[#F5F2ED]'}`}
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          )}
         </div>
       </div>
 
-      {showMenu && (
+      {!hideMenu && showMenu && (
         <div className="fixed inset-0 z-[9998] bg-black/60 transition-opacity" onClick={() => setShowMenu(false)}>
           <div 
             className="absolute top-0 right-0 w-72 h-full bg-white shadow-2xl flex flex-col transform transition-transform" 
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-5 border-b border-[#E6E2D3] bg-[#F5F2ED]">
-              <h2 className="font-bold text-lg text-[#2D2D2A]">Menu</h2>
+              <div>
+                <h2 className="font-bold text-lg text-[#2D2D2A]">Menu</h2>
+                {username && <p className="text-sm text-[#8B8B7A] mt-0.5">{username}</p>}
+              </div>
               <button onClick={() => setShowMenu(false)} className="p-2 -mr-2 rounded-full hover:bg-black/5 text-[#4A4A40]">
                 <X className="w-6 h-6" />
               </button>
@@ -67,7 +74,7 @@ export default function TopBar({ title, showBack, onBack, rightElement, transpar
                 className="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#FBF9F6] active:bg-[#F5F2ED] transition-colors text-left"
               >
                 <div className="bg-[#E6E2D3] p-2 rounded-lg text-[#4A4A40]"><Star className="w-5 h-5" /></div>
-                <span className="font-semibold text-[#2D2D2A]">Level</span>
+                <span className="font-semibold text-[#2D2D2A]">Tema</span>
               </button>
               
               <button 
@@ -88,6 +95,12 @@ export default function TopBar({ title, showBack, onBack, rightElement, transpar
                 <span className="font-semibold text-red-600">Reset Progres</span>
               </button>
             </div>
+
+            <div className="px-5 py-4 border-t border-[#E6E2D3] mt-auto">
+              <p className="text-[10px] text-[#8B8B7A] text-center uppercase tracking-widest">
+                Goi Kurosuwado - Beta Test 1.0
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -106,6 +119,7 @@ export default function TopBar({ title, showBack, onBack, rightElement, transpar
               </button>
               <button 
                 onClick={() => {
+                  localStorage.removeItem('username');
                   localStorage.removeItem('user_progress');
                   window.location.reload();
                 }}

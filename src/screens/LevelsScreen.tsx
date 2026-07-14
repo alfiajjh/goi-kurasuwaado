@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { vocabCategories } from '../data';
 import * as Icons from 'lucide-react';
 import TopBar from '../components/TopBar';
+import Pressable from '../components/Pressable';
 import { SharedScreenProps } from '../types';
 
 type Props = SharedScreenProps & {
@@ -41,29 +42,36 @@ export default function LevelsScreen({
 
         <div className="px-5 pt-6 pb-4 relative z-10">
           <h2 className="text-2xl font-bold text-[#2D2D2A] mb-2">{theme.title}</h2>
-          <p className="text-[#8B8B7A] text-sm">Selesaikan level untuk menguasai kosakata tema ini.</p>
+          <p className="text-[#8B8B7A] text-sm">Selesaikan setiap tema untuk menguasai kosakata ini.</p>
+        </div>
+
+        <div className="px-5 pb-3 relative z-10">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-bold text-[#8B8B7A] uppercase tracking-wider">Progres Tema</span>
+            <span className="text-xs font-bold text-[#7B8E61]">{theme.progress}%</span>
+          </div>
+          <div className="w-full bg-[#E6E2D3] h-2.5 rounded-full overflow-hidden">
+            <div
+              className="bg-[#7B8E61] h-full rounded-full transition-all duration-500"
+              style={{ width: `${theme.progress}%` }}
+            />
+          </div>
         </div>
 
         <div className="px-5 space-y-3 pb-8 relative z-10">
           {chunks.map((chunk, idx) => {
-            const difficultyLabel = idx < 2 ? 'Mudah' : idx < 4 ? 'Sedang' : 'Sulit';
-            const difficultyColor = idx < 2
-              ? 'text-green-600 bg-green-50'
-              : idx < 4
-                ? 'text-amber-600 bg-amber-50'
-                : 'text-red-600 bg-red-50';
-
             const isCompleted = completedLevels[selectedThemeId]?.includes(idx);
 
             return (
-              <button
+              <Pressable
+                variant="bounce"
                 key={idx}
                 onClick={() => onLevelSelect(theme.id, idx)}
-                className="w-full bg-white p-4 rounded-2xl border border-[#E6E2D3] shadow-sm flex items-center justify-between hover:border-[#7B8E61] transition-colors active:scale-[0.98] text-left relative overflow-hidden"
+                className="w-full bg-white p-4 rounded-2xl border border-[#E6E2D3] shadow-sm flex items-center justify-between hover:border-[#7B8E61] transition-colors text-left relative overflow-hidden"
               >
                 <div className="flex flex-col">
                   <span className="font-bold text-[#2D2D2A] text-lg flex items-center space-x-2">
-                    <span>Level {idx + 1}</span>
+                    <span>Tema {idx + 1}</span>
                     {isCompleted && (
                       <span className="bg-green-100 text-green-600 rounded-full p-0.5">
                         <Icons.Check className="w-3 h-3" />
@@ -72,10 +80,7 @@ export default function LevelsScreen({
                   </span>
                   <span className="text-xs text-[#8B8B7A] mt-1">{chunk.length} Kata</span>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-bold ${difficultyColor}`}>
-                  {difficultyLabel}
-                </div>
-              </button>
+              </Pressable>
             );
           })}
           {chunks.length === 0 && (
@@ -129,11 +134,21 @@ export default function LevelsScreen({
         <p className="text-[#8B8B7A] text-sm">Pilih topik JLPT N4 untuk mulai mengisi teka-teki silang.</p>
       </div>
 
+      <div className="px-5 mb-4 relative z-10">
+        <div className="bg-[#7B8E61]/10 border border-[#7B8E61]/20 rounded-2xl p-3 flex items-center space-x-3">
+          <Icons.Info className="w-5 h-5 text-[#7B8E61] shrink-0" />
+          <p className="text-xs text-[#2D2D2A] leading-relaxed">
+            Selesaikan semua kuis dalam tema untuk membuka tema berikutnya.
+          </p>
+        </div>
+      </div>
+
       <div className="px-5 space-y-4 mb-8 relative z-10">
         {themes.map((theme) => {
           const Icon = (Icons as any)[theme.icon] || Icons.HelpCircle;
           return (
-            <button
+            <Pressable
+              variant="bounce"
               key={theme.id}
               onClick={() => {
                 if (!theme.isLocked) setSelectedThemeId(theme.id);
@@ -141,7 +156,7 @@ export default function LevelsScreen({
               className={`w-full p-4 rounded-3xl border shadow-sm flex items-center space-x-4 transition-colors text-left relative overflow-hidden ${
                 theme.isLocked 
                   ? 'bg-gray-100 border-gray-200 cursor-not-allowed opacity-75' 
-                  : 'bg-white border-[#E6E2D3] hover:border-[#7B8E61] active:scale-[0.98]'
+                  : 'bg-white border-[#E6E2D3] hover:border-[#7B8E61]'
               }`}
             >
               <div className={`absolute -right-4 -bottom-4 opacity-5 w-24 h-24 ${theme.color}`}>
@@ -166,21 +181,13 @@ export default function LevelsScreen({
                   )}
                 </div>
 
-                {theme.progress > 0 && theme.progress < 100 ? (
-                  <div className="w-full bg-[#F5F2ED] h-2 rounded-full overflow-hidden mb-2">
-                    <div className="bg-[#7B8E61] h-full rounded-full" style={{ width: `${theme.progress}%` }} />
-                  </div>
-                ) : theme.progress === 100 ? (
-                  <div className="w-full bg-[#F5F2ED] h-2 rounded-full overflow-hidden mb-2">
-                    <div className="bg-[#7B8E61] h-full rounded-full w-full" />
-                  </div>
-                ) : (
-                  <div className="w-full bg-[#F5F2ED] h-2 rounded-full mb-2" />
-                )}
+                <div className="w-full bg-[#F5F2ED] h-2 rounded-full overflow-hidden mb-2">
+                  <div className="bg-[#7B8E61] h-full rounded-full transition-all duration-500" style={{ width: `${theme.progress}%` }} />
+                </div>
 
                 <p className="text-xs text-[#8B8B7A]">{theme.subtitle}</p>
               </div>
-            </button>
+            </Pressable>
           );
         })}
       </div>
@@ -192,14 +199,15 @@ export default function LevelsScreen({
 
           <h3 className="font-medium text-white/90 mb-2">Lanjutkan Belajar</h3>
           <p className="text-lg font-semibold leading-tight mb-6 max-w-[200px]">
-            Lanjut ke level berikutnya
+            Lanjut ke tema berikutnya
           </p>
-          <button
+          <Pressable
+            variant="pop"
             onClick={() => onLevelSelect(nextThemeId, nextLevelIdx)}
-            className="bg-[#F5F2ED] text-[#D4A373] font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-white active:scale-95 transition-all shadow-sm"
+            className="bg-[#F5F2ED] text-[#D4A373] font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-white transition-all shadow-sm"
           >
             LANJUTKAN
-          </button>
+          </Pressable>
         </div>
       </div>
     </div>

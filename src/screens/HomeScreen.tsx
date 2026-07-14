@@ -1,5 +1,6 @@
-import { Play, BookOpen, Star } from 'lucide-react';
+import { Play, BookOpen, Star, Lock } from 'lucide-react';
 import TopBar from '../components/TopBar';
+import Pressable from '../components/Pressable';
 import { APP_DATA } from '../data';
 import type { SharedScreenProps } from '../types';
 
@@ -7,11 +8,19 @@ type Props = SharedScreenProps & {
   overallProgress: number;
   onPlay: () => void;
   onVocab: () => void;
+  username?: string;
+  themes: { title: string; progress: number; isLocked: boolean }[];
 };
 
-export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigate }: Props) {
+export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigate, username, themes }: Props) {
   return (
-    <div className="flex flex-col h-full overflow-y-auto bg-[#F5F2ED] relative">
+    <div
+      className="flex flex-col h-full overflow-y-auto relative"
+      style={{
+        backgroundColor: '#F5F2ED',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%232D2D2A' opacity='0.05'/%3E%3C/svg%3E")`,
+      }}
+    >
       <TopBar title="Goi Kurosuwaado" showBack={false} onNavigate={onNavigate} />
 
       {/* Background decorations */}
@@ -40,19 +49,23 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
             <h1 className="text-3xl font-bold text-[#2D2D2A] tracking-tight mb-0.5">Goi Kurosuwaado</h1>
             <p className="text-[#8B8B7A] font-medium text-sm">JLPT N4 Vocabulary Training</p>
           </div>
+          {username && (
+            <p className="text-[#D4A373] font-semibold text-sm mb-2">Selamat datang, {username}!</p>
+          )}
         </div>
 
-        <button
+        <Pressable
+          variant="pop"
           onClick={onPlay}
-          className="w-full max-w-sm bg-[#7B8E61] hover:bg-[#687951] text-white rounded-xl py-4 flex items-center justify-center space-x-3 shadow-md transition-all active:scale-[0.98]"
+          className="w-full max-w-sm bg-[#7B8E61] hover:bg-[#687951] text-white rounded-xl py-4 flex items-center justify-center space-x-3 shadow-md transition-colors"
         >
           <Play className="w-6 h-6 fill-white" />
           <span className="text-lg font-bold tracking-wide">MULAI MAIN</span>
-        </button>
+        </Pressable>
       </div>
 
       <div className="px-6 mb-4 relative z-10">
-        <button onClick={onVocab} className="w-full bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm flex items-center space-x-4 active:scale-[0.98]">
+        <Pressable variant="bounce" onClick={onVocab} className="w-full bg-white p-5 rounded-3xl text-left hover:bg-[#FBF9F6] transition-colors border border-[#E6E2D3] shadow-sm flex items-center space-x-4">
           <div className="bg-[#F5F2ED] p-3 rounded-2xl">
             <BookOpen className="w-6 h-6 text-[#D4A373]" />
           </div>
@@ -60,7 +73,7 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
             <h3 className="font-semibold text-[#2D2D2A] mb-1 leading-tight">Bank Kosakata</h3>
             <p className="text-xs text-[#8B8B7A]">Tinjau seluruh kosakata JLPT N4</p>
           </div>
-        </button>
+        </Pressable>
       </div>
 
       <div className="px-6 mb-8 relative z-10">
@@ -78,6 +91,33 @@ export default function HomeScreen({ overallProgress, onPlay, onVocab, onNavigat
                 <Star className="w-full h-full fill-[#D4A373]" />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-6 mb-8 relative z-10">
+        <div className="bg-white p-5 rounded-3xl shadow-sm border border-[#E6E2D3]">
+          <h3 className="font-semibold text-[#2D2D2A] mb-4">Progres per Tema</h3>
+          <div className="space-y-3">
+            {themes.map((theme) => (
+              <div key={theme.title} className={`flex flex-col ${theme.isLocked ? 'opacity-40' : ''}`}>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-sm font-medium text-[#2D2D2A] truncate pr-2">
+                    {theme.isLocked && <Lock className="w-3 h-3 inline mr-1" />}
+                    {theme.title}
+                  </span>
+                  <span className="text-xs font-bold text-[#7B8E61] shrink-0">
+                    {theme.progress}%
+                  </span>
+                </div>
+                <div className="w-full bg-[#F5F2ED] h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#7B8E61] h-full rounded-full transition-all duration-500"
+                    style={{ width: `${theme.progress}%` }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

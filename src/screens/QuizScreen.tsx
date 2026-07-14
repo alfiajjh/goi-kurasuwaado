@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import TopBar from '../components/TopBar';
+import Pressable from '../components/Pressable';
 import { vocabCategories, themes } from '../data';
-import { generateCrossword } from '../utils/crossword';
-import { Timer, Star, CheckCircle2, X, Brain } from 'lucide-react';
+import { generateCrossword, shuffle } from '../utils/crossword';
+import { Timer, Star, X } from 'lucide-react';
 
 type Props = {
   themeId: string;
@@ -53,12 +54,14 @@ export default function QuizScreen({
   onExitConfirm,
   onExitCancel
 }: Props) {
+  const [seed, setSeed] = useState(0);
+
   const data = useMemo<QuizData & { startCellsMap: Map<string, number> }>(() => {
     const category = vocabCategories.find(c => c.themeId === themeId);
     if (!category) return { gridSize: { rows: 0, cols: 0 }, words: [], startCellsMap: new Map() };
     
-    const rawWords = category.words
-      .slice(levelIndex * 7, (levelIndex + 1) * 7)
+    const rawWords = shuffle(category.words)
+      .slice(0, 7)
       .map(w => ({
         answer: w.romaji.toUpperCase().replace(/[^A-Z]/g, ''),
         hint: w.indonesian
@@ -70,7 +73,7 @@ export default function QuizScreen({
       seen.add(w.answer);
       return true;
     });
-    const result = generateCrossword(wordsForLevel.map(w => w.answer));
+    const result = generateCrossword(shuffle(wordsForLevel.map(w => w.answer)));
 
     const startCellsMap = new Map<string, number>();
     let nextNum = 1;
@@ -105,7 +108,7 @@ export default function QuizScreen({
       words,
       startCellsMap
     };
-  }, [themeId, levelIndex]);
+  }, [themeId, levelIndex, seed]);
 
   const [timeLeft, setTimeLeft] = useState(3 * 60);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -115,7 +118,6 @@ export default function QuizScreen({
   const [lockedCells, setLockedCells] = useState<Set<string>>(new Set());
   const [shakingCells, setShakingCells] = useState<Set<string>>(new Set());
   const [quizStatus, setQuizStatus] = useState<'playing' | 'success' | 'failed' | 'results'>('playing');
-  const [isHardMode, setIsHardMode] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const shakeTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
   const latestLockedCells = useRef<Set<string>>(lockedCells);
@@ -256,30 +258,28 @@ export default function QuizScreen({
 
     const cell = grid[r][c];
 
-    if (!isHardMode) {
-      if (key === cell.correct) {
-        latestLockedCells.current = new Set([...latestLockedCells.current, cellKey]);
-        setLockedCells(latestLockedCells.current);
-      } else {
-        setWrongCells(prev => {
-          const next = new Set(prev);
-          next.add(cellKey);
-          return next;
-        });
+    if (key === cell.correct) {
+      latestLockedCells.current = new Set([...latestLockedCells.current, cellKey]);
+      setLockedCells(latestLockedCells.current);
+    } else {
+      setWrongCells(prev => {
+        const next = new Set(prev);
+        next.add(cellKey);
+        return next;
+      });
+      setShakingCells(prev => {
+        const next = new Set(prev);
+        next.add(cellKey);
+        return next;
+      });
+      const timeoutId = setTimeout(() => {
         setShakingCells(prev => {
           const next = new Set(prev);
-          next.add(cellKey);
+          next.delete(cellKey);
           return next;
         });
-        const timeoutId = setTimeout(() => {
-          setShakingCells(prev => {
-            const next = new Set(prev);
-            next.delete(cellKey);
-            return next;
-          });
-        }, 400);
-        shakeTimeouts.current.push(timeoutId);
-      }
+      }, 400);
+      shakeTimeouts.current.push(timeoutId);
     }
 
     const word = data.words.find((w: Word) => w.id === activeWordId);
@@ -334,51 +334,6 @@ export default function QuizScreen({
     }
   };
 
-  const checkAnswers = () => {
-    let hasMistake = false;
-    const wrongs = new Set<string>();
-    const newShaking = new Set<string>();
-    const newlyCorrect = new Set<string>();
-
-    for (let r = 0; r < data.gridSize.rows; r++) {
-      for (let c = 0; c < data.gridSize.cols; c++) {
-        const cell = grid[r][c];
-        const cellKey = `${r}-${c}`;
-        if (!cell.isBlock && !lockedCells.has(cellKey)) {
-          const val = answers[cellKey];
-          if (!val) {
-            hasMistake = true;
-          } else if (val !== cell.correct) {
-            hasMistake = true;
-            wrongs.add(cellKey);
-            newShaking.add(cellKey);
-          } else {
-            newlyCorrect.add(cellKey);
-          }
-        }
-      }
-    }
-
-    if (newlyCorrect.size > 0) {
-      setLockedCells(prev => {
-        const next = new Set(prev);
-        newlyCorrect.forEach(k => next.add(k));
-        return next;
-      });
-    }
-
-    if (hasMistake) {
-      setWrongCells(wrongs);
-      setShakingCells(newShaking);
-      const timeoutId = setTimeout(() => setShakingCells(new Set()), 400);
-      shakeTimeouts.current.push(timeoutId);
-    } else {
-      setQuizStatus('success');
-      setSelectedCell(null);
-      triggerComplete();
-    }
-  };
-
   const restartQuiz = () => {
     onCompleteCalledRef.current = false;
     setTimeLeft(3 * 60);
@@ -388,6 +343,7 @@ export default function QuizScreen({
     setLockedCells(new Set());
     setShakingCells(new Set());
     setQuizStatus('playing');
+    setSeed(s => s + 1);
   };
 
   const handleDelete = () => {
@@ -481,12 +437,10 @@ export default function QuizScreen({
 
   const currentHandleKeyPress = useRef(handleKeyPress);
   const currentHandleDelete = useRef(handleDelete);
-  const currentCheckAnswers = useRef(checkAnswers);
   const currentHandleCellClick = useRef(handleCellClick);
   
   useEffect(() => { currentHandleKeyPress.current = handleKeyPress; });
   useEffect(() => { currentHandleDelete.current = handleDelete; });
-  useEffect(() => { currentCheckAnswers.current = checkAnswers; });
   useEffect(() => { currentHandleCellClick.current = handleCellClick; });
 
   useEffect(() => {
@@ -500,8 +454,6 @@ export default function QuizScreen({
         }
       } else if (e.key === 'Backspace') {
         currentHandleDelete.current();
-      } else if (e.key === 'Enter') {
-        currentCheckAnswers.current();
       } else if (e.key.startsWith('Arrow')) {
         e.preventDefault();
         const { r, c } = latestSelectedCell.current;
@@ -543,15 +495,9 @@ export default function QuizScreen({
         onBack={handleBackClick}
         transparent={true}
         onNavigate={onNavigate}
+        hideMenu={true}
         rightElement={
           <div className="flex items-center space-x-2">
-            <button 
-              onClick={() => setIsHardMode(!isHardMode)}
-              className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-colors ${isHardMode ? 'bg-purple-500/20 text-purple-300' : 'bg-white/10 text-white/70'}`}
-            >
-              <Brain className="w-3.5 h-3.5" />
-              <span>{isHardMode ? 'HARD' : 'EASY'}</span>
-            </button>
             <div className="flex items-center space-x-2 bg-white/10 text-[#7B8E61] px-3 py-1.5 rounded-lg text-sm font-bold font-mono">
               <Timer className="w-4 h-4" />
               <span>{formatTime(timeLeft)}</span>
@@ -562,7 +508,7 @@ export default function QuizScreen({
 
       <div className="flex-1 flex flex-col min-h-0 relative z-10">
         <div className="px-5 py-2 w-full flex justify-between items-center shrink-0">
-           <div className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white font-bold tracking-widest uppercase">{themeTitle} - Level {levelIndex + 1}</div>
+           <div className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white font-bold tracking-widest uppercase">{themeTitle} - Tema {levelIndex + 1}</div>
            <div className="flex items-center space-x-2 text-[#7B8E61] text-sm font-bold">
              <span>Kemajuan {totalCells > 0 ? Math.round((lockedCells.size / totalCells) * 100) : 0}%</span>
            </div>
@@ -649,17 +595,7 @@ export default function QuizScreen({
        </div>
 
       {selectedCell && quizStatus === 'playing' && (
-        <div className="absolute bottom-0 left-0 w-full z-50 bg-[#2D2D2A] border-t border-[#4A4A45]/50 p-4 pb-8 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
-           <div className="max-w-md mx-auto">
-             <button 
-                onClick={checkAnswers}
-                className="w-full bg-[#D4A373] text-white font-bold py-4 rounded-2xl text-base hover:bg-[#C28E5C] transition-colors shadow-lg active:scale-[0.98] flex items-center justify-center space-x-2"
-              >
-                <CheckCircle2 className="w-5 h-5" />
-                <span>CEK JAWABAN</span>
-              </button>
-           </div>
-           
+        <div className="absolute bottom-0 left-0 w-full z-50">
            <input
              ref={inputRef}
              type="text"
@@ -708,18 +644,20 @@ export default function QuizScreen({
               </div>
 
               <div className="flex flex-col w-full space-y-3">
-                <button 
+                <Pressable
+                  variant="pop"
                   onClick={onBack}
                   className="w-full bg-[#7B8E61] text-white font-bold py-4 rounded-xl text-lg hover:bg-[#687951] transition-colors"
                 >
-                  Kembali ke Daftar Level
-                </button>
-                <button 
+                  Kembali ke Daftar Tema
+                </Pressable>
+                <Pressable
+                  variant="bounce"
                   onClick={() => setQuizStatus('results')}
                   className="w-full bg-slate-200 text-slate-700 font-bold py-4 rounded-xl text-lg hover:bg-slate-300 transition-colors"
                 >
                   Lihat Hasil
-                </button>
+                </Pressable>
               </div>
             </div>
           </div>

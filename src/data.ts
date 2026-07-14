@@ -5,7 +5,7 @@ export const APP_DATA = {
 
 export const themes = [
   { id: 'theme_0', title: 'Aktivitas Sehari-hari', subtitle: 'Rutinitas & Kebutuhan', icon: 'Home', progress: 0, isLocked: false, color: 'text-[#7B8E61]', bgColor: 'bg-[#FBF9F6]' },
-  { id: 'theme_1', title: 'Pergerakan & Arah', subtitle: 'Transportasi', icon: 'Plane', progress: 0, isLocked: false, color: 'text-[#D4A373]', bgColor: 'bg-[#FBF9F6]' },
+  { id: 'theme_1', title: 'Pergerakan & Arah', subtitle: 'Transportasi', icon: 'Plane', progress: 0, isLocked: true, color: 'text-[#D4A373]', bgColor: 'bg-[#FBF9F6]' },
   { id: 'theme_2', title: 'Komunikasi', subtitle: 'Interaksi Sosial', icon: 'Users', progress: 0, isLocked: true, color: 'text-[#8B8B7A]', bgColor: 'bg-[#FBF9F6]' },
   { id: 'theme_3', title: 'Pekerjaan & Belajar', subtitle: 'Aktivitas Kognitif', icon: 'Briefcase', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },
   { id: 'theme_4', title: 'Transaksi', subtitle: 'Kepemilikan Barang', icon: 'ShoppingBag', progress: 0, isLocked: true, color: 'text-slate-400', bgColor: 'bg-[#F5F2ED]' },

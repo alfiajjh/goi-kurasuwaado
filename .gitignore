@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+.kilo/plans/1784007342035-ui-enhancements-plan.md
+.kilo/plans/1784007660960-home-theme-progress-background.md
+.kilo/plans/1784008466345-theme-lock-info-banner.md
+.kilo/plans/1784010643054-move-beta-text-to-burger-menu.md

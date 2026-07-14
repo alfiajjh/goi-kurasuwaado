@@ -3,12 +3,17 @@ import HomeScreen from './screens/HomeScreen';
 import LevelsScreen from './screens/LevelsScreen';
 import VocabScreen from './screens/VocabScreen';
 import QuizScreen from './screens/QuizScreen';
+import UsernameScreen from './screens/UsernameScreen';
 import { themes as initialThemes, APP_DATA as initialAppData, vocabCategories } from './data';
+import { AnimatePresence } from 'motion/react';
 
-type ScreenState = 'home' | 'levels' | 'vocab' | 'quiz';
+type ScreenState = 'username' | 'home' | 'levels' | 'vocab' | 'quiz';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenState>('home');
+  const [username, setUsername] = useState<string>(() => localStorage.getItem('username') || '');
+  const [currentScreen, setCurrentScreen] = useState<ScreenState>(
+    () => (localStorage.getItem('username') || '') ? 'home' as ScreenState : 'username' as ScreenState
+  );
   const [activeThemeId, setActiveThemeId] = useState<string>('theme_0');
   const [activeLevelIndex, setActiveLevelIndex] = useState<number>(0);
   const [themes, setThemes] = useState(initialThemes);
@@ -86,6 +91,12 @@ const goBack = () => {
 };
 goBackRef.current = goBack;
 
+const handleUsernameSubmit = (name: string) => {
+  localStorage.setItem('username', name);
+  setUsername(name);
+  navigateTo('home');
+};
+
   const startLevel = (themeId: string, levelIndex: number) => {
     setActiveThemeId(themeId);
     setActiveLevelIndex(levelIndex);
@@ -149,45 +160,53 @@ goBackRef.current = goBack;
     <div className="w-full h-dvh bg-black bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
       <div className="w-full max-w-md h-full mx-auto bg-white relative overflow-hidden shadow-2xl flex flex-col font-sans">
         <main className="flex-1 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-[#F5F2ED]">
-          {currentScreen === 'home' && (
-            <HomeScreen 
-              overallProgress={overallProgress}
-              onPlay={() => navigateTo('levels')} 
-              onVocab={() => navigateTo('vocab')}
-              onNavigate={navigateTo}
-            />
-          )}
-          {currentScreen === 'levels' && (
-            <LevelsScreen 
-              themes={themes} 
-              onLevelSelect={startLevel} 
-              lastPlayedThemeId={activeThemeId}
-              lastPlayedLevelIndex={activeLevelIndex}
-              onNavigate={navigateTo}
-              completedLevels={completedLevels}
-            />
-          )}
-          {currentScreen === 'vocab' && (
-            <VocabScreen 
-              onNavigate={navigateTo}
-            />
-          )}
-          {currentScreen === 'quiz' && (
-            <QuizScreen 
-              themeId={activeThemeId} 
-              levelIndex={activeLevelIndex}
-              themeProgress={themes.find(t => t.id === activeThemeId)?.progress || 0}
-              onBack={goBack}
-              onExitRequest={handleExitRequest}
-              onVocab={() => navigateTo('vocab')}
-              onComplete={(xpGain) => handleLevelComplete(activeThemeId, activeLevelIndex, xpGain)}
-              onNavigate={navigateTo}
-              showExitConfirm={showExitConfirm}
-              onExitConfirm={handleExitConfirm}
-              onExitCancel={handleExitCancel}
-            />
-          )}
+          <div key={currentScreen} className="w-full h-full screen-enter screen-active">
+            {currentScreen === 'username' && (
+              <UsernameScreen onSubmit={handleUsernameSubmit} />
+            )}
+            {currentScreen === 'home' && (
+              <HomeScreen 
+                overallProgress={overallProgress}
+                onPlay={() => navigateTo('levels')} 
+                onVocab={() => navigateTo('vocab')}
+                onNavigate={navigateTo}
+                username={username}
+                themes={themes}
+              />
+            )}
+            {currentScreen === 'levels' && (
+              <LevelsScreen 
+                themes={themes} 
+                onLevelSelect={startLevel} 
+                lastPlayedThemeId={activeThemeId}
+                lastPlayedLevelIndex={activeLevelIndex}
+                onNavigate={navigateTo}
+                completedLevels={completedLevels}
+              />
+            )}
+            {currentScreen === 'vocab' && (
+              <VocabScreen 
+                onNavigate={navigateTo}
+              />
+            )}
+            {currentScreen === 'quiz' && (
+              <QuizScreen 
+                themeId={activeThemeId} 
+                levelIndex={activeLevelIndex}
+                themeProgress={themes.find(t => t.id === activeThemeId)?.progress || 0}
+                onBack={goBack}
+                onExitRequest={handleExitRequest}
+                onVocab={() => navigateTo('vocab')}
+                onComplete={(xpGain) => handleLevelComplete(activeThemeId, activeLevelIndex, xpGain)}
+                onNavigate={navigateTo}
+                showExitConfirm={showExitConfirm}
+                onExitConfirm={handleExitConfirm}
+                onExitCancel={handleExitCancel}
+              />
+            )}
+          </div>
         </main>
+
       </div>
     </div>
   );

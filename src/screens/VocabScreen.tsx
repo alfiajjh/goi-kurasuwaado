@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import TopBar from '../components/TopBar';
+import Pressable from '../components/Pressable';
 import { vocabCategories } from '../data';
 import { Search, ArrowLeft, ChevronRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import type { SharedScreenProps } from '../types';
+import { getIllustration, getThemeIllustration } from '../utils/illustrations';
 
 type Props = SharedScreenProps;
 
@@ -82,12 +84,19 @@ export default function VocabScreen({ onNavigate }: SharedScreenProps) {
 
         {/* Word list */}
         <div className="px-5 pb-8 space-y-3">
-          {filteredWords.map((word, idx) => (
+          {filteredWords.map((word, idx) => {
+            const illustration = getIllustration(word.romaji);
+            return (
             <div
               key={idx}
-              className="bg-white p-4 rounded-2xl flex justify-between items-center shadow-sm border border-[#E6E2D3] hover:shadow-md transition-shadow"
+              className="bg-white p-4 rounded-2xl flex items-center space-x-3 shadow-sm border border-[#E6E2D3] hover:shadow-md transition-shadow"
             >
-              <div>
+              {illustration && (
+                <span className="text-2xl w-10 h-10 flex items-center justify-center bg-[#F5F2ED] rounded-xl">
+                  {illustration}
+                </span>
+              )}
+              <div className="flex-1">
                 <h3 className="font-bold text-[#2D2D2A] text-lg leading-none mb-1">{word.romaji}</h3>
                 <span className="text-xs text-[#8B8B7A] block">{word.kanji}</span>
               </div>
@@ -95,7 +104,8 @@ export default function VocabScreen({ onNavigate }: SharedScreenProps) {
                 <span className="font-medium text-[#4A4A40] block">{word.indonesian}</span>
               </div>
             </div>
-          ))}
+          );
+          })}
           {filteredWords.length === 0 && (
             <div className="text-center py-10 text-[#8B8B7A]">
               Pencarian tidak ditemukan.
@@ -121,6 +131,7 @@ export default function VocabScreen({ onNavigate }: SharedScreenProps) {
         {vocabCategories.map((category, idx) => {
           const Icon = (Icons as any)[category.icon] || Icons.HelpCircle;
           const color = themeColors[idx % themeColors.length];
+          const themeIllustration = getThemeIllustration(category.themeName);
 
           return (
             <button
@@ -135,6 +146,12 @@ export default function VocabScreen({ onNavigate }: SharedScreenProps) {
               <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center mb-3">
                 <Icon className={`w-6 h-6 ${color.icon}`} />
               </div>
+
+              {themeIllustration && (
+                <span className="text-3xl absolute top-4 right-4 opacity-50" aria-hidden="true">
+                  {themeIllustration}
+                </span>
+              )}
 
               <h3 className="font-bold text-white text-base leading-tight mb-1 relative z-10">{category.themeName}</h3>
               <div className={`${color.badge} text-white/90 text-[11px] font-bold px-2.5 py-0.5 rounded-full mt-auto`}>
